@@ -10,7 +10,7 @@ class CommonString{
   static const login = "Login";
   static const termsAndPrivacy = "Terms & Privacy";
   static const haveAnAccount = "Already have an account?";
-  static const dontHaveAnAccount = "Don’t have an account?";
+  static const doNotHaveAnAccount = "Don’t have an account?";
   static const enterOtp = "Enter OTP";
   static const reset = "Reset";
   static const backTo = "Back to";
@@ -18,6 +18,18 @@ class CommonString{
   static const submit = "Submit";
   static const newPassword = "Enter new password";
   static const newPasswordHeading = "new password";
+}
+
+class LoginString{
+  static const forgotPassword = "Forget Password ?";
+  static const login = "Login";
+  static const signUp = "Sign Up";
+  static const doNotHaveAnAccount = "Don’t have an account?";
+  static const forgotPasswords = "Forgot Password";
+  static const reset = "Reset";
+  static const backTo = "Back to";
+  static const enterOtp = "Enter OTP";
+  static const submit = "Submit";
 }
 
 /// Validation Strings
