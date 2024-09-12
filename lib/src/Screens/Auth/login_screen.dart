@@ -19,10 +19,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-LoginScreen()=> ChangeNotifierProvider<LoginNotifier>(create: (_) => LoginNotifier(), child: Builder(builder: (context) => LoginScreenProvider(context: context)),);
+LoginScreen()=> ChangeNotifierProvider<LoginNotifier>(create: (_) => LoginNotifier(), child: Builder(builder: (context) => LoginScreenProvider()),);
 
 class LoginScreenProvider extends StatelessWidget {
-  const LoginScreenProvider({super.key, required BuildContext context});
+  LoginScreenProvider({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class LoginScreenProvider extends StatelessWidget {
             body: Stack(
               children: [
                 SizedBox(
-                  height: ScreenUtil().screenHeight,
+                  height: setHeight(ScreenUtil().screenHeight),
                   child: Column(
                     children: [
                       ClipPath(
@@ -83,10 +83,10 @@ class LoginScreenProvider extends StatelessWidget {
                                 Align(
                                     alignment: Alignment.centerRight,
                                     child: GestureDetector(
-                                        onTap: (){ enterNewPasswordDialog(context);/*forgotPasswordDialog(context);*/ },
+                                        onTap: (){forgotPasswordDialog(context, state); },
                                         child: Text(LoginString.forgotPassword, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w600),))),
                                 paddingTop(15),
-                                commonButton(LoginString.login, width: 150, onTap: state.loginButtonOnTap),
+                                commonButton(LoginString.login, width: 150, onTap: (){state.loginButtonOnTap(context);} ),
                                 paddingTop(20),
                                 Row(
                                   children: [

@@ -1,3 +1,5 @@
+import 'package:earn_streak/src/Screens/OnbordingScreen/onboarding_screen.dart';
+import 'package:earn_streak/src/Utils/Helper/page_route.dart';
 import 'package:flutter/material.dart';
 
 class LoginNotifier extends ChangeNotifier{
@@ -24,12 +26,13 @@ class LoginNotifier extends ChangeNotifier{
     notifyListeners();
   }
 
-  loginButtonOnTap(){
-    if(globalFormKey.currentState!.validate()){
+  loginButtonOnTap(context){
+    push(context, OnBoardingScreen());
+    /*if(globalFormKey.currentState!.validate()){
 
     }else{
       validate = AutovalidateMode.onUserInteraction;
       notifyListeners();
-    }
+    }*/
   }
 }
