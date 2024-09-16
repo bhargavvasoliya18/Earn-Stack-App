@@ -1,4 +1,6 @@
+import 'package:earn_streak/src/Element/responsive_size_value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CircularBottomClipper extends CustomClipper<Path> {
   @override
@@ -18,4 +20,21 @@ class CircularBottomClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false; // No need to reclip as the shape doesn't change
   }
+}
+
+commonAppBar({double? height}){
+ return ClipPath(
+    clipper: CircularBottomClipper(),
+    child: Container(
+      width: setWidth(ScreenUtil().screenWidth),
+      height: height ?? 300,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
+  );
 }

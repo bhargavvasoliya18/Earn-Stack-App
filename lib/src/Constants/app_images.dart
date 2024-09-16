@@ -8,7 +8,9 @@ class AppImages{
   static const openIcon = "$svgPath/open_eye.svg";
   static const rightArrowIcon = "$svgPath/right_arrow_icon.svg";
   static const bookIcon = "$svgPath/book_image.svg";
-  static const dummyImage = "$svgPath/dummy_image.svg";
+  static const leftBackIcon = "$svgPath/left_back_arrow.svg";
+
+  static const dummyImage = "$pngPath/dummy_image.png";
 
   static const onBoardingImage = "$pngPath/onboarding_image.png";
   static const userImage = "$pngPath/user_image.png";
@@ -26,5 +28,9 @@ class AppImages{
   static const home2Icon = "$svgPath/Home_one.svg";
   static const home3Icon = "$svgPath/Home_two.svg";
   static const home4Icon = "$svgPath/Home_three.svg";
+
+  static const walletIcon = "$pngPath/wallet_icon.png";
+  static const transactionHistoryIcon = "$pngPath/transaction_history_icon.png";
+  static const leaderBoardIcon = "$pngPath/leader_board_icon.png";
 
 }

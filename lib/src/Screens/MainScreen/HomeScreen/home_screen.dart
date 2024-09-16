@@ -1,8 +1,9 @@
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
-import 'package:earn_streak/src/Element/responsive_size_value.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/Take_Quize_Screen/take_quize_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
+import 'package:earn_streak/src/Utils/Helper/page_route.dart';
 import 'package:earn_streak/src/Utils/Notifier/home_notifier.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
 import 'package:flutter/material.dart';
@@ -25,28 +26,15 @@ class HomeScreenProvider extends StatelessWidget {
                 Stack(
                   children: [
                     SizedBox(
-                      height: ScreenUtil().screenHeight - 100,
+                      height: ScreenUtil().screenHeight,
                       child: Column(
                         children: [
-                          ClipPath(
-                            clipper: CircularBottomClipper(),
-                            child: Container(
-                              width: setWidth(ScreenUtil().screenWidth),
-                              height: 300,
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                            ),
-                          ),
+                          commonAppBar(height: 250)
                         ],
                       ),
                     ),
                     Positioned(
-                      left: 25, right: 25, top: 90, bottom: 0,
+                      left: 25, right: 25, top: 70,
                       child: SingleChildScrollView(
                         child: SizedBox(
                           height: ScreenUtil().screenHeight,
@@ -59,7 +47,7 @@ class HomeScreenProvider extends StatelessWidget {
                                   Image.asset(AppImages.userImage, height: 32, width: 30,)
                                 ],
                               ),
-                              paddingTop(50),
+                              paddingTop(30),
                               SizedBox(
                                   height: 120,
                                   child: Card(
@@ -83,12 +71,12 @@ class HomeScreenProvider extends StatelessWidget {
                                       ),
                                     ),
                                   )),
-                              SizedBox(
-                                height: ScreenUtil().screenHeight / 1.5,
+                              paddingTop(10),
+                              Expanded(
                                 child: ListView.builder(
                                     itemCount: 4,
                                     shrinkWrap: true,
-                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    padding: const EdgeInsets.only(bottom: 160),
                                     itemBuilder: (context, index){
                                   return Card(
                                     color: Colors.white,
@@ -99,7 +87,7 @@ class HomeScreenProvider extends StatelessWidget {
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              SvgPicture.asset(AppImages.dummyImage, width: 45, height: 50,),
+                                              Image.asset(AppImages.dummyImage, width: 60, height: 60,),
                                               paddingLeft(10),
                                               Expanded(
                                                 child: Column(
@@ -114,33 +102,36 @@ class HomeScreenProvider extends StatelessWidget {
                                             ],
                                           ),
                                           paddingTop(15),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.midLightGrey
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("Take Quiz", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      gradient: const LinearGradient(colors: [Color(0xff7979FC), Color(0xff9B9BFF)]),
-                                                      borderRadius: BorderRadius.circular(5)
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(4),
-                                                      child: Row(
-                                                        children: [
-                                                          Text("Start", style: TextStyleTheme.customTextStyle(AppColors.white, 16, FontWeight.w700),),
-                                                          paddingLeft(5),
-                                                          SvgPicture.asset(AppImages.rightArrowIcon, color: Colors.white, width: 15, height: 15,)
-                                                        ],
+                                          InkWell(
+                                            onTap: (){push(context, TakeQuizScreen());},
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.midLightGrey
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("Take Quiz", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        gradient: const LinearGradient(colors: [Color(0xff7979FC), Color(0xff9B9BFF)]),
+                                                        borderRadius: BorderRadius.circular(5)
                                                       ),
-                                                    ),
-                                                  )
-                                                ],
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(4),
+                                                        child: Row(
+                                                          children: [
+                                                            Text("Start", style: TextStyleTheme.customTextStyle(AppColors.white, 16, FontWeight.w700),),
+                                                            paddingLeft(5),
+                                                            SvgPicture.asset(AppImages.rightArrowIcon, color: Colors.white, width: 15, height: 15,)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           )
@@ -154,7 +145,7 @@ class HomeScreenProvider extends StatelessWidget {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
           )

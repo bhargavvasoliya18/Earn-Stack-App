@@ -53,3 +53,15 @@ class OnBoardingString{
   static const joinCommunity = "Join a community of learners who are growing their skills every day";
   static const back = "back";
 }
+
+class TakeQuizString{
+  static const takeQuiz = "Take quiz";
+  static const question = "Question";
+}
+
+class BoardString{
+  static const board = "Board";
+  static const leaderBoard = "Leader board";
+  static const balance = "Balance";
+  static const transactionHistory = "Transaction history";
+}
