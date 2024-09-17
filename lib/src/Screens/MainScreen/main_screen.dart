@@ -33,7 +33,7 @@ class MainScreen extends StatelessWidget {
            ),
          ),
          bottomNavigationBar: CustomBottomTabBar(),
-     )
+            )
           );
   }
 }

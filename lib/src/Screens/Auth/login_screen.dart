@@ -28,118 +28,123 @@ class LoginScreenProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LoginNotifier>(
       builder: (context, state, child) =>
-          Scaffold(
-            body: Stack(
-              children: [
-                SizedBox(
-                  height: setHeight(ScreenUtil().screenHeight),
-                  child: Column(
-                    children: [
-                      ClipPath(
-                        clipper: CircularBottomClipper(),
-                        child: Container(
-                          width: setWidth(ScreenUtil().screenWidth),
-                          height: 300,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+          GestureDetector(
+            onTap: (){
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  SizedBox(
+                    height: setHeight(ScreenUtil().screenHeight),
+                    child: Column(
+                      children: [
+                        ClipPath(
+                          clipper: CircularBottomClipper(),
+                          child: Container(
+                            width: setWidth(ScreenUtil().screenWidth),
+                            height: 300,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  left: 25, right: 25, top: 100,
-                  child: SizedBox(
-                      height: ScreenUtil().screenHeight / 1.2,
-                      child: Card(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Form(
-                            key: state.globalFormKey,
-                            autovalidateMode: state.validate,
-                            child: Column(
-                              children: [
-                                paddingTop(30),
-                                Container(
-                                  height: 100, width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xff7979FC)),
-                                    borderRadius: BorderRadius.circular(20)
+                  Positioned(
+                    left: 25, right: 25, top: 100,
+                    child: SizedBox(
+                        height: ScreenUtil().screenHeight / 1.2,
+                        child: Card(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Form(
+                              key: state.globalFormKey,
+                              autovalidateMode: state.validate,
+                              child: Column(
+                                children: [
+                                  paddingTop(30),
+                                  Container(
+                                    height: 100, width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xff7979FC)),
+                                      borderRadius: BorderRadius.circular(20)
+                                    ),
                                   ),
-                                ),
-                                paddingTop(25),
-                                Text(CommonString.welcomeToQuiz, style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w700),),
-                                paddingTop(25),
-                                customTextField(loginEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value)),
-                                paddingTop(15),
-                                customTextField(loginPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.openIcon : AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value), textInputAction: TextInputAction.done ),
-                                paddingTop(10),
-                                Align(
-                                    alignment: Alignment.centerRight,
-                                    child: GestureDetector(
-                                        onTap: (){forgotPasswordDialog(context, state); },
-                                        child: Text(LoginString.forgotPassword, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w600),))),
-                                paddingTop(15),
-                                commonButtonColorLinerGradiunt(LoginString.login, width: 150, onTap: (){state.loginButtonOnTap(context);} ),
-                                paddingTop(20),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 1.5,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(color: AppColors.grey)
+                                  paddingTop(25),
+                                  Text(CommonString.welcomeToQuiz, style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w700),),
+                                  paddingTop(25),
+                                  customTextField(loginEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value)),
+                                  paddingTop(15),
+                                  customTextField(loginPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.openIcon : AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value), textInputAction: TextInputAction.done ),
+                                  paddingTop(10),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: GestureDetector(
+                                          onTap: (){forgotPasswordDialog(context, state); },
+                                          child: Text(LoginString.forgotPassword, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w600),))),
+                                  paddingTop(15),
+                                  commonButtonColorLinerGradiunt(LoginString.login, width: 150, onTap: (){state.loginButtonOnTap(context);} ),
+                                  paddingTop(20),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 1.5,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: AppColors.grey)
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    paddingLeft(10),
-                                    Text("Or", style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w600),),
-                                    paddingLeft(10),
-                                    Expanded(
-                                      child: Container(
-                                        height: 1.5,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(color: AppColors.grey)
+                                      paddingLeft(10),
+                                      Text("Or", style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w600),),
+                                      paddingLeft(10),
+                                      Expanded(
+                                        child: Container(
+                                          height: 1.5,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: AppColors.grey)
+                                          ),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  paddingTop(15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: AppColors.black)
                                     ),
-                                  ],
-                                ),
-                                paddingTop(15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: AppColors.black)
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
+                                    ),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
+                                  paddingTop(15),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(LoginString.doNotHaveAnAccount, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),),
+                                      paddingLeft(5),
+                                      GestureDetector(
+                                          onTap: (){push(context, RegisterScreen());},
+                                          child: Text(LoginString.signUp, style: TextStyleTheme.customTextStyle(AppColors.purple, 14.5, FontWeight.w500),)),
+                                    ],
                                   ),
-                                ),
-                                paddingTop(15),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(LoginString.doNotHaveAnAccount, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),),
-                                    paddingLeft(5),
-                                    GestureDetector(
-                                        onTap: (){push(context, RegisterScreen());},
-                                        child: Text(LoginString.signUp, style: TextStyleTheme.customTextStyle(AppColors.purple, 14.5, FontWeight.w500),)),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )),
-                )
-              ],
+                        )),
+                  )
+                ],
+              ),
             ),
           ),
     );
