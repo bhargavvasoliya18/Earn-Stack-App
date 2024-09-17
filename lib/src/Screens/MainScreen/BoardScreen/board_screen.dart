@@ -60,12 +60,21 @@ class BoardScreenProvider extends StatelessWidget {
                                      int lastIndex = state.boardList.length - 1;
                                   return Column(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Image.asset(model.image ?? "", height: 40, width: 40,),
-                                          Text(model.title ?? "", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
-                                          SvgPicture.asset(AppImages.leftBackIcon, height: 40, width: 40,)
-                                        ],
+                                      InkWell(
+                                        onTap: (){state.onTap(context, index);},
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.asset(model.image ?? "", height: 35, width: 35,),
+                                                paddingLeft(20),
+                                                Text(model.title ?? "", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
+                                              ],
+                                            ),
+                                            SvgPicture.asset(AppImages.rightBackIcon, height: 35, width: 35)
+                                          ],
+                                        ),
                                       ),
                                      lastIndex != index ? Divider(color: AppColors.black.withOpacity(0.5),) : Container()
                                     ],

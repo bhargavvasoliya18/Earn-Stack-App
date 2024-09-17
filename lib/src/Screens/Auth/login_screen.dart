@@ -86,7 +86,7 @@ class LoginScreenProvider extends StatelessWidget {
                                         onTap: (){forgotPasswordDialog(context, state); },
                                         child: Text(LoginString.forgotPassword, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w600),))),
                                 paddingTop(15),
-                                commonButton(LoginString.login, width: 150, onTap: (){state.loginButtonOnTap(context);} ),
+                                commonButtonColorLinerGradiunt(LoginString.login, width: 150, onTap: (){state.loginButtonOnTap(context);} ),
                                 paddingTop(20),
                                 Row(
                                   children: [

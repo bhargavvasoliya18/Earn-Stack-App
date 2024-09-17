@@ -14,3 +14,18 @@ TextEditingController loginPasswordController = TextEditingController();
 TextEditingController forgotEmailController = TextEditingController();
 TextEditingController forgotPasswordController = TextEditingController();
 TextEditingController forgotConfirmPasswordController = TextEditingController();
+
+///Paypal TextField Controller
+TextEditingController payPalEmailController = TextEditingController();
+
+///BankTransfer Textfiels controller
+TextEditingController accountNameController = TextEditingController();
+TextEditingController bankNameController = TextEditingController();
+TextEditingController accountNumberController = TextEditingController();
+TextEditingController ifscCodeController = TextEditingController();
+TextEditingController coinsController = TextEditingController();
+
+///Mobile money TextField Controller
+TextEditingController momoNameController = TextEditingController();
+TextEditingController momoNoController = TextEditingController();
+TextEditingController momoNetworkController = TextEditingController();

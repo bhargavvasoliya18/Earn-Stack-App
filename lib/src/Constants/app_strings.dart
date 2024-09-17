@@ -65,3 +65,18 @@ class BoardString{
   static const balance = "Balance";
   static const transactionHistory = "Transaction history";
 }
+
+class BalanceString{
+  static const balance = "Balance";
+  static const availableBalance = "Available Balance";
+  static const totalEarning = "Total earning";
+  static const totalRedeem = "Total Redeem";
+  static const payPal = "PayPal";
+  static const bankTransfer = "Bank Transfer";
+  static const mobileMoney = "Mobile Money";
+  static const minimumPayment = "Minimum Payment 20000 Coins";
+}
+
+class MobileString{
+  static const mobileMoney = "Mobile money";
+}

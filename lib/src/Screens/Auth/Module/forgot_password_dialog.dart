@@ -4,14 +4,12 @@ import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Controller/TextField/custom_textfield.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Element/textfield_controller.dart';
-import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Validations/validation.dart';
 import 'package:earn_streak/src/Widget/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:provider/provider.dart';
 
 forgotPasswordDialog(context, LoginNotifier state){
   return showDialog(
@@ -30,7 +28,7 @@ forgotPasswordDialog(context, LoginNotifier state){
               paddingTop(15),
               customTextField(forgotEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),
-              commonButton(LoginString.reset, width: 150, onTap: (){Navigator.pop(context); enterOtpDialog(context, state);}),
+              commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: (){Navigator.pop(context); enterOtpDialog(context, state);}),
               paddingTop(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +89,7 @@ enterOtpDialog(context, state){
                   }, // end onSubmit
                 ),
                 paddingTop(25),
-                commonButton(LoginString.submit, width: 150, onTap: (){Navigator.pop(context); enterNewPasswordDialog(context, state);}),
+                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: (){Navigator.pop(context); enterNewPasswordDialog(context, state);}),
                 paddingTop(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +138,7 @@ enterNewPasswordDialog(context, LoginNotifier state){
                     });
                   }, obSecure: state.isVisibleForgotConfirmPassword, validation: (value) => validateConfirmPassword(forgotPasswordController.text, value)),
                   paddingTop(25),
-                  commonButton(LoginString.submit, width: 150, onTap: (){Navigator.pop(context);}),
+                  commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: (){Navigator.pop(context);}),
                 ],
               ),
             ),

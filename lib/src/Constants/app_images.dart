@@ -29,8 +29,19 @@ class AppImages{
   static const home3Icon = "$svgPath/Home_two.svg";
   static const home4Icon = "$svgPath/Home_three.svg";
 
+  static const rightBackIcon = "$svgPath/right_back_arrow.svg";
   static const walletIcon = "$pngPath/wallet_icon.png";
   static const transactionHistoryIcon = "$pngPath/transaction_history_icon.png";
   static const leaderBoardIcon = "$pngPath/leader_board_icon.png";
+
+  static const secondImage = "$pngPath/second_image.png";
+  static const bronzeTajIcon = "$svgPath/bronze_taj_icon.svg";
+  static const goldTajIcon = "$svgPath/gold_taj_icon.svg";
+  static const silverTajIcon = "$svgPath/silver_taj_icon.svg";
+
+  static const courncyIcon = "$svgPath/courency_icon.svg";
+  static const mobilePayIcon = "$svgPath/mobile_pay_icon.svg";
+  static const bankTransferIcon = "$svgPath/bank_transfer_icon.svg";
+  static const paypalIcon = "$svgPath/paypal_icon.svg";
 
 }
