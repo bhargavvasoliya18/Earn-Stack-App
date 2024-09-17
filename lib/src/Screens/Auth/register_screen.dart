@@ -26,136 +26,141 @@ class RegisterScreenProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RegisterNotifier>(
       builder: (context, state, child) =>
-       Scaffold(
-        body: Stack(
-          children: [
-            SizedBox(
-              height: ScreenUtil().screenHeight,
-              child: Column(
-                children: [
-                  ClipPath(
-                    clipper: CircularBottomClipper(),
-                    child: Container(
-                      width: setWidth(ScreenUtil().screenWidth),
-                      height: 300,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: 25, right: 25, top: 100,
-              child: SizedBox(
-                  height: ScreenUtil().screenHeight / 1.1,
-                  child: Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: state.globalFormKey,
-                          autovalidateMode: state.validate,
-                          child: Column(
-                            children: [
-                              paddingTop(15),
-                              Text(CommonString.welcomeToQuiz, style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w700),),
-                              paddingTop(10),
-                              Text(CommonString.signUp, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),),
-                              paddingTop(10),
-                              customTextField(registerNameController, "Name", "sam", validation: (value) => validateName(value)),
-                              paddingTop(15),
-                              customTextField(registerEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
-                              paddingTop(15),
-                              customTextField(registerPasswordController, "Password", "******", suffixIcon: AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
-                              paddingTop(15),
-                              customTextField(registerConfirmPasswordController, "Confirm Password", "******", suffixIcon: AppImages.closeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
-                              paddingTop(15),
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: state.selectTermsPrivacyValueUpdate,
-                                    child: Container(
-                                      height: 20, width: 20,
-                                      decoration: BoxDecoration(
-                                        color: state.isSelectTermsPrivacy ? const Color(0xff7979FC) : Colors.transparent,
-                                        shape: BoxShape.rectangle,
-                                        border: Border.all(color: state.isSelectTermsPrivacy ? const Color(0xff7979FC) : AppColors.black),
-                                        borderRadius: BorderRadius.circular(4)
-                                      ),
-                                      child: state.isSelectTermsPrivacy ? const Icon(Icons.check, size: 15, color: Colors.white,) : Container(),
-                                    ),
-                                  ),
-                                  paddingLeft(10),
-                                  Text("I agree to the", style: TextStyleTheme.customTextStyle(AppColors.black, 14.5, FontWeight.w400),),
-                                  paddingLeft(5),
-                                  Text(CommonString.termsAndPrivacy, style: TextStyleTheme.customTextStyle(AppColors.black, 14.5, FontWeight.w500, decoration: TextDecoration.underline),),
-                                ],
-                              ),
-                              paddingTop(15),
-                              commonButtonColorLinerGradiunt(CommonString.signUp, width: 150, onTap: state.signUpButtonOnTap),
-                              paddingTop(20),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 1.5,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: AppColors.grey)
-                                      ),
-                                    ),
-                                  ),
-                                  paddingLeft(10),
-                                  Text("Or", style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w600),),
-                                  paddingLeft(10),
-                                  Expanded(
-                                    child: Container(
-                                      height: 1.5,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: AppColors.grey)
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              paddingTop(15),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: AppColors.black)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
-                                ),
-                              ),
-                              paddingTop(15),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(CommonString.haveAnAccount, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),),
-                                  paddingLeft(5),
-                                  GestureDetector(
-                                      onTap: (){push(context, LoginScreen());},
-                                      child: Text(CommonString.login, style: TextStyleTheme.customTextStyle(AppColors.purple, 14.5, FontWeight.w500),)),
-                                ],
-                              ),
-                            ],
+       GestureDetector(
+         onTap: (){
+           FocusScope.of(context).requestFocus(FocusNode());
+         },
+         child: Scaffold(
+          body: Stack(
+            children: [
+              SizedBox(
+                height: ScreenUtil().screenHeight,
+                child: Column(
+                  children: [
+                    ClipPath(
+                      clipper: CircularBottomClipper(),
+                      child: Container(
+                        width: setWidth(ScreenUtil().screenWidth),
+                        height: 300,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
                         ),
                       ),
                     ),
-                  )),
-            )
-          ],
-        ),
-      ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 25, right: 25, top: 100,
+                child: SizedBox(
+                    height: ScreenUtil().screenHeight / 1.1,
+                    child: Card(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: state.globalFormKey,
+                            autovalidateMode: state.validate,
+                            child: Column(
+                              children: [
+                                paddingTop(15),
+                                Text(CommonString.welcomeToQuiz, style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w700),),
+                                paddingTop(10),
+                                Text(CommonString.signUp, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),),
+                                paddingTop(10),
+                                customTextField(registerNameController, "Name", "sam", validation: (value) => validateName(value)),
+                                paddingTop(15),
+                                customTextField(registerEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
+                                paddingTop(15),
+                                customTextField(registerPasswordController, "Password", "******", suffixIcon: AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
+                                paddingTop(15),
+                                customTextField(registerConfirmPasswordController, "Confirm Password", "******", suffixIcon: AppImages.closeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
+                                paddingTop(15),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: state.selectTermsPrivacyValueUpdate,
+                                      child: Container(
+                                        height: 20, width: 20,
+                                        decoration: BoxDecoration(
+                                          color: state.isSelectTermsPrivacy ? const Color(0xff7979FC) : Colors.transparent,
+                                          shape: BoxShape.rectangle,
+                                          border: Border.all(color: state.isSelectTermsPrivacy ? const Color(0xff7979FC) : AppColors.black),
+                                          borderRadius: BorderRadius.circular(4)
+                                        ),
+                                        child: state.isSelectTermsPrivacy ? const Icon(Icons.check, size: 15, color: Colors.white,) : Container(),
+                                      ),
+                                    ),
+                                    paddingLeft(10),
+                                    Text("I agree to the", style: TextStyleTheme.customTextStyle(AppColors.black, 14.5, FontWeight.w400),),
+                                    paddingLeft(5),
+                                    Text(CommonString.termsAndPrivacy, style: TextStyleTheme.customTextStyle(AppColors.black, 14.5, FontWeight.w500, decoration: TextDecoration.underline),),
+                                  ],
+                                ),
+                                paddingTop(15),
+                                commonButtonColorLinerGradiunt(CommonString.signUp, width: 150, onTap: state.signUpButtonOnTap),
+                                paddingTop(20),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 1.5,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: AppColors.grey)
+                                        ),
+                                      ),
+                                    ),
+                                    paddingLeft(10),
+                                    Text("Or", style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w600),),
+                                    paddingLeft(10),
+                                    Expanded(
+                                      child: Container(
+                                        height: 1.5,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: AppColors.grey)
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                paddingTop(15),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: AppColors.black)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
+                                  ),
+                                ),
+                                paddingTop(15),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(CommonString.haveAnAccount, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),),
+                                    paddingLeft(5),
+                                    GestureDetector(
+                                        onTap: (){push(context, LoginScreen());},
+                                        child: Text(CommonString.login, style: TextStyleTheme.customTextStyle(AppColors.purple, 14.5, FontWeight.w500),)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+              )
+            ],
+          ),
+               ),
+       ),
     );
   }
 }
