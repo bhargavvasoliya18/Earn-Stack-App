@@ -4,187 +4,160 @@ import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/take_quiz_notifier.dart';
-import 'package:earn_streak/src/Widget/custom_clipper.dart';
+import 'package:earn_streak/src/Widget/common_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-TakeQuizScreen()=> ChangeNotifierProvider<TakeQuizNotifier>(create: (_)=> TakeQuizNotifier(), child: Builder(builder: (context) => const TakeQuizScreenProvider()),);
+TakeQuizScreen() => ChangeNotifierProvider<TakeQuizNotifier>(
+      create: (_) => TakeQuizNotifier(),
+      child: Builder(builder: (context) => const TakeQuizScreenProvider()),
+    );
 
 class TakeQuizScreenProvider extends StatelessWidget {
   const TakeQuizScreenProvider({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TakeQuizNotifier>(
-      builder: (context, state, child)=>
-      Scaffold(
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                commonAppBar(height: 250)
-              ],
+      builder: (context, state, child) => Scaffold(
+        backgroundColor: AppColors.colorF8F7FF,
+        body: Container(
+          height: ScreenUtil().screenHeight,
+          width: ScreenUtil().screenWidth,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(AppImages.backgroundImg),
+              fit: BoxFit.fill,
             ),
-            Positioned(
-              top: 50, left: 30,right: 30, bottom: 0,
-             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                        onTap: (){Navigator.pop(context);},
-                        child: SvgPicture.asset(AppImages.leftBackIcon)),
-                    paddingLeft(15),
-                    Text(TakeQuizString.takeQuiz, style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),)
-                  ],
-                ),
-                paddingTop(25),
-                Container(
-                  decoration: BoxDecoration(
-                  color: Colors.white,
-                    borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: SizedBox(
-                      height: 5, width: MediaQuery.of(context).size.width / 1.2,
-                      child: LinearProgressIndicator(
-                        minHeight: 25,
-                        value: state.progress,
-                        backgroundColor: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-                      ),
+          ),
+          padding: EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 50),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: SvgPicture.asset(AppImages.leftBackIcon)),
+                  paddingLeft(15),
+                  Text(
+                    TakeQuizString.takeQuiz,
+                    style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
+                  )
+                ],
+              ),
+              paddingTop(25),
+              Container(
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: SizedBox(
+                    height: 5,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    child: LinearProgressIndicator(
+                      minHeight: 25,
+                      value: state.progress,
+                      backgroundColor: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                     ),
                   ),
                 ),
-                paddingTop(10),
-                Align(
-                    alignment: Alignment.center,
-                    child: Text("Question 02 to 10", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),)),
-                // Expanded(
-                //   child: ListView.builder(
-                //     scrollDirection: Axis.horizontal,
-                //     itemCount: 10,
-                //     itemBuilder: (context, index) =>
-                //      Column(
-                //       children: [
-                //         Card(
-                //           color: Colors.white,
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(20),
-                //             child: Row(
-                //               mainAxisSize: MainAxisSize.min,
-                //               children: [
-                //                 Text("2)", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
-                //                 paddingLeft(5),
-                //                 Expanded(child: Text("Which calendar is the most widespread calendar used today?", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),))
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //         Expanded(
-                //           child: ListView.builder(
-                //               itemCount: 4,
-                //               itemBuilder: (context, answerIndex){
-                //             return Card(
-                //               color: Colors.white,
-                //               child:  Padding(
-                //                 padding: const EdgeInsets.all(18),
-                //                 child: Row(
-                //                   children: [
-                //                     Container(
-                //                       decoration: BoxDecoration(color: AppColors.midLightGrey, borderRadius: BorderRadius.circular(10)),
-                //                       child: Padding(
-                //                         padding: const EdgeInsets.all(10),
-                //                         child: Text("A", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600)),
-                //                       ),
-                //                     ),
-                //                     paddingLeft(25),
-                //                     Expanded(child: Text("Lorem calendar", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,))
-                //                   ],
-                //                 ),
-                //               ),
-                //             );
-                //           }),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // )
-
-                SizedBox(
-                  height: 550,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    itemBuilder: (context, index) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Card(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "2)",
-                                  style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
-                                ),
-                                paddingLeft(5),
-                                Expanded(
-                                  child: Text(
-                                    "Which calendar is the most widespread calendar used today?",
-                                    style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
-                                  ),
-                                ),
-                              ],
+              ),
+              paddingTop(8),
+              Text("Question ${state.selectIndex} to ${state.quizList.length}", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),),
+              paddingTop(20),
+              Card(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${(state.selectIndex + 1)})",
+                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
+                      ),
+                      paddingLeft(5),
+                      Expanded(
+                        child: Text(
+                          state.quizList[state.selectIndex].question ?? "",
+                          style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              paddingTop(15),
+              ListView.builder(
+                itemCount: state.quizList[state.selectIndex].answer?.length ?? 0,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(),
+                itemBuilder: (context, answerIndex) {
+                  return Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.midLightGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                "A",
+                                style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox( // Use a fixed height here
-                          height: 150, // Set a specific height for the inner ListView.builder
-                          child: ListView.builder(
-                            itemCount: 4,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, answerIndex) {
-                              return Card(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(18),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(color: AppColors.midLightGrey, borderRadius: BorderRadius.circular(10),),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text("A", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),),
-                                        ),
-                                      ),
-                                      paddingLeft(25),
-                                      Expanded(
-                                        child: Text("Lorem calendar", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                          paddingLeft(25),
+                          Expanded(
+                            child: Text(
+                              state.quizList[state.selectIndex].answer?[answerIndex] ?? "",
+                              style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ))
-          ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                commonBorderButtonColor(width: 150, "Back", onTap: () {
+                  if (state.selectIndex != 0) {
+                    state.backQuestion();
+                  }
+                }),
+                commonButtonColorLinerGradiunt(width: 150, "Next", onTap: () {
+                  if (state.selectIndex < (state.quizList.length - 1)) {
+                    state.nextQuestion();
+                  }
+                }),
+              ],
+            ),
+            paddingBottom(25)
+          ],
+        )
       ),
     );
   }

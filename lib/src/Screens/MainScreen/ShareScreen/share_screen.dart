@@ -1,3 +1,5 @@
+import 'package:earn_streak/src/Constants/app_images.dart';
+import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Utils/Notifier/share_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,11 +13,15 @@ class ShareScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil().screenHeight - 50,
-      child: const Scaffold(
-        body: Center(
-            child: Text("Share Screen")
-        ),
+      // height: ScreenUtil().screenHeight - 80,
+      height:ScreenUtil().screenHeight,
+      child: Scaffold(
+        body: Column(
+          children: [
+            paddingTop(50),
+            Image.asset(AppImages.shareBackground, ),
+          ],
+        )
       ),
     );
   }
