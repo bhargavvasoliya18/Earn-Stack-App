@@ -29,7 +29,7 @@ class OnBoardingScreenProvider extends StatelessWidget {
            Stack(
             children: [
               SizedBox(
-                height: ScreenUtil().screenHeight - 100,
+                height: ScreenUtil().screenHeight ,
                 child: Column(
                   children: [
                     ClipPath(
@@ -72,7 +72,7 @@ class OnBoardingScreenProvider extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Image.asset(state.onBoardingList[index].image ?? "", height: 294, width: ScreenUtil().screenWidth / 1.5, fit: BoxFit.cover,),
+                                      Image.asset(state.onBoardingList[index].image ?? "", height: 294.h, width: ScreenUtil().screenWidth / 1.5, fit: BoxFit.cover,),
                                       paddingTop(10),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -81,12 +81,12 @@ class OnBoardingScreenProvider extends StatelessWidget {
                                       paddingTop(08),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                                        child: SizedBox(width : 380, child: Text(model.subTitle ?? "", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w500), textAlign: TextAlign.center,)),
+                                        child: SizedBox(width : 380.h, child: Text(model.subTitle ?? "", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w500), textAlign: TextAlign.center,)),
                                       ),
                                       paddingTop(08),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                                        child: SizedBox(width : 380, child: Text(model.subSubTitle ?? "", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w500), textAlign: TextAlign.center,)),
+                                        child: SizedBox(width : 380.h, child: Text(model.subSubTitle ?? "", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w500), textAlign: TextAlign.center,)),
                                       ),
                                     ],
                                   );

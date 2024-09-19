@@ -131,7 +131,7 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                               child: ListView.builder(
                                   itemCount: 10,
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
+                                  padding: EdgeInsets.only(bottom: 50),
                                   itemBuilder: (context, index){
                                 return Card(
                                   child: Padding(
