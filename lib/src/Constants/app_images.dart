@@ -1,5 +1,4 @@
-class AppImages{
-
+class AppImages {
   static const svgPath = "assets/image/svg";
   static const pngPath = "assets/image/png";
 
@@ -44,4 +43,22 @@ class AppImages{
   static const bankTransferIcon = "$svgPath/bank_transfer_icon.svg";
   static const paypalIcon = "$svgPath/paypal_icon.svg";
 
+  static const termServiceIcon = "$svgPath/term_service.svg";
+  static const privacyPolicyIcon = "$svgPath/privacy_policy.svg";
+  static const rateUsGoogleIcon = "$svgPath/rate_us_google.svg";
+  static const contactUsIcon = "$svgPath/contact_us.svg";
+
+  static const instagramIcon = "$svgPath/instagram.svg";
+  static const facebookIcon = "$svgPath/facebook.svg";
+  static const whatsappIcon = "$svgPath/whatsapp.svg";
+  static const youtubeIcon = "$svgPath/youtube.svg";
+
+  static const logout = "$svgPath/logout.svg";
+  static const deleteAccount = "$svgPath/delete_account.svg";
+  static const deActivate = "$svgPath/de_activate.svg";
+
+
+
+  static const backgroundImg = "$pngPath/background_img.png";
+  static const shareBackground = "$pngPath/share_background.png";
 }

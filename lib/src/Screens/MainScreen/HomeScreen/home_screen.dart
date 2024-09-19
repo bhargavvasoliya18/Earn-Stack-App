@@ -34,7 +34,7 @@ class HomeScreenProvider extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 25, right: 25, top: 70,
+                      left: 25.w, right: 25.w, top: 70.h,
                       child: SingleChildScrollView(
                         child: SizedBox(
                           height: ScreenUtil().screenHeight,
@@ -48,29 +48,29 @@ class HomeScreenProvider extends StatelessWidget {
                                 ],
                               ),
                               paddingTop(30),
-                              SizedBox(
-                                  height: 120,
-                                  child: Card(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text("Reading and comprehension", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
-                                                Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600)),
-                                              ],
-                                            ),
-                                          ),
-                                          SvgPicture.asset(AppImages.bookIcon, width: 45, height: 50,)
-                                        ],
+                              Card(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text("Reading and comprehension", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700), overflow: TextOverflow.ellipsis,),
+                                            Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis,),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )),
+                                      SvgPicture.asset(AppImages.bookIcon, width: 45.w, height: 50.h,)
+                                    ],
+                                  ),
+                                ),
+                              ),
                               paddingTop(10),
                               Expanded(
                                 child: ListView.builder(
@@ -87,7 +87,7 @@ class HomeScreenProvider extends StatelessWidget {
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Image.asset(AppImages.dummyImage, width: 60, height: 60,),
+                                              Image.asset(AppImages.dummyImage, width: 60.w, height: 60.h,),
                                               paddingLeft(10),
                                               Expanded(
                                                 child: Column(

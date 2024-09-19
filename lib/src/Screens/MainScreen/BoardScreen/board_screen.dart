@@ -33,7 +33,7 @@ class BoardScreenProvider extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: 25, right: 25, top: 70,
+                    left: 25.w, right: 25.w, top: 70.h,
                     child: SingleChildScrollView(
                       child: SizedBox(
                         height: ScreenUtil().screenHeight,
@@ -50,7 +50,7 @@ class BoardScreenProvider extends StatelessWidget {
                             Card(
                               color: Colors.white,
                               child: Padding(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(15),
                                 child: ListView.builder(
                                    itemCount: state.boardList.length,
                                    shrinkWrap: true,
