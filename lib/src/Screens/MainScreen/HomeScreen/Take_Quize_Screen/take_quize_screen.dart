@@ -2,6 +2,7 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/Take_Quize_Screen/Module/conrats_dialog.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/take_quiz_notifier.dart';
 import 'package:earn_streak/src/Widget/common_button.dart';
@@ -12,12 +13,17 @@ import 'package:provider/provider.dart';
 
 TakeQuizScreen() => ChangeNotifierProvider<TakeQuizNotifier>(
       create: (_) => TakeQuizNotifier(),
-      child: Builder(builder: (context) => const TakeQuizScreenProvider()),
+      child: Builder(builder: (context) => TakeQuizScreenProvider(context: context)),
     );
 
 class TakeQuizScreenProvider extends StatelessWidget {
-  const TakeQuizScreenProvider({super.key});
-  
+  BuildContext context;
+  TakeQuizScreenProvider({super.key, required this.context}){
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      var state = Provider.of<TakeQuizNotifier>(context, listen: false);
+      state.initState();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +45,7 @@ class TakeQuizScreenProvider extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      onTap: () {Navigator.pop(context);},
                       child: SvgPicture.asset(AppImages.leftBackIcon)),
                   paddingLeft(15),
                   Text(
@@ -79,10 +83,7 @@ class TakeQuizScreenProvider extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${(state.selectIndex + 1)})",
-                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
-                      ),
+                      Text("${(state.selectIndex + 1)})", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
                       paddingLeft(5),
                       Expanded(
                         child: Text(
@@ -149,8 +150,12 @@ class TakeQuizScreenProvider extends StatelessWidget {
                   }
                 }),
                 commonButtonColorLinerGradiunt(width: 150, "Next", onTap: () {
-                  if (state.selectIndex < (state.quizList.length - 1)) {
+                  if(state.selectIndex < (state.quizList.length - 1)) {
                     state.nextQuestion();
+                  }
+                  print("check last index ${state.quizList.length} ==> ${state.lastIndex}  ${state.selectIndex}:::: ${state.quizList.length == state.lastIndex}");
+                  if(state.quizList.length == (state.selectIndex + 1)){
+                    congratsDialog(context);
                   }
                 }),
               ],

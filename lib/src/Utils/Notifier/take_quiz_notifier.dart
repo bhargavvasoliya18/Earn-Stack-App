@@ -5,6 +5,7 @@ class TakeQuizNotifier extends ChangeNotifier {
   double progress = 0.1;
 
   int selectIndex = 0;
+  int lastIndex = 0;
 
   List<QuizModel> quizList = [
     QuizModel(
@@ -63,4 +64,11 @@ class TakeQuizNotifier extends ChangeNotifier {
     selectIndex++;
     notifyListeners();
   }
+
+  initState(){
+    lastIndex = quizList.length - 1;
+    print("last index $lastIndex");
+    notifyListeners();
+  }
+
 }

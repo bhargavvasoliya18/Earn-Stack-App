@@ -70,13 +70,7 @@ class LoginScreenProvider extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     paddingTop(30),
-                                    Container(
-                                      height: 100, width: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: const Color(0xff7979FC)),
-                                        borderRadius: BorderRadius.circular(20)
-                                      ),
-                                    ),
+                                    SizedBox(height: 100, width: 100, child: Image.asset(AppImages.appLogo),),
                                     paddingTop(25),
                                     Text(CommonString.welcomeToQuiz, style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w700),),
                                     paddingTop(25),

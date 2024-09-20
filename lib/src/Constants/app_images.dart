@@ -2,6 +2,8 @@ class AppImages {
   static const svgPath = "assets/image/svg";
   static const pngPath = "assets/image/png";
 
+  static const appLogo = "$pngPath/app_logo.png";
+
   static const googleIcon = "$svgPath/google_icon.svg";
   static const closeIcon = "$svgPath/close_eye.svg";
   static const openIcon = "$svgPath/open_eye.svg";
@@ -57,8 +59,11 @@ class AppImages {
   static const deleteAccount = "$svgPath/delete_account.svg";
   static const deActivate = "$svgPath/de_activate.svg";
 
-
-
   static const backgroundImg = "$pngPath/background_img.png";
   static const shareBackground = "$pngPath/share_background.png";
+  static const congratsImage = "$pngPath/congrats_image.png";
+  static const currencyIcon = "$pngPath/currency_icon.png";
+
+  static const rightIcon = "$svgPath/right_icon.svg";
+  static const crossIcon = "$svgPath/close_icon.svg";
 }
