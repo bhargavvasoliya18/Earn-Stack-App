@@ -61,4 +61,5 @@ class AppImages {
 
   static const backgroundImg = "$pngPath/background_img.png";
   static const shareBackground = "$pngPath/share_background.png";
+  static const buttonBackground = "$pngPath/button_background.png";
 }
