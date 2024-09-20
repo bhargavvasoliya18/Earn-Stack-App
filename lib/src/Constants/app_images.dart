@@ -61,9 +61,12 @@ class AppImages {
 
   static const backgroundImg = "$pngPath/background_img.png";
   static const shareBackground = "$pngPath/share_background.png";
+
   static const congratsImage = "$pngPath/congrats_image.png";
   static const currencyIcon = "$pngPath/currency_icon.png";
 
   static const rightIcon = "$svgPath/right_icon.svg";
   static const crossIcon = "$svgPath/close_icon.svg";
+
+  static const buttonBackground = "$pngPath/button_background.png";
 }
