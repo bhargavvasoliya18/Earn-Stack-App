@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 
 congratsDialog(context){
   return showDialog(
-    // barrierDismissible: false,
+    barrierDismissible: false,
     context: context, builder: (BuildContext context){
     return Dialog(
       child: Container(
@@ -77,7 +77,7 @@ congratsDialog(context){
             paddingTop(10),
             Text("Quiz completed successfully", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w500),),
             paddingTop(10),
-            commonButtonColorLinerGradiunt("Home", width: 150),
+            commonButtonColorLinerGradiunt("Home", width: 150, onTap: (){Navigator.pop(context); Navigator.pop(context);}),
             paddingTop(20),
           ],
         ),

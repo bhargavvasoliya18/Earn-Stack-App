@@ -40,7 +40,7 @@ class AppImages {
   static const goldTajIcon = "$svgPath/gold_taj_icon.svg";
   static const silverTajIcon = "$svgPath/silver_taj_icon.svg";
 
-  static const courncyIcon = "$svgPath/courency_icon.svg";
+  static const courncyIcon = "$pngPath/currency_icon.png";
   static const mobilePayIcon = "$svgPath/mobile_pay_icon.svg";
   static const bankTransferIcon = "$svgPath/bank_transfer_icon.svg";
   static const paypalIcon = "$svgPath/paypal_icon.svg";

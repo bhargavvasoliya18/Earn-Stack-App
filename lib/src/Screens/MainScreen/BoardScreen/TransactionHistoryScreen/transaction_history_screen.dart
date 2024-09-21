@@ -77,7 +77,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            Text("+1200", style: TextStyleTheme.customTextStyle(const Color(0xff1F9108), 16, FontWeight.w600),),
+                                            Text("+1200", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
                                           ],
                                         ),
                                       ),

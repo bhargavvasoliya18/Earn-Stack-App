@@ -60,8 +60,8 @@ class BalanceScreenProvider extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SvgPicture.asset(AppImages.courncyIcon),
-                                      Text("1300", style: TextStyleTheme.customTextStyle(AppColors.black, 30, FontWeight.w700),),
+                                      Image.asset(AppImages.courncyIcon,height: 26,),
+                                      Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 30, FontWeight.w700),),
                                     ],
                                   ),
                                   paddingTop(10),
@@ -80,8 +80,8 @@ class BalanceScreenProvider extends StatelessWidget {
                                               Text(BalanceString.totalEarning),
                                               Row(
                                                 children: [
-                                                  SvgPicture.asset(AppImages.courncyIcon),
-                                                  const Text("1000"),
+                                                  Image.asset(AppImages.courncyIcon,height: 22,),
+                                                   Text("1000",style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
                                                 ],
                                               ),
                                             ],
@@ -93,8 +93,8 @@ class BalanceScreenProvider extends StatelessWidget {
                                               const Text(BalanceString.totalRedeem),
                                               Row(
                                                 children: [
-                                                  SvgPicture.asset(AppImages.courncyIcon),
-                                                  const Text("300"),
+                                                  Image.asset(AppImages.courncyIcon,height: 22,),
+                                                  Text("300",style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
                                                 ],
                                               ),
                                             ],
