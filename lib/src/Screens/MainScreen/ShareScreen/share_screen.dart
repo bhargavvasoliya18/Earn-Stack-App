@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Constants/app_colors.dart';
@@ -27,35 +28,88 @@ class ShareScreenProvider extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              height: ScreenUtil().screenHeight - 100,
+              height: ScreenUtil().screenHeight - 80.h,
               width: ScreenUtil().screenWidth,
-              padding: EdgeInsets.only(left: 20, top: 60, right: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: EdgeInsets.only(left: 20, top: 40, right: 20),
               child: ClipRRect(
-               borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
                   AppImages.shareBackground,
-                  fit: BoxFit.cover,
+                  height: ScreenUtil().screenHeight - 80.h,
+                  width: ScreenUtil().screenWidth,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
             Positioned(
-              top: 400,
+              top: 180,
               left: 60,
               right: 60,
               child: Column(
                 children: [
+                  Image.asset(
+                    AppImages.appLogo,
+                    height: 150.sp,
+                    width: 150.sp,
+                    fit: BoxFit.fill,
+                  ),
+                  paddingTop(40),
                   Text(
                     "Refer your friends",
                     style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w600),
                   ),
-                  paddingTop(30.h),
+                  paddingTop(25.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: AppColors.white, width: 1.5),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 270,
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "P5G81A",
+                              style: TextStyleTheme.customTextStyle(AppColors.white, 20, FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
+                            ),
+                            child: SvgPicture.asset(
+                              AppImages.copyTextIcon,
+                              height: 25,
+                              width: 25,
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   paddingTop(10.h),
                   Text(
                     "Share your code",
                     style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w400),
                   ),
-                  paddingTop(20.h),
-                  Divider(thickness: 1.sp,color: AppColors.white,),
+                  paddingTop(8.h),
+                  Divider(
+                    thickness: 1.sp,
+                    color: AppColors.white,
+                  ),
                   paddingTop(10.h),
                   Text(
                     "Lorem Ipsum is simply dummy text",
@@ -65,7 +119,11 @@ class ShareScreenProvider extends StatelessWidget {
                   Text(
                     "Contrary to popular belief, Lorem Ipsum is not simply random text.",
                     textAlign: TextAlign.center,
-                    style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w400,),
+                    style: TextStyleTheme.customTextStyle(
+                      AppColors.white,
+                      14,
+                      FontWeight.w400,
+                    ),
                   ),
                   paddingTop(10.h),
                   Stack(
@@ -89,7 +147,6 @@ class ShareScreenProvider extends StatelessWidget {
                       ),
                     ],
                   ),
-
                 ],
               ),
             )
