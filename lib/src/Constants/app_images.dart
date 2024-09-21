@@ -69,4 +69,5 @@ class AppImages {
   static const crossIcon = "$svgPath/close_icon.svg";
 
   static const buttonBackground = "$pngPath/button_background.png";
+  static const copyTextIcon = "$svgPath/copy_text_icon.svg";
 }
