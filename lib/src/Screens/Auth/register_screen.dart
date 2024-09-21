@@ -55,7 +55,7 @@ class RegisterScreenProvider extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 25, right: 25, top: 100,
+                left: 25, right: 25, top: 40.h,
                 child: SizedBox(
                     height: ScreenUtil().screenHeight / 1.1,
                     child: Card(
@@ -104,7 +104,7 @@ class RegisterScreenProvider extends StatelessWidget {
                                 ),
                                 paddingTop(15),
                                 commonButtonColorLinerGradiunt(CommonString.signUp, width: 150, onTap: state.signUpButtonOnTap),
-                                paddingTop(20),
+                                paddingTop(15),
                                 Row(
                                   children: [
                                     Expanded(
@@ -128,7 +128,7 @@ class RegisterScreenProvider extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                paddingTop(15),
+                                paddingTop(12),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
@@ -139,7 +139,7 @@ class RegisterScreenProvider extends StatelessWidget {
                                     child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
                                   ),
                                 ),
-                                paddingTop(15),
+                                paddingTop(12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

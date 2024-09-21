@@ -38,7 +38,7 @@ class HomeScreenProvider extends StatelessWidget {
                 Positioned(
                   left: 25.w,
                   right: 25.w,
-                  top: 70.h,
+                  top: 40.h,
                   child: SingleChildScrollView(
                     child: SizedBox(
                       height: ScreenUtil().screenHeight,

@@ -34,7 +34,7 @@ class BalanceScreenProvider extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 25, right: 25, top: 70,
+                  left: 25, right: 25, top: 40.h,
                   child: SingleChildScrollView(
                     child: SizedBox(
                       height: ScreenUtil().screenHeight,
