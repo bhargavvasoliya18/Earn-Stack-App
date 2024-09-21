@@ -34,7 +34,7 @@ class SettingScreenProvider extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          padding: EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 50),
+          padding: EdgeInsets.only(left: 20, top: 40.h, right: 20, bottom: 50),
           child: Column(
             children: [
               Row(

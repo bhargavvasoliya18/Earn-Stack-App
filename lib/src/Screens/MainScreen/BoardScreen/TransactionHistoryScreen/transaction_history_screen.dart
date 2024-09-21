@@ -30,7 +30,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 25, right: 25, top: 70,
+                  left: 25, right: 25, top: 40.h,
                   child: SingleChildScrollView(
                     child: SizedBox(
                       height: ScreenUtil().screenHeight,
@@ -62,6 +62,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
                                         child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
@@ -77,7 +78,14 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            Text("+1200", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(AppImages.courncyIcon,height: 15,),
+                                                paddingLeft(02),
+                                                Text("1200", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),

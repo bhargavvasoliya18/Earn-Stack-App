@@ -1,9 +1,7 @@
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Utils/Notifier/share_notifier.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +20,6 @@ class ShareScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: ScreenUtil().screenHeight - 80,
       height: ScreenUtil().screenHeight,
       child: Scaffold(
         body: Stack(
@@ -33,35 +30,35 @@ class ShareScreenProvider extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              padding: EdgeInsets.only(left: 20, top: 40, right: 20),
+              padding: EdgeInsets.only(left: 20, top: 20, right: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
                   AppImages.shareBackground,
-                  height: ScreenUtil().screenHeight - 80.h,
+                  height: ScreenUtil().screenHeight,
                   width: ScreenUtil().screenWidth,
                   fit: BoxFit.fill,
                 ),
               ),
             ),
             Positioned(
-              top: 180,
+              top: 100.h,
               left: 60,
               right: 60,
               child: Column(
                 children: [
                   Image.asset(
                     AppImages.appLogo,
-                    height: 150.sp,
-                    width: 150.sp,
+                    height: 150,
+                    width: 150,
                     fit: BoxFit.fill,
                   ),
-                  paddingTop(40),
+                  paddingTop(15),
                   Text(
                     "Refer your friends",
                     style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w600),
                   ),
-                  paddingTop(25.h),
+                  paddingTop(20),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -70,7 +67,7 @@ class ShareScreenProvider extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 270,
+                          width: 220,
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Center(
                             child: Text(
@@ -100,22 +97,22 @@ class ShareScreenProvider extends StatelessWidget {
                       ],
                     ),
                   ),
-                  paddingTop(10.h),
+                  paddingTop(12),
                   Text(
                     "Share your code",
                     style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w400),
                   ),
-                  paddingTop(8.h),
+                  paddingTop(10.h),
                   Divider(
                     thickness: 1.sp,
                     color: AppColors.white,
                   ),
-                  paddingTop(10.h),
+                  paddingTop(5.h),
                   Text(
                     "Lorem Ipsum is simply dummy text",
                     style: TextStyleTheme.customTextStyle(AppColors.white, 16, FontWeight.w700),
                   ),
-                  paddingTop(10.h),
+                  paddingTop(8.h),
                   Text(
                     "Contrary to popular belief, Lorem Ipsum is not simply random text.",
                     textAlign: TextAlign.center,
@@ -130,13 +127,14 @@ class ShareScreenProvider extends StatelessWidget {
                     children: [
                       Image.asset(
                         AppImages.buttonBackground,
-                        fit: BoxFit.cover,
+                        height: 70.h,
+                        fit: BoxFit.scaleDown,
                       ),
                       Positioned(
                         left: 0,
                         right: 0,
                         top: 0,
-                        bottom: 15,
+                        bottom: 10.h,
                         child: Center(
                           child: Text(
                             "Invite Now",
