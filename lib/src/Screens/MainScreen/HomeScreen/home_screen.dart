@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
@@ -76,7 +78,7 @@ class HomeScreenProvider extends StatelessWidget {
                                 child: ListView.builder(
                                     itemCount: 4,
                                     shrinkWrap: true,
-                                    padding: const EdgeInsets.only(bottom: 160),
+                                    padding:  EdgeInsets.only(bottom: Platform.isIOS ? 170 : 160),
                                     itemBuilder: (context, index){
                                   return Card(
                                     color: Colors.white,

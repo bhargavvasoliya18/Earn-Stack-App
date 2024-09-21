@@ -2,6 +2,7 @@ import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/board_screen.dart
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/home_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/SettingScreen/setting_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/ShareScreen/share_screen.dart';
+import 'package:earn_streak/src/Utils/Mixins/app_exit_dialog.dart';
 import 'package:earn_streak/src/Utils/Notifier/custom_bottom_tab_notifier.dart';
 import 'package:earn_streak/src/Widget/BottomTabBar/bottom_tab_bar.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -14,24 +15,31 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: ExpandablePageView(
-            controller: bottomTabController,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) return;
+        showExitPopup(context); // your function / logic / dialog
+      },
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          body: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              HomeScreen(),
-              BoardScreen(),
-              ShareScreen(),
-              SettingScreen(),
-            ],
+            child: ExpandablePageView(
+              controller: bottomTabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                HomeScreen(),
+                BoardScreen(),
+                ShareScreen(),
+                SettingScreen(),
+              ],
+            ),
           ),
+          bottomNavigationBar: customBottomTabBar(),
         ),
-        bottomNavigationBar: customBottomTabBar(),
       ),
     );
   }

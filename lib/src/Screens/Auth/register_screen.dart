@@ -77,9 +77,9 @@ class RegisterScreenProvider extends StatelessWidget {
                                 paddingTop(15),
                                 customTextField(registerEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
                                 paddingTop(15),
-                                customTextField(registerPasswordController, "Password", "******", suffixIcon: AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
+                                customTextField(registerPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
                                 paddingTop(15),
-                                customTextField(registerConfirmPasswordController, "Confirm Password", "******", suffixIcon: AppImages.closeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
+                                customTextField(registerConfirmPasswordController, "Confirm Password", "******", suffixIcon: state.isVisibleConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
                                 paddingTop(15),
                                 Row(
                                   children: [

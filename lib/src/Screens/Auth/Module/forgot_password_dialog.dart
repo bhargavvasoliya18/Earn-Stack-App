@@ -69,13 +69,8 @@ enterOtpDialog(context, state){
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   numberOfFields: 4,
                   borderColor: const Color(0xFF512DA8),
-                  //set to true to show as box or false to show as dash
                   showFieldAsBox: true,
-                  //runs when a code is typed in
-                  onCodeChanged: (String code) {
-                    //handle validation or checks here
-                  },
-                  //runs when every textfield is filled
+                  onCodeChanged: (String code) {},
                   onSubmit: (String verificationCode){
                     showDialog(
                         context: context,
@@ -128,11 +123,11 @@ enterNewPasswordDialog(context, LoginNotifier state){
                       alignment: Alignment.centerLeft,
                       child: Text(LoginString.newPassword, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),)),
                   paddingTop(15),
-                  customTextField(forgotPasswordController, "Enter new password", "******", suffixIcon: state.isVisibleForgotPassword ? AppImages.closeIcon : AppImages.openIcon, suffixIconTap: (){setState((){
+                  customTextField(forgotPasswordController, "New password", "******", suffixIcon: state.isVisibleForgotPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: (){setState((){
                     state.visibleForgotPasswordValueUpdate();
                   });} , obSecure: state.isVisibleForgotPassword, validation: (value) => validatePassword(value)),
                   paddingTop(15),
-                  customTextField(forgotConfirmPasswordController, "Confirm password", "******", suffixIcon: state.isVisibleForgotConfirmPassword ? AppImages.closeIcon : AppImages.openIcon, textInputAction: TextInputAction.done, suffixIconTap:(){
+                  customTextField(forgotConfirmPasswordController, "Confirm password", "******", suffixIcon: state.isVisibleForgotConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, textInputAction: TextInputAction.done, suffixIconTap:(){
                     setState((){
                       state.visibleForgotConfirmPasswordValueUpdate();
                     });

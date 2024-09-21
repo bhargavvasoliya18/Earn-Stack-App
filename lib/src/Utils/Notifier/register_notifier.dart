@@ -6,8 +6,8 @@ class RegisterNotifier extends ChangeNotifier{
   AutovalidateMode validate = AutovalidateMode.disabled;
 
   bool isSelectTermsPrivacy = false;
-  bool isVisiblePassword = false;
-  bool isVisibleConfirmPassword = false;
+  bool isVisiblePassword = true;
+  bool isVisibleConfirmPassword = true;
 
   visiblePasswordValueUpdate(){
     isVisiblePassword = !isVisiblePassword;

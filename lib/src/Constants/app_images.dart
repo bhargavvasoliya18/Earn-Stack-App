@@ -5,8 +5,8 @@ class AppImages {
   static const appLogo = "$pngPath/app_logo.png";
 
   static const googleIcon = "$svgPath/google_icon.svg";
-  static const closeIcon = "$svgPath/close_eye.svg";
-  static const openIcon = "$svgPath/open_eye.svg";
+  static const closeEyeIcon = "$svgPath/close_eye.svg";
+  static const openEyeIcon = "$svgPath/open_eye.svg";
   static const rightArrowIcon = "$svgPath/right_arrow_icon.svg";
   static const bookIcon = "$svgPath/book_image.svg";
   static const leftBackIcon = "$svgPath/left_back_arrow.svg";
