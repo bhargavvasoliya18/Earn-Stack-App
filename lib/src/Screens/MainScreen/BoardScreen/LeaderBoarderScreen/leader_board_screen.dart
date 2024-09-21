@@ -99,7 +99,13 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(100),
                                             child: Image.asset(AppImages.secondImage, height: 67, width: 67,)),
                                         Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
-                                        Text("3560", style: TextStyleTheme.customTextStyle(const Color(0xffFD8002), 16, FontWeight.w600),),
+                                        Row(
+                                          children: [
+                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            paddingLeft(02),
+                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                     Column(
@@ -109,8 +115,13 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(100),
                                             child: Image.asset(AppImages.secondImage, height: 89, width: 89,)),
                                         Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
-                                        Text("3560", style: TextStyleTheme.customTextStyle(const Color(0xffFD8002), 16, FontWeight.w600),),
-                                      ],
+                                        Row(
+                                          children: [
+                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            paddingLeft(02),
+                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                          ],
+                                        ),                                      ],
                                     ),
                                     Column(
                                       children: [
@@ -119,7 +130,13 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(100),
                                             child: Image.asset(AppImages.secondImage, height: 67, width: 67,)),
                                         Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
-                                        Text("3560", style: TextStyleTheme.customTextStyle(const Color(0xffFD8002), 16, FontWeight.w600),),
+                                        Row(
+                                          children: [
+                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            paddingLeft(02),
+                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                          ],
+                                        ),
                                       ],
                                     )
                                   ],
@@ -131,7 +148,7 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                               child: ListView.builder(
                                   itemCount: 10,
                                   shrinkWrap: true,
-                                  padding: EdgeInsets.only(bottom: 50),
+                                  padding: EdgeInsets.only(bottom: 80),
                                   itemBuilder: (context, index){
                                 return Card(
                                   child: Padding(
@@ -150,7 +167,13 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                             Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600),),
                                           ],
                                         ),
-                                        Text("2450", style: TextStyleTheme.customTextStyle(const Color(0xffFD8002), 16, FontWeight.w600),),
+                                        Row(
+                                          children: [
+                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            paddingLeft(02),
+                                            Text("2450", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),

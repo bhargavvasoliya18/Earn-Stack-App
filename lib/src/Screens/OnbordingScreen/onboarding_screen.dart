@@ -102,9 +102,9 @@ class OnBoardingScreenProvider extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  GestureDetector(
+                                  state.currentPage != 0 ? GestureDetector(
                                       onTap:(){state.navigateBackScreen();},
-                                      child: Text(OnBoardingString.back, style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600),)),
+                                      child: Text(OnBoardingString.back, style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600),)) : Offstage(),
                                   ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: state.numberOfPages,

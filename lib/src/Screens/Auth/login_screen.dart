@@ -76,7 +76,7 @@ class LoginScreenProvider extends StatelessWidget {
                                     paddingTop(25),
                                     customTextField(loginEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value)),
                                     paddingTop(15),
-                                    customTextField(loginPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.openIcon : AppImages.closeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value), textInputAction: TextInputAction.done ),
+                                    customTextField(loginPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.openEyeIcon : AppImages.closeEyeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value), textInputAction: TextInputAction.done ),
                                     paddingTop(10),
                                     Align(
                                         alignment: Alignment.centerRight,

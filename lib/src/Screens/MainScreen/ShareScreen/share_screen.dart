@@ -27,7 +27,7 @@ class ShareScreenProvider extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              height: ScreenUtil().screenHeight - 120,
+              height: ScreenUtil().screenHeight - 100,
               width: ScreenUtil().screenWidth,
               padding: EdgeInsets.only(left: 20, top: 60, right: 20),
               child: ClipRRect(

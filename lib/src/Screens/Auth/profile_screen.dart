@@ -70,7 +70,14 @@ class ProfileScreenProvider extends StatelessWidget {
                             ),
                           ),
                           Text("Music Status", style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),),
-                          Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(AppImages.courncyIcon,height: 22,),
+                              paddingLeft(02),
+                              Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),),
+                            ],
+                          ),
 
                           paddingTop(15),
                           Container(
@@ -86,7 +93,13 @@ class ProfileScreenProvider extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Invites", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
-                                    Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                    Row(
+                                      children: [
+                                        Image.asset(AppImages.courncyIcon,height: 22,),
+                                        paddingLeft(02),
+                                        Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                      ],
+                                    ),
                                   ],
                                 ),
                                 Padding(
@@ -97,7 +110,13 @@ class ProfileScreenProvider extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Redeem", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
-                                    Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                    Row(
+                                      children: [
+                                        Image.asset(AppImages.courncyIcon,height: 22,),
+                                        paddingLeft(02),
+                                        Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                      ],
+                                    ),
                                   ],
                                 )
                               ],

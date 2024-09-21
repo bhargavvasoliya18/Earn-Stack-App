@@ -5,8 +5,8 @@ class AppImages {
   static const appLogo = "$pngPath/app_logo.png";
 
   static const googleIcon = "$svgPath/google_icon.svg";
-  static const closeIcon = "$svgPath/close_eye.svg";
-  static const openIcon = "$svgPath/open_eye.svg";
+  static const closeEyeIcon = "$svgPath/close_eye.svg";
+  static const openEyeIcon = "$svgPath/open_eye.svg";
   static const rightArrowIcon = "$svgPath/right_arrow_icon.svg";
   static const bookIcon = "$svgPath/book_image.svg";
   static const leftBackIcon = "$svgPath/left_back_arrow.svg";
@@ -40,7 +40,7 @@ class AppImages {
   static const goldTajIcon = "$svgPath/gold_taj_icon.svg";
   static const silverTajIcon = "$svgPath/silver_taj_icon.svg";
 
-  static const courncyIcon = "$svgPath/courency_icon.svg";
+  static const courncyIcon = "$pngPath/currency_icon.png";
   static const mobilePayIcon = "$svgPath/mobile_pay_icon.svg";
   static const bankTransferIcon = "$svgPath/bank_transfer_icon.svg";
   static const paypalIcon = "$svgPath/paypal_icon.svg";
