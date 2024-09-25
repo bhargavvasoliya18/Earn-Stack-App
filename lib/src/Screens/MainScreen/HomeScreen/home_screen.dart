@@ -14,11 +14,19 @@ import 'package:provider/provider.dart';
 
 HomeScreen() => ChangeNotifierProvider<HomeNotifier>(
       create: (_) => HomeNotifier(),
-      child: Builder(builder: (context) => const HomeScreenProvider()),
+      child: Builder(builder: (context) => HomeScreenProvider(context:  context)),
     );
 
 class HomeScreenProvider extends StatelessWidget {
-  const HomeScreenProvider({super.key});
+
+  BuildContext context;
+
+   HomeScreenProvider({super.key, required this.context}){
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+       var state = Provider.of<HomeNotifier>(context, listen: false);
+       state.iniState(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,10 +106,11 @@ class HomeScreenProvider extends StatelessWidget {
                           paddingTop(10),
                           Expanded(
                             child: ListView.builder(
-                              itemCount: 4,
+                              itemCount: state.articleList.length,
                               shrinkWrap: true,
                               padding: EdgeInsets.only(bottom: Platform.isIOS ? 170 : 160),
                               itemBuilder: (context, index) {
+                                var item = state.articleList[index];
                                 return Column(
                                   children: [
                                     Container(
@@ -127,13 +136,13 @@ class HomeScreenProvider extends StatelessWidget {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        "Read Article",
+                                                        item.slug ?? '',
                                                         style:
                                                             TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
                                                       ),
-                                                      Text("Lorem Ipsum is simply text , dummy text",
+                                                      Text(item.content?.rendered ?? '',
                                                           style: TextStyleTheme.customTextStyle(
-                                                              AppColors.lightGrey, 14, FontWeight.w600)),
+                                                              AppColors.lightGrey, 14, FontWeight.w600),overflow: TextOverflow.ellipsis,maxLines: 3,),
                                                       paddingTop(5),
                                                       Container(
                                                         decoration: BoxDecoration(

@@ -28,7 +28,9 @@ forgotPasswordDialog(context, LoginNotifier state){
               paddingTop(15),
               customTextField(forgotEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),
-              commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: (){Navigator.pop(context); enterOtpDialog(context, state);}),
+              commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: ()async{if(await state.forgotApiCall(context, forgotEmailController.text)){
+                Navigator.pop(context); enterOtpDialog(context, state);
+              }}),
               paddingTop(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
