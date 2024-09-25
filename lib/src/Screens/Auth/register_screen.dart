@@ -103,7 +103,7 @@ class RegisterScreenProvider extends StatelessWidget {
                                   ],
                                 ),
                                 paddingTop(15),
-                                commonButtonColorLinerGradiunt(CommonString.signUp, width: 150, onTap: state.signUpButtonOnTap),
+                                commonButtonColorLinerGradiunt(CommonString.signUp, width: 150, onTap: (){state.signUpButtonOnTap(context);}),
                                 paddingTop(15),
                                 Row(
                                   children: [
@@ -159,7 +159,7 @@ class RegisterScreenProvider extends StatelessWidget {
               )
             ],
           ),
-               ),
+         ),
        ),
     );
   }

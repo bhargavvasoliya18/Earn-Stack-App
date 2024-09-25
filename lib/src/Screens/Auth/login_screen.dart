@@ -38,23 +38,26 @@ class LoginScreenProvider extends StatelessWidget {
             children: [
               SizedBox(
                 height: setHeight(ScreenUtil().screenHeight),
-                child: Column(
-                  children: [
-                    ClipPath(
-                      clipper: CircularBottomClipper(),
-                      child: Container(
-                        width: setWidth(ScreenUtil().screenWidth),
-                        height: 300,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                child: Form(
+                  key: state.globalFormKey,
+                  child: Column(
+                    children: [
+                      ClipPath(
+                        clipper: CircularBottomClipper(),
+                        child: Container(
+                          width: setWidth(ScreenUtil().screenWidth),
+                          height: 300,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xff7979FC), Color(0xff9B9BFF)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Positioned(

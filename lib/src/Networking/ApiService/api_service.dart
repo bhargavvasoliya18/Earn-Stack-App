@@ -36,11 +36,11 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> request(String url, RequestMethods methods, {BuildContext? context,Map<String, String>? header, Map<String, dynamic>? requestBody, bool showLoader = true, bool showLogs = true, Color? loaderColor, List<File>? postFiles,String? fileStringKey}) async {
-    BuildContext contextApi = context ?? NavigationService.navigatorKey.currentContext!;
+  static Future<dynamic> request(context, String url, RequestMethods methods, {Map<String, String>? header, Map<String, dynamic>? requestBody, bool showLoader = true, bool showLogs = true, Color? loaderColor, List<File>? postFiles,String? fileStringKey}) async {
+    // BuildContext contextApi = context ?? NavigationService.navigatorKey.currentContext!;
     isHideProgress = false;
     if (showLoader) {
-      showProgressThreeDots(contextApi, loaderColor: loaderColor ?? const Color(0xff4c4DDC));
+      showProgressThreeDots(context, loaderColor: loaderColor ?? const Color(0xff4c4DDC));
     }
     try {
       if (showLogs) {
@@ -49,16 +49,10 @@ class ApiService {
       var response = await apiCallMethod(url, methods, header: header ?? {}, requestBody: requestBody ?? {},postFiles: postFiles,fileStringKey:fileStringKey);
       var multiPartResponse = '';
       if (showLogs) {
-        if(methods == RequestMethods.POSTFILE && response is http.StreamedResponse){
-          /// listen for response
-          multiPartResponse = await response.stream.bytesToString();
-          log("---Multi part Response :  $multiPartResponse StatusCode: ${response.statusCode ?? 0}");
-        }else {
           log("---Response :  ${response?.body ?? {}} StatusCode: ${response?.statusCode ?? 0}");
-        }
       }
       if (showLoader) {
-        hideProgress(contextApi);
+        hideProgress(context);
       }
       if (response != null && response is http.Response) {
         if (response.statusCode == 200 && response.body.isNotEmpty) {
@@ -68,27 +62,27 @@ class ApiService {
             log("---!! AuthenticationFailed !!---");
             var displayError = jsonDecode(response.body);
             if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.invalidEmail] != null){
-              showAlertDialog(context!, "Oops", "Please Enter Valid E-mail", "ok");
+              showAlertDialog(context, "Oops", "Please Enter Valid E-mail", "ok");
             }
             else if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailNotFound] != null){
-              showAlertDialog(context!, "Oops", "Email Address Does Not Exists", "ok");
+              showAlertDialog(context, "Oops", "Email Address Does Not Exists", "ok");
             } else if(displayError[ApiValidationKEYs.data][ApiValidationKEYs.incorrectPassword] != null){
-              showAlertDialog(context!, "Oops", "Please Enter Valid Password", "ok");
+              showAlertDialog(context, "Oops", "Please Enter Valid Password", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.existingUserLogin] != null){
-              showAlertDialog(context!, "Oops", "Sorry, That Username Already Exists!", "ok");
+              showAlertDialog(context, "Oops", "Sorry, That Username Already Exists!", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.existingUserEmail] != null){
-              showAlertDialog(context!, "Oops", "Sorry, That Email Address Is Already Used!", "ok");
+              showAlertDialog(context, "Oops", "Sorry, That Email Address Is Already Used!", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.error] != null){
-              showAlertDialog(context!, "Oops", "Email Address Does Not Exists", "ok");
+              showAlertDialog(context, "Oops", "Email Address Does Not Exists", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailError] != null){
-              showAlertDialog(context!, "Oops", "Email Address Does Not Exists", "ok");
+              showAlertDialog(context, "Oops", "Email Address Does Not Exists", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.tokenError] != null){
-              showAlertDialog(context!, "Oops", "Invalid Token", "ok");
+              showAlertDialog(context, "Oops", "Invalid Token", "ok");
             }
           } else {
-            var error = responseCodeHandle(contextApi, response).toString();
+            var error = responseCodeHandle(context, response).toString();
             log("--- Error : $error");
-            showToast(error, contextApi);
+            showToast(error, context);
           }
           return null;
         }
@@ -96,20 +90,20 @@ class ApiService {
         return jsonDecode(multiPartResponse);
       }else{
         log("---!! somethingWentWrong !!---");
-        showToast("Something went wrong", contextApi,);
+        showToast("Something went wrong", context,);
         return null;
       }
     } on SocketException catch (_) {
       if (showLoader) {
-        hideProgress(contextApi);
+        hideProgress(context);
       }
-      showToast("Mobile data off", contextApi);
+      showToast("Mobile data off", context);
     } catch (e) {
       if (showLogs) {
         log("---Error : $e");
       }
       if (showLoader) {
-        hideProgress(contextApi);
+        hideProgress(context);
       }
       return null;
     }
