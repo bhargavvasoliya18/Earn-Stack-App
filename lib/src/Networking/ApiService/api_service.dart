@@ -16,11 +16,21 @@ Map<String,String> commonHeader = {
   ApiServicesHeaderKEYs.contentType: "application/json"
 };
 
-Map<String,String> commonHeaderWithToken = {
-  ApiServicesHeaderKEYs.accept: "application/json",
-  ApiServicesHeaderKEYs.contentType: "application/json",
-  ApiServicesHeaderKEYs.authorization : "Bearer "
-};
+
+commonHeaderWithToken(String authToken){
+  Map<String,String> commonHeaderWithToken = {
+    ApiServicesHeaderKEYs.accept: "application/json",
+    ApiServicesHeaderKEYs.contentType: "application/json",
+    ApiServicesHeaderKEYs.authorization : "Bearer $authToken"
+  };
+  return commonHeaderWithToken;
+}
+
+// Map<String,String> commonHeaderWithToken = {
+//   ApiServicesHeaderKEYs.accept: "application/json",
+//   ApiServicesHeaderKEYs.contentType: "application/json",
+//   ApiServicesHeaderKEYs.authorization : "Bearer "
+// };
 
 Map<String,String> commonHeaderWithMultiPartFormData={
   ApiServicesHeaderKEYs.authorization:"Bearer ",
