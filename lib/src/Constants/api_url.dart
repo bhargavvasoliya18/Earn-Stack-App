@@ -7,6 +7,6 @@ class AppUrls{
   static const forgotPassWordUrl = "$baseUrl/forget-password";
   static const resetPasswordUrl = "$baseUrl/reset-password";
 
-  static const getArticle = "https://ssemw.org/quizzit/wp-json/wp/v2/posts";
+  static const getArticle = "$baseUrl/posts";
 
 }

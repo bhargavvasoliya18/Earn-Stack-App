@@ -2,7 +2,8 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
-import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/Take_Quize_Screen/Module/conrats_dialog.dart';
+import 'package:earn_streak/src/Model/ArticleModel/article_model.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/conrats_dialog.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/take_quiz_notifier.dart';
 import 'package:earn_streak/src/Widget/common_button.dart';
@@ -11,17 +12,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-TakeQuizScreen() => ChangeNotifierProvider<TakeQuizNotifier>(
+TakeQuizScreen({ArticleModel? articleModel}) => ChangeNotifierProvider<TakeQuizNotifier>(
       create: (_) => TakeQuizNotifier(),
-      child: Builder(builder: (context) => TakeQuizScreenProvider(context: context)),
+      child: Builder(builder: (context) => TakeQuizScreenProvider(context: context, articleModel: articleModel)),
     );
 
 class TakeQuizScreenProvider extends StatelessWidget {
   BuildContext context;
-  TakeQuizScreenProvider({super.key, required this.context}){
+  ArticleModel? articleModel;
+  TakeQuizScreenProvider({super.key, required this.context, this.articleModel}){
     WidgetsBinding.instance.addPostFrameCallback((_){
       var state = Provider.of<TakeQuizNotifier>(context, listen: false);
-      state.initState();
+      state.initState(articleModel!);
     });
   }
 
@@ -35,10 +37,7 @@ class TakeQuizScreenProvider extends StatelessWidget {
             height: ScreenUtil().screenHeight,
             width: ScreenUtil().screenWidth,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.backgroundImg),
-                fit: BoxFit.fill,
-              ),
+              image: DecorationImage(image: AssetImage(AppImages.backgroundImg), fit: BoxFit.fill,),
             ),
             padding: EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 50),
             child: Column(
@@ -74,7 +73,7 @@ class TakeQuizScreenProvider extends StatelessWidget {
                   ),
                 ),
                 paddingTop(8),
-                Text("Question ${state.selectIndex} to ${state.quizList.length}", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),),
+                Text("Question ${state.selectIndex} to ${articleModel?.quizs?.length}", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),),
                 paddingTop(20),
                 Card(
                   color: Colors.white,
@@ -88,7 +87,7 @@ class TakeQuizScreenProvider extends StatelessWidget {
                         paddingLeft(5),
                         Expanded(
                           child: Text(
-                            state.quizList[state.selectIndex].question ?? "",
+                            articleModel?.quizs![state.selectIndex].question ?? "",
                             style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
                           ),
                         )
@@ -98,39 +97,47 @@ class TakeQuizScreenProvider extends StatelessWidget {
                 ),
                 paddingTop(15),
                 ListView.builder(
-                  itemCount: state.quizList[state.selectIndex].answer?.length ?? 0,
+                  itemCount: articleModel?.quizs![state.selectIndex].option?.length ?? 0,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(),
                   itemBuilder: (context, answerIndex) {
-                    return Card(
-                      color: Colors.white,
+                    var model = articleModel?.quizs![state.selectIndex].option?[answerIndex];
+                    return GestureDetector(
+                      onTap: (){state.selectQuiz(answerIndex);},
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                        child: Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.midLightGrey,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                  "A",
-                                  style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Container(
+                          decoration: BoxDecoration(
+                          color: state.selectQuizIndex == answerIndex ? Color(0xff66CC70).withOpacity(0.1) : Colors.white,
+                            border: Border.all(color: state.selectQuizIndex == answerIndex ? Color(0xff66CC70) : Colors.transparent),
+                            borderRadius: BorderRadius.circular(15)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: state.selectQuizIndex == answerIndex ? Colors.white : AppColors.midLightGrey,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text((answerIndex + 1).toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),),
+                                  ),
                                 ),
-                              ),
+                                paddingLeft(25),
+                                Expanded(
+                                  child: Text(
+                                    model?.s1 ?? "",
+                                    style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
-                            paddingLeft(25),
-                            Expanded(
-                              child: Text(
-                                state.quizList[state.selectIndex].answer?[answerIndex] ?? "",
-                                style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     );
@@ -152,12 +159,16 @@ class TakeQuizScreenProvider extends StatelessWidget {
                   }
                 }),
                 commonButtonColorLinerGradiunt(width: 150, "Next", onTap: () {
-                  if(state.selectIndex < (state.quizList.length - 1)) {
-                    state.nextQuestion();
-                  }
-                  print("check last index ${state.quizList.length} ==> ${state.lastIndex}  ${state.selectIndex}:::: ${state.quizList.length == state.lastIndex}");
-                  if(state.quizList.length == (state.selectIndex + 1)){
-                    congratsDialog(context);
+                  print("object ${state.selectIndex}");
+                  if(state.selectIndex == state.userSelectAnswer.length - 1){
+                    if(state.selectIndex < (articleModel!.quizs!.length - 1)) {
+                      state.nextQuestion();
+                    }
+                    if(articleModel!.quizs!.length == (state.selectIndex + 1)){
+                      congratsDialog(context);
+                    }
+                  }else{
+                    print("please select answer");
                   }
                 }),
               ],

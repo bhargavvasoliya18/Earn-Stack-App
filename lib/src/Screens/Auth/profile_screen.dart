@@ -2,6 +2,7 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
+import 'package:earn_streak/src/Utils/Mixins/log_out_alert_dialog.dart';
 import 'package:earn_streak/src/Utils/Notifier/profile_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/setting_notifier.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +135,7 @@ class ProfileScreenProvider extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          MenuClass(onTap: () {}, icon: AppImages.logout, name: "Logout"),
+                          MenuClass(onTap: () {showLogoutDialog(context);}, icon: AppImages.logout, name: "Logout"),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: Divider(thickness: 1, color: AppColors.purple),

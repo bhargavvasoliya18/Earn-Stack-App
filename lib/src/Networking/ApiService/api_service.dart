@@ -88,6 +88,8 @@ class ApiService {
               showAlertDialog(context, "Oops", "Email Address Does Not Exists", "ok");
             }else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.tokenError] != null){
               showAlertDialog(context, "Oops", "Invalid Token", "ok");
+            }else {
+              showAlertDialog(context, "Oops", displayError[ApiValidationKEYs.message], "ok");
             }
           } else {
             var error = responseCodeHandle(context, response).toString();

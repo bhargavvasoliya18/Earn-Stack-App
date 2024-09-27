@@ -14,4 +14,5 @@ class ApiValidationKEYs{
   static const error = "error";
   static const emailError = "email_error";
   static const tokenError = "token_error";
+  static const message = "message";
 }

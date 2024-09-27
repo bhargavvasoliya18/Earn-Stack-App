@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.earn_streak"
+    namespace "com.application.quizzit"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

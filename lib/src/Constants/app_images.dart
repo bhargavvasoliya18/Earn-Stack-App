@@ -70,4 +70,5 @@ class AppImages {
 
   static const buttonBackground = "$pngPath/button_background.png";
   static const copyTextIcon = "$svgPath/copy_text_icon.svg";
+  static const logOutIcon = "$svgPath/log_out_icon.svg";
 }

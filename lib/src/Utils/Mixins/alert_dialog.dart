@@ -5,7 +5,7 @@ showAlertDialog(BuildContext context, String title, String content,String okButt
   Widget okButton = ElevatedButton(
     style: ElevatedButton.styleFrom(backgroundColor: Color(0xff7979FC)),
     onPressed: onTapOk ?? () async {Navigator.pop(context);},
-    child: Text(okButtonText, style: TextStyleTheme.customTextStyle(Colors.black,12,FontWeight.w400)),
+    child: Text(okButtonText, style: TextStyleTheme.customTextStyle(Colors.white, 12, FontWeight.w400)),
   );
   Widget cancelButton = ElevatedButton(
     style: ElevatedButton.styleFrom(backgroundColor: Colors.white),

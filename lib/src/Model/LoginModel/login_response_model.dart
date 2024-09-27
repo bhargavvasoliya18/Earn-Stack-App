@@ -26,7 +26,8 @@ class LoginResponseModel {
         this.deviceToken,
         this.loginType,
         this.userRegistered,
-        this.roles});
+        this.roles,
+      });
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

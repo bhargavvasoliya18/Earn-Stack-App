@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
-import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/Take_Quize_Screen/take_quize_screen.dart';
+import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/web_view.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/take_quize_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Helper/page_route.dart';
 import 'package:earn_streak/src/Utils/Notifier/home_notifier.dart';
@@ -17,7 +19,7 @@ HomeScreen() => ChangeNotifierProvider<HomeNotifier>(
       child: Builder(builder: (context) => HomeScreenProvider(context:  context)),
     );
 
-class HomeScreenProvider extends StatelessWidget {
+class HomeScreenProvider extends StatefulWidget {
 
   BuildContext context;
 
@@ -26,6 +28,36 @@ class HomeScreenProvider extends StatelessWidget {
        var state = Provider.of<HomeNotifier>(context, listen: false);
        state.iniState(context);
     });
+  }
+
+  @override
+  State<HomeScreenProvider> createState() => _HomeScreenProviderState();
+}
+
+
+class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBindingObserver {
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    var addState = Provider.of<HomeNotifier>(context, listen: false);
+    if (state == AppLifecycleState.resumed && addState.timeLaunched != null) {
+      addState.timeResumed = DateTime.now();
+      addState.timeSpent = addState.timeResumed!.difference(addState.timeLaunched!);
+      print("spend time ${addState.timeSpent?.inSeconds}");
+    }
   }
 
   @override
@@ -55,10 +87,7 @@ class HomeScreenProvider extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Quizzit",
-                                style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
-                              ),
+                              Text("Quizzit", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
                               Image.asset(
                                 AppImages.userImage,
                                 height: 32,
@@ -136,28 +165,27 @@ class HomeScreenProvider extends StatelessWidget {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        item.slug ?? '',
-                                                        style:
-                                                            TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
+                                                        item.title ?? '',
+                                                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
                                                       ),
-                                                      Text(item.content?.rendered ?? '',
+                                                      Text(item.content ?? '',
                                                           style: TextStyleTheme.customTextStyle(
                                                               AppColors.lightGrey, 14, FontWeight.w600),overflow: TextOverflow.ellipsis,maxLines: 3,),
                                                       paddingTop(5),
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5), color: AppColors.colorC2C2CC
-                                                            // gradient:
-                                                            //     LinearGradient(colors: const [Color(0xff7979FC), Color(0xff9B9BFF)]),
-                                                            ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                                                          child: Text(
-                                                            "Read more",
-                                                            style: TextStyleTheme.customTextStyle(
-                                                              AppColors.white,
-                                                              14,
-                                                              FontWeight.w400,
+                                                      GestureDetector(
+                                                        onTap: (){state.launchURL(item.url ?? "");},
+                                                        // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_) => TimeSpentInURLExample()));},
+                                                        child: Container(
+                                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.colorC2C2CC),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                                                            child: Text(
+                                                              "Read more",
+                                                              style: TextStyleTheme.customTextStyle(
+                                                                AppColors.white,
+                                                                14,
+                                                                FontWeight.w400,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -170,7 +198,7 @@ class HomeScreenProvider extends StatelessWidget {
                                             paddingTop(15),
                                             InkWell(
                                               onTap: () {
-                                                push(context, TakeQuizScreen());
+                                               (state.articleList[index].quizs?.isNotEmpty ?? false) ? push(context, TakeQuizScreen(articleModel: state.articleList[index])) : null;
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -182,11 +210,7 @@ class HomeScreenProvider extends StatelessWidget {
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Text(
-                                                        "Take Quiz",
-                                                        style:
-                                                            TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
-                                                      ),
+                                                      Text("Take Quiz", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           border: Border.all(color: AppColors.lightBlue),
@@ -196,16 +220,10 @@ class HomeScreenProvider extends StatelessWidget {
                                                           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                                                           child: Row(
                                                             children: [
-                                                              Text(
-                                                                "Start",
-                                                                style: TextStyleTheme.customTextStyle(
-                                                                    AppColors.lightBlue, 16, FontWeight.w700),
-                                                              ),
+                                                              Text("Start", style: TextStyleTheme.customTextStyle(AppColors.lightBlue, 16, FontWeight.w700),),
                                                               paddingLeft(8),
                                                               SvgPicture.asset(
                                                                 AppImages.rightArrowIcon,
-                                                                // color: Colors.lightBlue,
-                                                                // colorFilter: ColorFilter.mode(Colors.lightBlue, BlendMode.srcIn),
                                                                 width: 15,
                                                                 height: 15,
                                                               )
