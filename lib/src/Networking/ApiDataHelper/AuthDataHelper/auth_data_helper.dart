@@ -5,13 +5,14 @@ import 'package:earn_streak/src/Networking/ApiService/api_service.dart';
 import 'package:earn_streak/src/Repository/Services/SharedPref/shared_pref.dart';
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
+import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
 
 SharedPref sharedPref = SharedPref();
 
 class AuthHelper {
 
-  getAuthToken()async{
+ getAuthToken()async{
     return await sharedPref.read("authToken");
   }
 
@@ -40,7 +41,10 @@ class AuthHelper {
      if(res != null && res["success"] == true){
        sharedPref.save("isLogin", true);
        sharedPref.save("authToken", res["data"]["user"]["auth_token"]);
+       sharedPref.save("isLogin", true);
        tempLoginRequestData = LoginResponseModel.fromJson(res["data"]["user"]);
+       updateUserDataSharedPrefs(tempLoginRequestData);
+       loadUserDataSharedPrefs();
        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainScreen()), (Bool)=> false);
      }
    }

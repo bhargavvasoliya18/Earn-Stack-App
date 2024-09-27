@@ -10,8 +10,8 @@ class ArticleHelper {
     String authToken = await sharedPref.read("authToken");
     try{
       var res = await ApiService.request(context, AppUrls.getArticle, RequestMethods.GET, header: commonHeaderWithToken(authToken));
-      if(res != null){
-        for(var element in res){
+      if(res != null && res["success"] == true){
+        for(var element in res["data"]){
           ArticleModel tempData = ArticleModel.fromJson(element ?? {});
           tempArticleList.add(tempData);
         }
