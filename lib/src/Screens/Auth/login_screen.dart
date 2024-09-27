@@ -13,6 +13,7 @@ import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Validations/validation.dart';
 import 'package:earn_streak/src/Widget/common_button.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -135,15 +136,20 @@ class LoginScreenProvider extends StatelessWidget {
                                 ],
                               ),
                               paddingTop(15),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.black)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: SvgPicture.asset(
-                                    AppImages.googleIcon,
-                                    height: 20.sp,
-                                    width: 20.sp,
+                              GestureDetector(
+                                onTap: (){
+                                  state.googleLogin();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.black)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: SvgPicture.asset(
+                                      AppImages.googleIcon,
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                    ),
                                   ),
                                 ),
                               ),

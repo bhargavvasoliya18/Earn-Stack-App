@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/web_view.dart';
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/take_quize_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
@@ -18,7 +19,7 @@ HomeScreen() => ChangeNotifierProvider<HomeNotifier>(
       child: Builder(builder: (context) => HomeScreenProvider(context:  context)),
     );
 
-class HomeScreenProvider extends StatelessWidget {
+class HomeScreenProvider extends StatefulWidget {
 
   BuildContext context;
 
@@ -27,6 +28,36 @@ class HomeScreenProvider extends StatelessWidget {
        var state = Provider.of<HomeNotifier>(context, listen: false);
        state.iniState(context);
     });
+  }
+
+  @override
+  State<HomeScreenProvider> createState() => _HomeScreenProviderState();
+}
+
+
+class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBindingObserver {
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    var addState = Provider.of<HomeNotifier>(context, listen: false);
+    if (state == AppLifecycleState.resumed && addState.timeLaunched != null) {
+      addState.timeResumed = DateTime.now();
+      addState.timeSpent = addState.timeResumed!.difference(addState.timeLaunched!);
+      print("spend time ${addState.timeSpent?.inSeconds}");
+    }
   }
 
   @override
@@ -142,7 +173,8 @@ class HomeScreenProvider extends StatelessWidget {
                                                               AppColors.lightGrey, 14, FontWeight.w600),overflow: TextOverflow.ellipsis,maxLines: 3,),
                                                       paddingTop(5),
                                                       GestureDetector(
-                                                        onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_) => TimeSpentInURLExample()));},
+                                                        onTap: (){state.launchURL(item.url ?? "");},
+                                                        // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_) => TimeSpentInURLExample()));},
                                                         child: Container(
                                                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppColors.colorC2C2CC),
                                                           child: Padding(

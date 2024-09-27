@@ -1,3 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class BalanceNotifier extends ChangeNotifier{}
+class BalanceNotifier extends ChangeNotifier{
+
+
+}
