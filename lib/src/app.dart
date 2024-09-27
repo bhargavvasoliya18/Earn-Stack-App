@@ -1,5 +1,4 @@
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
-import 'package:earn_streak/src/Screens/Auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
