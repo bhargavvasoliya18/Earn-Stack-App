@@ -109,9 +109,13 @@ class LoginScreenProvider extends StatelessWidget {
                                 ),
                               ),
                               paddingTop(15),
-                              commonButtonColorLinerGradiunt(LoginString.login, width: 150, onTap: () {
-                                state.loginButtonOnTap(context);
-                              }),
+                              commonButtonColorLinerGradiunt(
+                                LoginString.login,
+                                width: 150,
+                                onTap: () {
+                                  state.loginButtonOnTap(context);
+                                },
+                              ),
                               paddingTop(20),
                               Row(
                                 children: [
@@ -137,8 +141,8 @@ class LoginScreenProvider extends StatelessWidget {
                               ),
                               paddingTop(15),
                               GestureDetector(
-                                onTap: (){
-                                  state.googleLogin();
+                                onTap: () {
+                                  // state.googleLogin();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -159,8 +163,7 @@ class LoginScreenProvider extends StatelessWidget {
                                 children: [
                                   Text(
                                     LoginString.doNotHaveAnAccount,
-                                    style:
-                                        TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),
+                                    style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.5), 13, FontWeight.w400),
                                   ),
                                   paddingLeft(5),
                                   GestureDetector(

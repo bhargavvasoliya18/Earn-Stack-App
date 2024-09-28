@@ -1,4 +1,4 @@
-package com.example.earn_streak
+package com.application.quizzit
 
 import io.flutter.embedding.android.FlutterActivity
 

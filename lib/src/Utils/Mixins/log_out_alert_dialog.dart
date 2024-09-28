@@ -6,6 +6,7 @@ import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_dat
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
+import 'package:earn_streak/src/Utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -70,9 +71,11 @@ showLogoutDialog(BuildContext context) async {
 }
 
 
-clearAllAndGoToLoginScreen({bool redirectToWelcome = false}) {
-  sharedPref.save("isLogin", false);
-  loginResponseModel = LoginResponseModel();
-  updateUserDataSharedPrefs(loginResponseModel);
+clearAllAndGoToLoginScreen() {
+   loginResponseModel = LoginResponseModel();
+  sharedPref.removeAll();
+  sharedPref.save("userData", LoginResponseModel());
   loadUserDataSharedPrefs();
+  debugPrint("Hii ${loginResponseModel.toJson()}");
+
 }
