@@ -11,10 +11,12 @@ import 'package:earn_streak/src/Widget/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-forgotPasswordDialog(context, LoginNotifier state){
+import '../../../Utils/app_utils.dart';
+
+forgotPasswordDialog(context, LoginNotifier state) {
   return showDialog(
-      context: context,
-    builder: (context){
+    context: context,
+    builder: (context) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Padding(
@@ -24,22 +26,47 @@ forgotPasswordDialog(context, LoginNotifier state){
             children: [
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(LoginString.forgotPasswords, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),)),
+                  child: Text(
+                    LoginString.forgotPasswords,
+                    style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
+                  )),
               paddingTop(15),
-              customTextField(forgotEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+              customTextField(forgotEmailController, "Email", "sam@mail.com",
+                  validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),
-              commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: ()async{if(await state.forgotApiCall(context, forgotEmailController.text)){
-                Navigator.pop(context); enterOtpDialog(context, state);
-              }}),
+              commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: () async {
+                RegExp regExp = RegExp(
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                if (forgotEmailController.text.isEmpty || forgotEmailController.text == "") {
+                  showError(message: "Please enter email");
+                } else if (!regExp.hasMatch(forgotEmailController.text)) {
+                  showError(message: "Please enter valid email");
+                } else {
+                  if (await state.forgotApiCall(context, forgotEmailController.text)) {
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                      enterOtpDialog(context, state);
+                    }
+                  }
+                }
+              }),
               paddingTop(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(LoginString.backTo, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.4), 14, FontWeight.w400),),
+                  Text(
+                    LoginString.backTo,
+                    style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.4), 14, FontWeight.w400),
+                  ),
                   paddingLeft(5),
                   GestureDetector(
-                      onTap: (){Navigator.pop(context);},
-                      child: Text(LoginString.login, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w400),)),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        LoginString.login,
+                        style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w400),
+                      )),
                 ],
               )
             ],
@@ -50,13 +77,12 @@ forgotPasswordDialog(context, LoginNotifier state){
   );
 }
 
-enterOtpDialog(context, state){
+enterOtpDialog(context, state) {
   return showDialog(
     context: context,
-    builder: (context){
+    builder: (context) {
       return StatefulBuilder(
-        builder: (context, setState) =>
-         Dialog(
+        builder: (context, setState) => Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -65,7 +91,10 @@ enterOtpDialog(context, state){
               children: [
                 Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(LoginString.enterOtp, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),)),
+                    child: Text(
+                      LoginString.enterOtp,
+                      style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
+                    )),
                 paddingTop(15),
                 OtpTextField(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -73,29 +102,39 @@ enterOtpDialog(context, state){
                   borderColor: const Color(0xFF512DA8),
                   showFieldAsBox: true,
                   onCodeChanged: (String code) {},
-                  onSubmit: (String verificationCode){
+                  onSubmit: (String verificationCode) {
                     showDialog(
                         context: context,
-                        builder: (context){
+                        builder: (context) {
                           return AlertDialog(
                             title: const Text("Verification Code"),
                             content: Text('Code entered is $verificationCode'),
                           );
-                        }
-                    );
+                        });
                   }, // end onSubmit
                 ),
                 paddingTop(25),
-                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: (){Navigator.pop(context); enterNewPasswordDialog(context, state);}),
+                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () {
+                  Navigator.pop(context);
+                  enterNewPasswordDialog(context, state);
+                }),
                 paddingTop(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(LoginString.backTo, style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.4), 14, FontWeight.w400),),
+                    Text(
+                      LoginString.backTo,
+                      style: TextStyleTheme.customTextStyle(AppColors.black.withOpacity(0.4), 14, FontWeight.w400),
+                    ),
                     paddingLeft(5),
                     GestureDetector(
-                        onTap: (){Navigator.pop(context);},
-                        child: Text(LoginString.login, style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w400),)),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          LoginString.login,
+                          style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w400),
+                        )),
                   ],
                 )
               ],
@@ -107,41 +146,55 @@ enterOtpDialog(context, state){
   );
 }
 
-enterNewPasswordDialog(context, LoginNotifier state){
+enterNewPasswordDialog(context, LoginNotifier state) {
   return showDialog(
     context: context,
-    builder: (context){
-      return StatefulBuilder(
-        builder: (BuildContext context, setState) {
+    builder: (context) {
+      return StatefulBuilder(builder: (BuildContext context, setState) {
         // final state = Provider.of<LoginNotifier>(context, listen: false);
-          return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(LoginString.newPassword, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),)),
-                  paddingTop(15),
-                  customTextField(forgotPasswordController, "New password", "******", suffixIcon: state.isVisibleForgotPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: (){setState((){
-                    state.visibleForgotPasswordValueUpdate();
-                  });} , obSecure: state.isVisibleForgotPassword, validation: (value) => validatePassword(value)),
-                  paddingTop(15),
-                  customTextField(forgotConfirmPasswordController, "Confirm password", "******", suffixIcon: state.isVisibleForgotConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, textInputAction: TextInputAction.done, suffixIconTap:(){
-                    setState((){
-                      state.visibleForgotConfirmPasswordValueUpdate();
-                    });
-                  }, obSecure: state.isVisibleForgotConfirmPassword, validation: (value) => validateConfirmPassword(forgotPasswordController.text, value)),
-                  paddingTop(25),
-                  commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: (){Navigator.pop(context);}),
-                ],
-              ),
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      LoginString.newPassword,
+                      style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
+                    )),
+                paddingTop(15),
+                customTextField(forgotPasswordController, "New password", "******",
+                    suffixIcon: state.isVisibleForgotPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon,
+                    suffixIconTap: () {
+                      setState(() {
+                        state.visibleForgotPasswordValueUpdate();
+                      });
+                    },
+                    obSecure: state.isVisibleForgotPassword,
+                    validation: (value) => validatePassword(value)),
+                paddingTop(15),
+                customTextField(forgotConfirmPasswordController, "Confirm password", "******",
+                    suffixIcon: state.isVisibleForgotConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon,
+                    textInputAction: TextInputAction.done,
+                    suffixIconTap: () {
+                      setState(() {
+                        state.visibleForgotConfirmPasswordValueUpdate();
+                      });
+                    },
+                    obSecure: state.isVisibleForgotConfirmPassword,
+                    validation: (value) => validateConfirmPassword(forgotPasswordController.text, value)),
+                paddingTop(25),
+                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () {
+                  Navigator.pop(context);
+                }),
+              ],
             ),
-          );
-         }
-      );
+          ),
+        );
+      });
     },
   );
 }

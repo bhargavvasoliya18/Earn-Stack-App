@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:earn_streak/src/Constants/app_keys.dart';
 import 'package:earn_streak/src/Networking/NetworkHelper/custom_exception.dart';
-import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
 import 'package:earn_streak/src/Utils/Mixins/alert_dialog.dart';
 import 'package:earn_streak/src/Utils/Mixins/progress_hub.dart';
 import 'package:earn_streak/src/Utils/Mixins/toast_controller.dart';

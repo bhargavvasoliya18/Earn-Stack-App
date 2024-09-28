@@ -3,20 +3,18 @@ import 'package:earn_streak/src/Networking/ApiDataHelper/ArticleDataHelper/artic
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeNotifier extends ChangeNotifier{
-
+class HomeNotifier extends ChangeNotifier {
   List<ArticleModel> articleList = [];
 
-   getArticleApiCall(context)async{
-   articleList = await ArticleHelper().getArticle(context);
-   print("Article list length ${articleList.length}");
-   notifyListeners();
-   }
+  getArticleApiCall(context) async {
+    articleList = await ArticleHelper().getArticle(context);
+    print("Article list length ${articleList.length}");
+    notifyListeners();
+  }
 
-   iniState(context){
-     getArticleApiCall(context);
-   }
-
+  iniState(context) {
+    getArticleApiCall(context);
+  }
 
   DateTime? timeLaunched;
   DateTime? timeResumed;
@@ -31,5 +29,4 @@ class HomeNotifier extends ChangeNotifier{
       throw 'Could not launch $url';
     }
   }
-
 }

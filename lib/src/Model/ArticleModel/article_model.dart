@@ -8,15 +8,7 @@ class ArticleModel {
   String? coin;
   List<Quizs>? quizs;
 
-  ArticleModel(
-      {this.id,
-        this.slug,
-        this.title,
-        this.content,
-        this.published,
-        this.url,
-        this.coin,
-        this.quizs});
+  ArticleModel({this.id, this.slug, this.title, this.content, this.published, this.url, this.coin, this.quizs});
 
   ArticleModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,12 +19,9 @@ class ArticleModel {
     url = json['url'];
     coin = json['coin'];
     if (json['quizs'] != null) {
+      quizs = (json['quizs'] as List).map((i) => Quizs.fromJson(i)).toList();
 
-      quizs = (json['quizs'] as List)
-          .map((i) => Quizs.fromJson(i))
-          .toList();
-
-     /* quizs = <Quizs>[];
+      /* quizs = <Quizs>[];
       json['quizs'].forEach((v) {
         quizs!.add(Quizs.fromJson(v));
       });*/
@@ -59,8 +48,14 @@ class Quizs {
   String? question;
   List<Option>? option;
   String? answer;
+  String? selectAnswer;
 
-  Quizs({this.question, this.option, this.answer});
+  Quizs({
+    this.question,
+    this.option,
+    this.answer,
+    this.selectAnswer = "",
+  });
 
   Quizs.fromJson(Map<String, dynamic> json) {
     question = json['question'];
@@ -98,9 +93,7 @@ class Option {
       'option': s1, // Adjust the key as needed
     };
   }
-
 }
-
 
 // class Option {
 //   String? s1;
@@ -126,11 +119,6 @@ class Option {
 //     return data;
 //   }
 // }
-
-
-
-
-
 
 ///Old model
 /*

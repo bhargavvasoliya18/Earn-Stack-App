@@ -8,5 +8,6 @@ class AppUrls{
   static const resetPasswordUrl = "$baseUrl/reset-password";
 
   static const getArticle = "$baseUrl/posts";
+  static const updateUserCoin = "$baseUrl/user/coin/update";
 
 }
