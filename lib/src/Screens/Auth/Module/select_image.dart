@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 selectImage(context,ProfileNotifier state){
   return showModalBottomSheet(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      context: context, builder: (BuildContext context){
+      context: context, builder: (BuildContext contexts){
     return SafeArea(
       top: false,
       bottom: false,
@@ -14,9 +14,9 @@ selectImage(context,ProfileNotifier state){
         child: Wrap(
           children: [
             ListTile(leading: const Icon(Icons.photo_library), title: Text("From Gallery"),
-                onTap: () { Navigator.of(context).pop(); state.selectImageFromGallery();  }),
+                onTap: () { Navigator.of(context).pop(); state.selectImageFromGallery(contexts);  }),
             ListTile(leading: const Icon(Icons.photo_camera), title: Text("From Camera"),
-              onTap: () { Navigator.of(context).pop(); state.selectImageFromCamera(); },),
+              onTap: () { Navigator.of(context).pop(); state.selectImageFromCamera(contexts); },),
           ],
         ),
       ),

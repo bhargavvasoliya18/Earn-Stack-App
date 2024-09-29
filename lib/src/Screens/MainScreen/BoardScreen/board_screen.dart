@@ -10,6 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Utils/Notifier/login_notifier.dart';
+import '../../../Widget/common_network_image.dart';
+
 BoardScreen()=> ChangeNotifierProvider<BoardNotifier>(create: (_) => BoardNotifier(), child: Builder(builder: (context) => const BoardScreenProvider()),);
 
 class BoardScreenProvider extends StatelessWidget {
@@ -43,7 +46,8 @@ class BoardScreenProvider extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(BoardString.board, style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
-                                Image.asset(AppImages.userImage, height: 32, width: 30,)
+                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
+                                // Image.asset(AppImages.userImage, height: 32, width: 30,)
                               ],
                             ),
                             paddingTop(30),

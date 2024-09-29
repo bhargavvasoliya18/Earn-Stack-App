@@ -10,6 +10,8 @@ import '../../../Constants/app_colors.dart';
 import '../../../Constants/app_images.dart';
 import '../../../Element/padding_class.dart';
 import '../../../Style/text_style.dart';
+import '../../../Utils/Notifier/login_notifier.dart';
+import '../../../Widget/common_network_image.dart';
 
 SettingScreen() => ChangeNotifierProvider<SettingNotifier>(
       create: (_) => SettingNotifier(),
@@ -45,14 +47,15 @@ class SettingScreenProvider extends StatelessWidget {
                     style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       push(context, ProfileScreen());
                     },
-                    child: Image.asset(
-                      AppImages.userImage,
-                      height: 32,
-                      width: 30,
-                    ),
+                    child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
+                    // Image.asset(
+                    //   AppImages.userImage,
+                    //   height: 32,
+                    //   width: 30,
+                    // ),
                   )
                 ],
               ),

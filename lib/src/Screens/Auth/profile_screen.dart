@@ -4,17 +4,19 @@ import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Screens/Auth/Module/select_image.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Mixins/log_out_alert_dialog.dart';
+import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/profile_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../Widget/common_network_image.dart';
 
 ProfileScreen() => ChangeNotifierProvider<ProfileNotifier>(
-  create: (_) => ProfileNotifier(),
-  child: Builder(builder: (context) => const ProfileScreenProvider()),
-);
+      create: (_) => ProfileNotifier(),
+      child: Builder(builder: (context) => const ProfileScreenProvider()),
+    );
 
 class ProfileScreenProvider extends StatelessWidget {
   const ProfileScreenProvider({super.key});
@@ -22,8 +24,7 @@ class ProfileScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
-      builder: (context, state, child) =>
-       SizedBox(
+      builder: (context, state, child) => SizedBox(
         height: ScreenUtil().screenHeight - 30,
         child: Scaffold(
           backgroundColor: AppColors.colorF8F7FF,
@@ -42,10 +43,15 @@ class ProfileScreenProvider extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                        onTap: (){Navigator.pop(context);},
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                         child: SvgPicture.asset(AppImages.leftBackIcon)),
                     paddingLeft(10),
-                    Text("Profile", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
+                    Text(
+                      "Profile",
+                      style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
+                    ),
                   ],
                 ),
                 paddingTop(20),
@@ -64,62 +70,82 @@ class ProfileScreenProvider extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                Container(
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Image.asset(
-                                    AppImages.userImage,
-                                  ),
-                                ),
+                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "",placeHolderSize: 100,borderRadius: 20),
+                                // Container(
+                                //   height: 100,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //   ),
+                                //   child: Image.asset(
+                                //     AppImages.userImage,
+                                //   ),
+                                // ),
                                 Positioned(
-                                  bottom: 0, right: 0,
-                                  child: GestureDetector(
-                                    onTap: (){selectImage(context, state);},
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(color: Colors.black),
-                                          shape: BoxShape.circle
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Icon(Icons.camera_alt_outlined, size: 12,),
-                                        )),
-                                  )
-                                )
+                                    bottom: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        selectImage(context, state);
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(color: Colors.black),
+                                              shape: BoxShape.circle),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4),
+                                            child: Icon(
+                                              Icons.camera_alt_outlined,
+                                              size: 12,
+                                            ),
+                                          )),
+                                    ))
                               ],
                             ),
-                            Text("Music Status", style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),),
+                            Text(
+                              "Music Status",
+                              style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(AppImages.courncyIcon,height: 22,),
+                                Image.asset(
+                                  AppImages.courncyIcon,
+                                  height: 22,
+                                ),
                                 paddingLeft(02),
-                                Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),),
+                                Text(
+                                  "1300",
+                                  style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),
+                                ),
                               ],
                             ),
-
                             paddingTop(15),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               decoration: BoxDecoration(
-                                   border: Border.all(color: AppColors.lightBlue),
-                                borderRadius: BorderRadius.circular(10)
-                              ),
+                                  border: Border.all(color: AppColors.lightBlue), borderRadius: BorderRadius.circular(10)),
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Invites", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
+                                      Text(
+                                        "Invites",
+                                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),
+                                      ),
                                       Row(
                                         children: [
-                                          Image.asset(AppImages.courncyIcon,height: 22,),
+                                          Image.asset(
+                                            AppImages.courncyIcon,
+                                            height: 22,
+                                          ),
                                           paddingLeft(02),
-                                          Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                          Text(
+                                            "1300",
+                                            style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -131,12 +157,21 @@ class ProfileScreenProvider extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Redeem", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
+                                      Text(
+                                        "Redeem",
+                                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),
+                                      ),
                                       Row(
                                         children: [
-                                          Image.asset(AppImages.courncyIcon,height: 22,),
+                                          Image.asset(
+                                            AppImages.courncyIcon,
+                                            height: 22,
+                                          ),
                                           paddingLeft(02),
-                                          Text("1300", style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),),
+                                          Text(
+                                            "1300",
+                                            style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -156,7 +191,12 @@ class ProfileScreenProvider extends StatelessWidget {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            MenuClass(onTap: () {showLogoutDialog(context);}, icon: AppImages.logout, name: "Logout"),
+                            MenuClass(
+                                onTap: () {
+                                  showLogoutDialog(context);
+                                },
+                                icon: AppImages.logout,
+                                name: "Logout"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
