@@ -10,4 +10,7 @@ class AppUrls{
   static const getArticle = "$baseUrl/posts";
   static const updateUserCoin = "$baseUrl/user/coin/update";
 
+  static const leaderBoard = "$baseUrl/user/leaderboard";
+  static const paymentUpdate = "$baseUrl/user/payment/details/save";
+
 }
