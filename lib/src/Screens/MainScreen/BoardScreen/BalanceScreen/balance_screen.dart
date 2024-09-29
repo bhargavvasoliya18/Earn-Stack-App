@@ -4,7 +4,7 @@ import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Module/bank_transfer_details.dart';
 import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Module/mobile_money_dialog.dart';
-import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Module/paypalDialog.dart';
+import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Module/paypal_dialog.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/balance_notifier.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
@@ -116,7 +116,7 @@ class BalanceScreenProvider extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      payPalDialog(context);
+                                      payPalDialog(context, state);
                                     },
                                     child: Row(
                                       children: [
@@ -136,7 +136,7 @@ class BalanceScreenProvider extends StatelessWidget {
                                   Divider(),
                                   paddingTop(5),
                                   InkWell(
-                                    onTap: (){backDetailsDialog(context);},
+                                    onTap: (){backDetailsDialog(context, state);},
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(AppImages.bankTransferIcon),
@@ -155,7 +155,7 @@ class BalanceScreenProvider extends StatelessWidget {
                                   Divider(),
                                   paddingTop(5),
                                   InkWell(
-                                    onTap: (){mobileMoneyDialog(context);},
+                                    onTap: (){mobileMoneyDialog(context, state);},
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(AppImages.mobilePayIcon),

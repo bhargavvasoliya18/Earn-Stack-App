@@ -50,6 +50,8 @@ dependencies:
   firebase_auth: ^5.2.0
   flutter_styled_toast: ^2.2.1
   overlay_support: ^2.1.0
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
 
 
 dev_dependencies:
@@ -78,6 +80,7 @@ flutter:
   assets:
     - assets/image/svg/
     - assets/image/png/
+    - assets/flags/
 #     - images/a_dot_burr.jpeg
 #     - images/a_dot_ham.jpeg
 

@@ -3,13 +3,15 @@ import 'package:earn_streak/src/Controller/TextField/custom_textfield.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Element/textfield_controller.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
+import 'package:earn_streak/src/Utils/Notifier/balance_notifier.dart';
 import 'package:earn_streak/src/Utils/Validations/validation.dart';
 import 'package:earn_streak/src/Widget/common_button.dart';
 import 'package:flutter/material.dart';
 
-backDetailsDialog(context){
+backDetailsDialog(context, BalanceNotifier state){
   return showDialog(
     context: context,
+    barrierDismissible: false,
     builder: (context){
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -31,14 +33,14 @@ backDetailsDialog(context){
                 paddingTop(15),
                 customTextField(ifscCodeController, "IFSC Code", "Enter ifsc code", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
                 paddingTop(15),
-                customTextField(ifscCodeController, "Coins", "250", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+                customTextField(coinsController, "Coins", "250", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
                 paddingTop(25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: commonButtonColor("Cancel", width: 150, onTap: (){Navigator.pop(context);}, )),
+                    Expanded(child: commonButtonColor("Cancel", width: 150, onTap: (){Navigator.pop(context); state.bankDetailsClear();}, )),
                     paddingLeft(10),
-                    Expanded(child: commonButtonColorLinerGradiunt("Submit", width: 150, onTap: (){Navigator.pop(context);})),
+                    Expanded(child: commonButtonColorLinerGradiunt("Submit", width: 150, onTap: (){state.bankDetailsUpdateApiCall(context);})),
                   ],
                 ),
               ],
