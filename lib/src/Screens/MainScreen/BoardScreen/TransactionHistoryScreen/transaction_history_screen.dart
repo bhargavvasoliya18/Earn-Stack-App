@@ -67,7 +67,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                           children: [
                                             Row(
                                               children: [
-                                                Text(index.toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w400),),
+                                                Text((index + 1).toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w400),),
                                                 paddingLeft(10),
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,

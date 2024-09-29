@@ -30,10 +30,10 @@ class TakeQuizScreenProvider extends StatefulWidget {
 class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
   @override
   void initState() {
-    // TODO: implement initState
-    var state = Provider.of<TakeQuizNotifier>(context, listen: false);
-    state.initState(widget.articleModel!);
-    debugPrint("INIT");
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      var state = Provider.of<TakeQuizNotifier>(context, listen: false);
+      state.initState(widget.articleModel!);
+    });
     super.initState();
   }
 
@@ -58,9 +58,7 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                   Row(
                     children: [
                       InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                          onTap: () {Navigator.pop(context);},
                           child: SvgPicture.asset(AppImages.leftBackIcon)),
                       paddingLeft(15),
                       Text(
@@ -88,10 +86,7 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                     ),
                   ),
                   paddingTop(8),
-                  Text(
-                    "Question ${(state.selectIndex + 1)} to ${widget.articleModel?.quizs?.length}",
-                    style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),
-                  ),
+                  Text("Question ${(state.selectIndex + 1)} to ${widget.articleModel?.quizs?.length}", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w600),),
                   paddingTop(20),
                   Card(
                     color: Colors.white,
@@ -126,7 +121,6 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                       var model = widget.articleModel?.quizs![state.selectIndex].option?[answerIndex];
                       return GestureDetector(
                         onTap: () {
-                          debugPrint("LIST=> ${state.selectAnswerList}");
                           state.selectAnswerList[state.selectIndex] = (answerIndex).toString() ?? "";
                           setState(() {});
                         },
@@ -148,10 +142,7 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      // color: state.selectQuizAnswerIndex == answerIndex ? Colors.white : AppColors.midLightGrey,
-                                      color: state.selectAnswerList[state.selectIndex] == answerIndex.toString()
-                                          ? Colors.white
-                                          : AppColors.midLightGrey,
+                                      color: state.selectAnswerList[state.selectIndex] == answerIndex.toString() ? Colors.white : AppColors.midLightGrey,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Padding(
@@ -201,7 +192,6 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                     width: 150,
                     "Next",
                     onTap: () {
-                      debugPrint("object ${state.selectAnswerList}");
                       if (state.selectAnswerList[state.selectIndex] != "") {
                         if ((state.selectIndex + 1) == widget.articleModel!.quizs!.length) {
                           state.quizResult(context);

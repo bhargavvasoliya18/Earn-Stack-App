@@ -73,7 +73,7 @@ class AuthHelper {
   Future resetPasswordApiCall(context) async {
     bool isSuccess = false;
     try {
-      var res = await ApiService.request(context, "${AppUrls.resetPasswordUrl}", RequestMethods.POST, header: commonHeader);
+      var res = await ApiService.request(context, AppUrls.resetPasswordUrl, RequestMethods.POST, header: commonHeader);
       if (res != null && res["success"] == true) {
         print("forgot password api response $res");
         isSuccess = true;

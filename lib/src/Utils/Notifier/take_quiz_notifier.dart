@@ -6,13 +6,19 @@ import 'package:flutter/material.dart';
 import '../../Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/conrats_dialog.dart';
 
 class TakeQuizNotifier extends ChangeNotifier {
+
   ArticleModel articleModel = ArticleModel();
-  double progress = 0.1;
+  int totalQuestions = 0;
+  double singleProgressCount = 0.0;
 
   int selectIndex = 0;
   int lastIndex = 0;
   int? selectQuizAnswerIndex;
 
+  int rightAnswer = 0;
+  int wrongAnswer = 0;
+
+  List<String> selectAnswerList = [];
   List<int> userSelectAnswer = [];
 
   backQuestion() {
@@ -20,8 +26,11 @@ class TakeQuizNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  double get progress {
+    return (selectIndex + 1) / totalQuestions;
+  }
+
   nextQuestion() {
-    progress + 0.1;
     selectIndex++;
     notifyListeners();
   }
@@ -36,17 +45,20 @@ class TakeQuizNotifier extends ChangeNotifier {
     rightAnswer = 0;
     wrongAnswer = 0;
     for (int i = 0; i < articleModel.quizs!.length; i++) {
-      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() == selectAnswerList[i]) {
+      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() ==
+          selectAnswerList[i]) {
         rightAnswer++;
       } else {
         wrongAnswer++;
       }
     }
-    bool isUpdate = await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
+    bool isUpdate =
+        await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
     debugPrint('RESULT $isUpdate');
 
     if (isUpdate == true) {
-      congratsDialog(context, rightAnswer.toString(), wrongAnswer.toString(), articleModel.quizs!.length.toString());
+      congratsDialog(context, rightAnswer.toString(), wrongAnswer.toString(),
+          articleModel.quizs!.length.toString());
     } else {
       showError(message: "Coin not update");
     }
@@ -54,6 +66,9 @@ class TakeQuizNotifier extends ChangeNotifier {
 
   initState(ArticleModel articleModel) {
     selectIndex = 0;
+    singleProgressCount = 100 / articleModel.quizs!.length;
+    totalQuestions = articleModel.quizs!.length;
+
     this.articleModel = articleModel;
     selectAnswerList.clear();
     for (int i = 0; i < articleModel.quizs!.length; i++) {
@@ -65,7 +80,4 @@ class TakeQuizNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> selectAnswerList = [];
-  int rightAnswer = 0;
-  int wrongAnswer = 0;
 }

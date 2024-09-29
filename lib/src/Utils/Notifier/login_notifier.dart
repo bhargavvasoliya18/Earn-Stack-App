@@ -79,15 +79,13 @@ class LoginNotifier extends ChangeNotifier {
         print("get data token is ${credential.accessToken}");
         if (credential.accessToken != null) {
           Map<String, dynamic> body = {
-            "email": email,
+            "username": email,
+            "password": "",
             "device_type": Platform.operatingSystem,
-            "token": credential.accessToken,
-            "login_type": "Google",
-            "device_token": "",
-            "first_name": firstName,
-            "last_name": lastName
+            "login_type": "gmail",
+            "auth_token": googleAuth.accessToken
           };
-         await AuthHelper().registerApiCall(context, body);
+         await AuthHelper().loginApiCall(context, body);
         }
       }
     } catch (error) {
