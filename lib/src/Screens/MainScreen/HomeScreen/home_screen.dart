@@ -78,7 +78,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                 Positioned(
                   left: 25.w,
                   right: 25.w,
-                  top: 40.h,
+                  top: 55.h,
                   child: SingleChildScrollView(
                     child: SizedBox(
                       height: ScreenUtil().screenHeight,
@@ -117,7 +117,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                         Text(
                                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                                           style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600),
-                                          maxLines: 2,
+                                          maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ],

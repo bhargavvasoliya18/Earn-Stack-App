@@ -4,7 +4,9 @@ import 'package:earn_streak/src/Element/textfield_controller.dart';
 import 'package:earn_streak/src/Model/RegisterModel/register_request_model.dart';
 import 'package:earn_streak/src/Model/RegisterModel/register_response_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../app_utils.dart';
 
@@ -18,6 +20,8 @@ class RegisterNotifier extends ChangeNotifier {
   bool isSelectTermsPrivacy = false;
   bool isVisiblePassword = true;
   bool isVisibleConfirmPassword = true;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   visiblePasswordValueUpdate() {
     isVisiblePassword = !isVisiblePassword;
@@ -93,4 +97,41 @@ class RegisterNotifier extends ChangeNotifier {
         country: "");
     registerResponseModel = await AuthHelper().registerApiCall(context, registerRequestModel.toJson());
   }
+
+  Future<void> googleLogin(context) async {
+    _googleSignIn.disconnect();
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        String email = googleUser.email;
+        String firstName = googleUser.displayName!.split(" ")[0];
+        String? lastName = googleUser.displayName!.split(" ")[1];
+
+        print("get data firebase is ${googleUser.displayName}");
+        print("get data token is ${credential.accessToken}");
+        if (credential.accessToken != null) {
+          Map<String, dynamic> body = {
+            "email": email,
+            "device_type": Platform.operatingSystem,
+            "token": credential.accessToken,
+            "login_type": "gmail",
+            "device_token": "",
+            "first_name": firstName,
+            "last_name": lastName,
+            "username": firstName,
+            "auth_token": googleAuth.accessToken
+          };
+          await AuthHelper().registerApiCall(context, body);
+        }
+      }
+    } catch (error) {
+      print("Google login throw exception $error");
+    }
+  }
+
 }
