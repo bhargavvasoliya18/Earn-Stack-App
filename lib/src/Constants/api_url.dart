@@ -12,5 +12,6 @@ class AppUrls{
 
   static const leaderBoard = "$baseUrl/user/leaderboard";
   static const paymentUpdate = "$baseUrl/user/payment/details/save";
+  static const profileUpdate = "$baseUrl/user/profile/update";
 
 }
