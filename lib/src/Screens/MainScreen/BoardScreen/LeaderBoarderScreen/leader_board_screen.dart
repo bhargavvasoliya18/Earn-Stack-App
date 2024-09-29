@@ -10,83 +10,125 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-LeaderBoardScreen()=> ChangeNotifierProvider<LeaderBoardNotifier>(create: (_) => LeaderBoardNotifier(), child: Builder(builder: (context) => const LeaderBoardScreenProvider()),);
+LeaderBoardScreen() => ChangeNotifierProvider<LeaderBoardNotifier>(
+      create: (_) => LeaderBoardNotifier(),
+      child: Builder(builder: (context) => const LeaderBoardScreenProvider()),
+    );
 
-class LeaderBoardScreenProvider extends StatelessWidget {
+class LeaderBoardScreenProvider extends StatefulWidget {
   const LeaderBoardScreenProvider({super.key});
+
+  @override
+  State<LeaderBoardScreenProvider> createState() => _LeaderBoardScreenProviderState();
+}
+
+class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    var state = Provider.of<LeaderBoardNotifier>(context, listen: false);
+    state.lenderBoardApiCall(context, 10, 1, 1, "daily");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Consumer<LeaderBoardNotifier>(
-          builder: (context, state, child) =>
-              Stack(
-                children: [
-                  SizedBox(
-                    height: ScreenUtil().screenHeight,
-                    child: Column(
-                      children: [
-                        commonAppBar(height: 250)
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 25, right: 25, top: 40.h,
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: ScreenUtil().screenHeight,
-                        child: Column(
-                          children: [
-                            Row(
+      body: Consumer<LeaderBoardNotifier>(
+        builder: (context, state, child) => Stack(
+          children: [
+            SizedBox(
+              height: ScreenUtil().screenHeight,
+              child: Column(
+                children: [commonAppBar(height: 250)],
+              ),
+            ),
+            Positioned(
+              left: 25,
+              right: 25,
+              top: 40.h,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height: ScreenUtil().screenHeight,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: SvgPicture.asset(AppImages.leftBackIcon)),
+                          paddingLeft(10),
+                          Text(
+                            BoardString.leaderBoard,
+                            style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      paddingTop(10),
+                      Card(
+                        color: const Color(0xffEDEAFC),
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
-                                    onTap: (){Navigator.pop(context);},
-                                    child: SvgPicture.asset(AppImages.leftBackIcon)),
-                                paddingLeft(10),
-                                Text(BoardString.leaderBoard, style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
+                                InkWell(
+                                  onTap: () {
+                                    state.selectTabIndex(0, context, 10, 1, 1, "daily");
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: state.selectIndex == 0 ? Colors.white : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                        child: Center(
+                                            child: Text(
+                                          "Daily",
+                                          style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),
+                                        )),
+                                      )),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    state.selectTabIndex(1, context, 10, 1, 1, "weekly");
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: state.selectIndex == 1 ? Colors.white : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                        child: Text(
+                                          "Weekly",
+                                          style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),
+                                        ),
+                                      )),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    state.selectTabIndex(2, context, 10, 1, 1, "monthly");
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: state.selectIndex == 2 ? Colors.white : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                        child: Text(
+                                          "Monthly",
+                                          style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),
+                                        ),
+                                      )),
+                                ),
                               ],
-                            ),
-                            paddingTop(10),
-                            Card(
-                              color: const Color(0xffEDEAFC),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap : (){state.selectTabIndex(0);},
-                                      child: Container(
-                                          decoration: BoxDecoration(color: state.selectIndex == 0 ? Colors.white : Colors.transparent, borderRadius: BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                            child: Center(child: Text("Daily", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),)),
-                                          )),
-                                    ),
-                                    InkWell(
-                                      onTap: (){state.selectTabIndex(1);},
-                                      child: Container(
-                                          decoration: BoxDecoration(color: state.selectIndex == 1 ? Colors.white : Colors.transparent, borderRadius: BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                            child: Text("Weekly", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),),
-                                          )),
-                                    ),
-                                    InkWell(
-                                      onTap: (){state.selectTabIndex(2);},
-                                      child: Container(
-                                          decoration: BoxDecoration(color: state.selectIndex == 2 ? Colors.white : Colors.transparent, borderRadius: BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                            child: Text("Monthly", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),),
-                                          )),
-                                    ),
-                                  ],
-                                )
-                              ),
-                            ),
-                            paddingTop(10),
-                            Card(
+                            )),
+                      ),
+                      paddingTop(10),
+                      state.lenderBoardList.isNotEmpty
+                          ? Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
@@ -97,13 +139,28 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                         SvgPicture.asset(AppImages.silverTajIcon),
                                         ClipRRect(
                                             borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(AppImages.secondImage, height: 67, width: 67,)),
-                                        Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
+                                            child: Image.asset(
+                                              AppImages.secondImage,
+                                              height: 67,
+                                              width: 67,
+                                            )),
+                                        Text(
+                                          state.lenderBoardList.length > 1 ? state.lenderBoardList[1].userEmail ?? "" : "",
+                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
+                                        ),
                                         Row(
                                           children: [
-                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            Image.asset(
+                                              AppImages.courncyIcon,
+                                              height: 15,
+                                            ),
                                             paddingLeft(02),
-                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                            Text(
+                                              state.lenderBoardList.length > 1
+                                                  ? state.lenderBoardList[1].earnappUserEarnCoin ?? ""
+                                                  : "",
+                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -113,28 +170,59 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                         SvgPicture.asset(AppImages.goldTajIcon),
                                         ClipRRect(
                                             borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(AppImages.secondImage, height: 89, width: 89,)),
-                                        Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
+                                            child: Image.asset(
+                                              AppImages.secondImage,
+                                              height: 89,
+                                              width: 89,
+                                            )),
+                                        Text(
+                                          state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].userEmail ?? "" : "",
+                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
+                                        ),
                                         Row(
                                           children: [
-                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            Image.asset(
+                                              AppImages.courncyIcon,
+                                              height: 15,
+                                            ),
                                             paddingLeft(02),
-                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                            Text(
+                                              state.lenderBoardList.isNotEmpty
+                                                  ? state.lenderBoardList[0].earnappUserEarnCoin ?? ""
+                                                  : "",
+                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
+                                            ),
                                           ],
-                                        ),                                      ],
+                                        ),
+                                      ],
                                     ),
                                     Column(
                                       children: [
                                         SvgPicture.asset(AppImages.bronzeTajIcon),
                                         ClipRRect(
                                             borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(AppImages.secondImage, height: 67, width: 67,)),
-                                        Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),),
+                                            child: Image.asset(
+                                              AppImages.secondImage,
+                                              height: 67,
+                                              width: 67,
+                                            )),
+                                        Text(
+                                          state.lenderBoardList.length > 2 ? state.lenderBoardList[2].userEmail ?? "" : "",
+                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
+                                        ),
                                         Row(
                                           children: [
-                                            Image.asset(AppImages.courncyIcon,height: 15,),
+                                            Image.asset(
+                                              AppImages.courncyIcon,
+                                              height: 15,
+                                            ),
                                             paddingLeft(02),
-                                            Text("3560", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                            Text(
+                                              state.lenderBoardList.length > 2
+                                                  ? state.lenderBoardList[2].earnappUserEarnCoin ?? ""
+                                                  : "",
+                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -142,52 +230,72 @@ class LeaderBoardScreenProvider extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
-                            paddingTop(10),
-                            Expanded(
+                            )
+                          : Offstage(),
+                      paddingTop(10),
+                      // state.lenderBoardList.isNotEmpty
+                      state.lenderBoardList.length > 3
+                          ? Expanded(
                               child: ListView.builder(
-                                  itemCount: 10,
+                                  itemCount: state.lenderBoardList.length - 4,
                                   shrinkWrap: true,
                                   padding: EdgeInsets.only(bottom: 80),
-                                  itemBuilder: (context, index){
-                                return Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(18),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(18),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text("1", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w400),),
-                                            paddingLeft(10),
-                                            ClipRRect(
-                                                borderRadius: BorderRadius.circular(100),
-                                                child: Image.asset(AppImages.secondImage, height: 40, width: 40,)),
-                                            paddingLeft(10),
-                                            Text("Lorem ipsum", style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600),),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "${index + 4}",
+                                                  style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w400),
+                                                ),
+                                                paddingLeft(10),
+                                                ClipRRect(
+                                                    borderRadius: BorderRadius.circular(100),
+                                                    child: Image.asset(
+                                                      AppImages.secondImage,
+                                                      height: 40,
+                                                      width: 40,
+                                                    )),
+                                                paddingLeft(10),
+                                                Text(
+                                                  state.lenderBoardList[index + 4].userEmail ?? "",
+                                                  style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  AppImages.courncyIcon,
+                                                  height: 15,
+                                                ),
+                                                paddingLeft(02),
+                                                Text(
+                                                  state.lenderBoardList[index + 4].earnappUserEarnCoin ?? "",
+                                                  style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                        Row(
-                                          children: [
-                                            Image.asset(AppImages.courncyIcon,height: 15,),
-                                            paddingLeft(02),
-                                            Text("2450", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
+                                      ),
+                                    );
+                                  }),
                             )
-                          ],
-                        ),
-                      ),
-                    ),
+                          : Offstage()
+                    ],
                   ),
-                ],
+                ),
               ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
