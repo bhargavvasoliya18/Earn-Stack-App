@@ -142,7 +142,7 @@ class LoginScreenProvider extends StatelessWidget {
                               paddingTop(15),
                               GestureDetector(
                                 onTap: () {
-                                  // state.googleLogin();
+                                  state.googleLogin(context);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

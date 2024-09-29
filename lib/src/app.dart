@@ -1,6 +1,7 @@
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
+import 'package:earn_streak/src/Screens/SplashScreen/splash_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +19,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
+  bool isCheckLogin = false;
+
   @override
   void initState() {
     loadUserDataSharedPrefs();
-    // isLogin();
+    isLogin();
     super.initState();
   }
 
@@ -44,20 +47,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
-          // Builder(
-          //   builder: (context) {
-          //     ScreenUtil.init(context);
-          //     // return RegisterScreen();
-          //     return ;
-          //   },
-          // ),
+          home: SplashScreen()
+          // home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
         ),
       ),
     );
   }
 
-  // isLogin() async {
-  //   isCheckLogin = await sharedPref.read("isLogin");
-  // }
+  isLogin() async {
+    setState(() async{
+      isCheckLogin = await sharedPref.read("isLogin");
+    });
+  }
 }

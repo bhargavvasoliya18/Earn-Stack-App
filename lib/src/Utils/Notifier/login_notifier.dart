@@ -3,6 +3,7 @@ import 'package:earn_streak/src/Element/textfield_controller.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_request_model.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_response_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -60,7 +61,7 @@ class LoginNotifier extends ChangeNotifier {
     }
   }
 
- /* Future<void> googleLogin() async {
+  Future<void> googleLogin(context) async {
     _googleSignIn.disconnect();
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -70,7 +71,7 @@ class LoginNotifier extends ChangeNotifier {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-
+        String email = googleUser.email;
         String firstName = googleUser.displayName!.split(" ")[0];
         String? lastName = googleUser.displayName!.split(" ")[1];
 
@@ -78,18 +79,21 @@ class LoginNotifier extends ChangeNotifier {
         print("get data token is ${credential.accessToken}");
         if (credential.accessToken != null) {
           Map<String, dynamic> body = {
-            "token": credential.accessToken,
-            "login_type": "google",
+            "email": email,
             "device_type": Platform.operatingSystem,
+            "token": credential.accessToken,
+            "login_type": "Google",
             "device_token": "",
             "first_name": firstName,
             "last_name": lastName
           };
-          // signInWithSocialLogin(body);
+         await AuthHelper().registerApiCall(context, body);
         }
       }
-    } catch (error) {}
-  }*/
+    } catch (error) {
+      print("Google login throw exception $error");
+    }
+  }
 
   loginApiCall(context) async {
     LoginRequestModel loginRequestModel = LoginRequestModel(
@@ -116,5 +120,4 @@ loadUserDataSharedPrefs() async {
   LoginResponseModel user = data != null ? LoginResponseModel.fromJson(data) : LoginResponseModel();
   loginResponseModel = user;
   debugPrint('LOG => ${loginResponseModel.toJson()}');
-
 }

@@ -19,8 +19,21 @@ import 'package:provider/provider.dart';
 
 RegisterScreen()=> ChangeNotifierProvider<RegisterNotifier>(create: (_) => RegisterNotifier(), child: Builder(builder: (context) => RegisterScreenProvider(context: context)),);
 
-class RegisterScreenProvider extends StatelessWidget {
+class RegisterScreenProvider extends StatefulWidget {
   const RegisterScreenProvider({super.key, required BuildContext context});
+
+  @override
+  State<RegisterScreenProvider> createState() => _RegisterScreenProviderState();
+}
+
+class _RegisterScreenProviderState extends State<RegisterScreenProvider> {
+
+  @override
+  void initState() {
+    var state = Provider.of<RegisterNotifier>(context, listen: false);
+    state.initState();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

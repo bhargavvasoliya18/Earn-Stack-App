@@ -59,10 +59,21 @@ class RegisterNotifier extends ChangeNotifier {
     return true;
   }
 
+  initState(){
+    registerNameController.text = "";
+    registerEmailController.text = "";
+    registerPasswordController.text = "";
+    registerConfirmPasswordController.text = "";
+  }
+
   signUpButtonOnTap(context) {
     // if ((globalFormKey.currentState?.validate() ?? false)) {
     if (isValidateLogin()) {
-      registerApiCall(context);
+      if(isSelectTermsPrivacy == true){
+        registerApiCall(context);
+      }else{
+        showError(message: "Please select terms and privacy");
+      }
     } else {
       validate = AutovalidateMode.onUserInteraction;
       notifyListeners();

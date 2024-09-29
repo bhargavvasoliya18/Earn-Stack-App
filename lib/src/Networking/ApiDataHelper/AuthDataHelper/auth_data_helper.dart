@@ -6,6 +6,7 @@ import 'package:earn_streak/src/Repository/Services/SharedPref/shared_pref.dart'
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
+import 'package:earn_streak/src/Utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
 SharedPref sharedPref = SharedPref();
@@ -22,6 +23,7 @@ class AuthHelper {
       var res = await ApiService.request(context, AppUrls.registerUrl, RequestMethods.POST,
           header: commonHeader, requestBody: body, showLogs: true);
       if (res != null && res["success"] == true) {
+        showError(message: "Register successfully", background: Colors.blue);
         sharedPref.save("isLogin", true);
         tempRegisterRequestData = RegisterResponseModel.fromJson(res["data"]["user"]);
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (Bool) => false);
@@ -39,6 +41,8 @@ class AuthHelper {
       var res = await ApiService.request(context, AppUrls.loginUrl, RequestMethods.POST,
           header: commonHeader, requestBody: body, showLogs: true);
       if (res != null && res["success"] == true) {
+        sharedPref.save("isLogin", true);
+        showError(message: "Login successfully", background: Colors.blue);
         sharedPref.save("authToken", res["data"]["user"]["auth_token"]);
         tempLoginRequestData = LoginResponseModel.fromJson(res["data"]["user"]);
         updateUserDataSharedPrefs(tempLoginRequestData);
