@@ -28,6 +28,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
   }
 
+  getToken()async {
+    loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);

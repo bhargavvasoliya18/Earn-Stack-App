@@ -19,13 +19,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-LoginScreen() => ChangeNotifierProvider<LoginNotifier>(
-      create: (_) => LoginNotifier(),
-      child: Builder(builder: (context) => LoginScreenProvider()),
-    );
+LoginScreen() => ChangeNotifierProvider<LoginNotifier>(create: (_) => LoginNotifier(), child: Builder(builder: (context) => LoginScreenProvider()),);
 
 class LoginScreenProvider extends StatelessWidget {
-  LoginScreenProvider({super.key});
+  LoginScreenProvider({super.key}){
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
+      print("device token is ${loginResponseModel.deviceToken}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
