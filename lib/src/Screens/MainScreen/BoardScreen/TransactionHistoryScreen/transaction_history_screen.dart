@@ -9,10 +9,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-TransactionHistoryScreen()=> ChangeNotifierProvider<TransactionNotifier>(create: (_)=> TransactionNotifier(), child: Builder(builder: (context) => const TransactionHistoryScreenProvider()),);
+TransactionHistoryScreen()=> ChangeNotifierProvider<TransactionNotifier>(create: (_)=> TransactionNotifier(), child: Builder(builder: (context) => TransactionHistoryScreenProvider(context: context)),);
 
 class TransactionHistoryScreenProvider extends StatelessWidget {
-  const TransactionHistoryScreenProvider({super.key});
+
+  BuildContext context;
+    TransactionHistoryScreenProvider({super.key, required this.context}){
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      var state = Provider.of<TransactionNotifier>(context, listen: false);
+      state.getTransactionApiCall(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +59,12 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                               padding: const EdgeInsets.all(15),
                               child: SingleChildScrollView(
                                 child: ListView.builder(
-                                    itemCount: 10,
+                                    itemCount: state.transactionHistoryList.length,
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
                                     physics: AlwaysScrollableScrollPhysics(),
                                     itemBuilder: (context, index){
+                                      var lastIndex = state.transactionHistoryList.length - 1;
                                   return Column(
                                     children: [
                                       Padding(
@@ -69,13 +77,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                               children: [
                                                 Text((index + 1).toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w400),),
                                                 paddingLeft(10),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text("Sign up bonus", style: TextStyleTheme.customTextStyle(AppColors.black, 14 , FontWeight.w600),),
-                                                    Text("07/09/2024", style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600),),
-                                                  ],
-                                                ),
+                                                Text(state.transactionHistoryList[index], style: TextStyleTheme.customTextStyle(AppColors.black, 14 , FontWeight.w600),),
                                               ],
                                             ),
                                             Row(
@@ -83,15 +85,15 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                               children: [
                                                 Image.asset(AppImages.courncyIcon,height: 15,),
                                                 paddingLeft(02),
-                                                Text("1200", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                                Text(state.getTransactionAmount(index), style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
                                               ],
                                             ),
                                           ],
                                         ),
                                       ),
                                       paddingTop(5),
-                                      index == 10 ? Container() : Divider(),
-                                      paddingTop(index == 10 ? 0 : 5),
+                                      index == lastIndex ? Container() : Divider(),
+                                      paddingTop(index == lastIndex ? 0 : 5),
                                     ],
                                   );
                                 }),

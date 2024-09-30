@@ -2,6 +2,7 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Screens/Auth/profile_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/board_notifier.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
@@ -46,8 +47,9 @@ class BoardScreenProvider extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(BoardString.board, style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
-                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
-                                // Image.asset(AppImages.userImage, height: 32, width: 30,)
+                                GestureDetector(
+                                    onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfileScreen()));},
+                                    child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40)),
                               ],
                             ),
                             paddingTop(30),

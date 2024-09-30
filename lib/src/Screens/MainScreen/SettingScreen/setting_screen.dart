@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../Constants/app_colors.dart';
 import '../../../Constants/app_images.dart';
 import '../../../Element/padding_class.dart';
@@ -15,115 +16,119 @@ import '../../../Widget/common_network_image.dart';
 
 SettingScreen() => ChangeNotifierProvider<SettingNotifier>(
       create: (_) => SettingNotifier(),
-      child: Builder(builder: (context) => const SettingScreenProvider()),
+      child: Builder(builder: (context) => SettingScreenProvider(context: context)),
     );
 
 class SettingScreenProvider extends StatelessWidget {
-  const SettingScreenProvider({super.key});
+  BuildContext context;
+  SettingScreenProvider({super.key, required this.context}){
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      var state = Provider.of<SettingNotifier>(context, listen: false);
+      state.getCommonUrlApiCall(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil().screenHeight - 30,
-      child: Scaffold(
-        backgroundColor: AppColors.colorF8F7FF,
-        body: Container(
-          height: ScreenUtil().screenHeight,
-          width: ScreenUtil().screenWidth,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppImages.backgroundImg),
-              fit: BoxFit.fill,
-            ),
-          ),
-          padding: EdgeInsets.only(left: 20, top: 40.h, right: 20, bottom: 50),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Setting",
-                    style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      push(context, ProfileScreen());
-                    },
-                    child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
-                    // Image.asset(
-                    //   AppImages.userImage,
-                    //   height: 32,
-                    //   width: 30,
-                    // ),
-                  )
-                ],
+    return Consumer<SettingNotifier>(
+      builder: (BuildContext context, state, child) =>
+       SizedBox(
+        height: ScreenUtil().screenHeight - 30,
+        child: Scaffold(
+          backgroundColor: AppColors.colorF8F7FF,
+          body: Container(
+            height: ScreenUtil().screenHeight,
+            width: ScreenUtil().screenWidth,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AppImages.backgroundImg),
+                fit: BoxFit.fill,
               ),
-              paddingTop(20),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
+            ),
+            padding: EdgeInsets.only(left: 20, top: 40.h, right: 20, bottom: 50),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          MenuClass(onTap: () {}, icon: AppImages.termServiceIcon, name: "Terms of Service"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.privacyPolicyIcon, name: "Privacy Policy"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.rateUsGoogleIcon, name: "Rate us on google play"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.contactUsIcon, name: "Contact us"),
-                        ],
-                      ),
+                    Text(
+                      "Setting",
+                      style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
                     ),
-                    paddingTop(20),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          MenuClass(onTap: () {}, icon: AppImages.instagramIcon, name: "Follow on Instagram"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.facebookIcon, name: "Follow on Facebook"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.whatsappIcon, name: "Follow on Whatsapp"),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(thickness: 1, color: AppColors.purple),
-                          ),
-                          MenuClass(onTap: () {}, icon: AppImages.youtubeIcon, name: "Follow on Youtube"),
-                        ],
-                      ),
-                    ),
+                    GestureDetector(
+                      onTap: () {
+                        push(context, ProfileScreen());
+                      },
+                      child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
+                    )
                   ],
                 ),
-              ),
-            ],
+                paddingTop(20),
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(15.sp),
+                        ),
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.termsService ?? ""));}, icon: AppImages.termServiceIcon, name: "Terms of Service"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.privacyPolicy ?? ""));}, icon: AppImages.privacyPolicyIcon, name: "Privacy Policy"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.googlePlayStore ?? ""));}, icon: AppImages.rateUsGoogleIcon, name: "Rate us on google play"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.contactUs ?? ""));}, icon: AppImages.contactUsIcon, name: "Contact us"),
+                          ],
+                        ),
+                      ),
+                      paddingTop(20),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(15.sp),
+                        ),
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.instgram ?? ""));}, icon: AppImages.instagramIcon, name: "Follow on Instagram"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.facebook ?? ""));}, icon: AppImages.facebookIcon, name: "Follow on Facebook"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.whatsapp ?? ""));}, icon: AppImages.whatsappIcon, name: "Follow on Whatsapp"),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(thickness: 1, color: AppColors.purple),
+                            ),
+                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.youtube ?? ""));}, icon: AppImages.youtubeIcon, name: "Follow on Youtube"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

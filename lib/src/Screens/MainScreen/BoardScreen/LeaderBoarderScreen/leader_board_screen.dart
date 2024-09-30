@@ -2,8 +2,10 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/LeaderBoarderScreen/Module/top_list_view.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/leader_board_notifier.dart';
+import 'package:earn_streak/src/Widget/common_network_image.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -134,106 +136,15 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    Column(
-                                      children: [
-                                        SvgPicture.asset(AppImages.silverTajIcon),
-                                        ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              AppImages.secondImage,
-                                              height: 67,
-                                              width: 67,
-                                            )),
-                                        Text(
-                                          state.lenderBoardList.length > 1 ? state.lenderBoardList[1].userEmail ?? "" : "",
-                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              AppImages.courncyIcon,
-                                              height: 15,
-                                            ),
-                                            paddingLeft(02),
-                                            Text(
-                                              state.lenderBoardList.length > 1
-                                                  ? state.lenderBoardList[1].earnappUserEarnCoin ?? ""
-                                                  : "",
-                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        SvgPicture.asset(AppImages.goldTajIcon),
-                                        ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              AppImages.secondImage,
-                                              height: 89,
-                                              width: 89,
-                                            )),
-                                        Text(
-                                          state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].userEmail ?? "" : "",
-                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              AppImages.courncyIcon,
-                                              height: 15,
-                                            ),
-                                            paddingLeft(02),
-                                            Text(
-                                              state.lenderBoardList.isNotEmpty
-                                                  ? state.lenderBoardList[0].earnappUserEarnCoin ?? ""
-                                                  : "",
-                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        SvgPicture.asset(AppImages.bronzeTajIcon),
-                                        ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              AppImages.secondImage,
-                                              height: 67,
-                                              width: 67,
-                                            )),
-                                        Text(
-                                          state.lenderBoardList.length > 2 ? state.lenderBoardList[2].userEmail ?? "" : "",
-                                          style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w700),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              AppImages.courncyIcon,
-                                              height: 15,
-                                            ),
-                                            paddingLeft(02),
-                                            Text(
-                                              state.lenderBoardList.length > 2
-                                                  ? state.lenderBoardList[2].earnappUserEarnCoin ?? ""
-                                                  : "",
-                                              style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
+                                    topListView(image: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].displayName ?? "" : "", coin: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].earnappUserEarnCoin ?? "" : "", imageSize: 67, tajImage: AppImages.silverTajIcon),
+                                    topListView(image: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].displayName ?? "" : "", coin: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].earnappUserEarnCoin ?? "" : "", tajImage: AppImages.goldTajIcon),
+                                    topListView(image: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].displayName ?? "" : "", coin: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].earnappUserEarnCoin ?? "" : "", imageSize: 67, tajImage: AppImages.bronzeTajIcon),
                                   ],
                                 ),
                               ),
                             )
                           : Offstage(),
                       paddingTop(10),
-                      // state.lenderBoardList.isNotEmpty
                       state.lenderBoardList.length > 3
                           ? Expanded(
                               child: ListView.builder(
@@ -241,6 +152,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                   shrinkWrap: true,
                                   padding: EdgeInsets.only(bottom: 80),
                                   itemBuilder: (context, index) {
+                                    var model = state.lenderBoardList[index + 4];
                                     return Card(
                                       child: Padding(
                                         padding: const EdgeInsets.all(18),
@@ -256,15 +168,14 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                                 paddingLeft(10),
                                                 ClipRRect(
                                                     borderRadius: BorderRadius.circular(100),
-                                                    child: Image.asset(
-                                                      AppImages.secondImage,
-                                                      height: 40,
-                                                      width: 40,
-                                                    )),
+                                                    child: fadeImageView(model.profile?.thumbnail ?? "", placeHolderSize: 40)),
                                                 paddingLeft(10),
-                                                Text(
-                                                  state.lenderBoardList[index + 4].userEmail ?? "",
-                                                  style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600),
+                                                SizedBox(
+                                                  width: 150.w,
+                                                  child: Text(
+                                                    model.displayName ?? "",
+                                                    style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -276,7 +187,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                                 ),
                                                 paddingLeft(02),
                                                 Text(
-                                                  state.lenderBoardList[index + 4].earnappUserEarnCoin ?? "",
+                                                  model.earnappUserEarnCoin ?? "",
                                                   style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
                                                 ),
                                               ],

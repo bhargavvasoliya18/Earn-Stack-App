@@ -19,12 +19,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-LoginScreen() => ChangeNotifierProvider<LoginNotifier>(create: (_) => LoginNotifier(), child: Builder(builder: (context) => LoginScreenProvider()),);
+LoginScreen() => ChangeNotifierProvider<LoginNotifier>(create: (_) => LoginNotifier(), child: Builder(builder: (context) => LoginScreenProvider(context: context)),);
 
 class LoginScreenProvider extends StatelessWidget {
-  LoginScreenProvider({super.key}){
+  LoginScreenProvider({super.key, required BuildContext context}){
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
+      var state = Provider.of<LoginNotifier>(context, listen: false);
+      state.initState();
       print("device token is ${loginResponseModel.deviceToken}");
     });
   }
@@ -92,7 +94,7 @@ class LoginScreenProvider extends StatelessWidget {
                                   validation: (value) => validateEmail(value)),
                               paddingTop(15.h),
                               customTextField(loginPasswordController, "Password", "******",
-                                  suffixIcon: state.isVisiblePassword ? AppImages.openEyeIcon : AppImages.closeEyeIcon,
+                                  suffixIcon: state.isVisiblePassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon,
                                   suffixIconTap: state.visiblePasswordValueUpdate,
                                   obSecure: state.isVisiblePassword,
                                   validation: (value) => validatePassword(value),

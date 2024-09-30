@@ -3,6 +3,7 @@ import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
+import 'package:earn_streak/src/Screens/Auth/profile_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/web_view.dart';
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/take_quize_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
@@ -91,12 +92,9 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Quizzit", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
-                              // Image.asset(
-                              //   AppImages.userImage,
-                              //   height: 32,
-                              //   width: 30,
-                              // )
-                              fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40),
+                              GestureDetector(
+                                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfileScreen()));},
+                                  child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40)),
                             ],
                           ),
                           paddingTop(15),
@@ -158,11 +156,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                             Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Image.asset(
-                                                  AppImages.dummyImage,
-                                                  width: 80.w,
-                                                  height: 80.h,
-                                                ),
+                                                fadeImageView(item.images?.thumbnail ?? "", placeHolderSize: 80.h),
                                                 paddingLeft(10),
                                                 Expanded(
                                                   child: Column(

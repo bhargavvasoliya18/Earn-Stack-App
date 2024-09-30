@@ -4,6 +4,7 @@ import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Controller/TextField/custom_textfield.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Element/textfield_controller.dart';
+import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Validations/validation.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import '../../../Utils/app_utils.dart';
 
 forgotPasswordDialog(context, LoginNotifier state) {
+  forgotEmailController.text = "";
   return showDialog(
     context: context,
     builder: (context) {
@@ -77,7 +79,8 @@ forgotPasswordDialog(context, LoginNotifier state) {
   );
 }
 
-enterOtpDialog(context, state) {
+enterOtpDialog(context, LoginNotifier state) {
+  String otp = "";
   return showDialog(
     context: context,
     builder: (context) {
@@ -103,20 +106,21 @@ enterOtpDialog(context, state) {
                   showFieldAsBox: true,
                   onCodeChanged: (String code) {},
                   onSubmit: (String verificationCode) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Verification Code"),
-                            content: Text('Code entered is $verificationCode'),
-                          );
-                        });
+                    otp = verificationCode;
                   }, // end onSubmit
                 ),
                 paddingTop(25),
-                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () {
-                  Navigator.pop(context);
-                  enterNewPasswordDialog(context, state);
+                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () async{
+                  if(otp != "" && otp != null){
+                    if(await state.verifyOtpApiCall(context, otp) ?? false){
+                        Navigator.pop(context);
+                      if (context.mounted) {
+                        enterNewPasswordDialog(context, state);
+                      }
+                    }
+                  }else{
+                     showError(message: "Please enter otp");
+                  }
                 }),
                 paddingTop(10),
                 Row(
@@ -128,9 +132,7 @@ enterOtpDialog(context, state) {
                     ),
                     paddingLeft(5),
                     GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
+                        onTap: (){Navigator.pop(context);},
                         child: Text(
                           LoginString.login,
                           style: TextStyleTheme.customTextStyle(const Color(0xff3382EB), 14, FontWeight.w400),
@@ -147,11 +149,12 @@ enterOtpDialog(context, state) {
 }
 
 enterNewPasswordDialog(context, LoginNotifier state) {
+  forgotPasswordController.text = "";
+  forgotConfirmPasswordController.text = "";
   return showDialog(
     context: context,
     builder: (context) {
       return StatefulBuilder(builder: (BuildContext context, setState) {
-        // final state = Provider.of<LoginNotifier>(context, listen: false);
         return Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
@@ -187,8 +190,18 @@ enterNewPasswordDialog(context, LoginNotifier state) {
                     obSecure: state.isVisibleForgotConfirmPassword,
                     validation: (value) => validateConfirmPassword(forgotPasswordController.text, value)),
                 paddingTop(25),
-                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () {
-                  Navigator.pop(context);
+                commonButtonColorLinerGradiunt(LoginString.submit, width: 150, onTap: () async{
+                  if(forgotPasswordController.text.isNotEmpty){
+                    if(forgotPasswordController.text == forgotConfirmPasswordController.text){
+                      if(await state.resetPasswordApiCall(context, password: forgotPasswordController.text)){
+                        Navigator.pop(context);
+                      }
+                    }else{
+                      showError(message: "Confirm password not match");
+                    }
+                  }else{
+                    showError(message: "Please enter password");
+                  }
                 }),
               ],
             ),

@@ -13,14 +13,17 @@ LoginResponseModel loginResponseModel = LoginResponseModel();
 final FirebaseMessaging fcm = FirebaseMessaging.instance;
 
 class LoginNotifier extends ChangeNotifier {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  GlobalKey<FormState> globalFormKey = GlobalKey();
-  AutovalidateMode validate = AutovalidateMode.disabled;
+  String? verifyEmail;
+  String? verifyToken;
 
   bool isVisiblePassword = true;
   bool isVisibleForgotPassword = true;
   bool isVisibleForgotConfirmPassword = true;
+
+  GlobalKey<FormState> globalFormKey = GlobalKey();
+  AutovalidateMode validate = AutovalidateMode.disabled;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   visiblePasswordValueUpdate() {
     isVisiblePassword = !isVisiblePassword;
@@ -106,8 +109,25 @@ class LoginNotifier extends ChangeNotifier {
   }
 
   forgotApiCall(context, email) async {
+    verifyEmail = email;
+    notifyListeners();
     return await AuthHelper().forgotEmailApiCall(context, email);
   }
+
+  verifyOtpApiCall(context, token)async{
+    verifyToken = token;
+    return await AuthHelper().verifyOtpApiCall(context, email: verifyEmail, otp: token);
+  }
+
+  resetPasswordApiCall(context, {String? password}) async{
+    return await AuthHelper().resetPasswordApiCall(context, email: verifyEmail, token: verifyToken, password: password);
+  }
+
+  initState(){
+    loginPasswordController.text = "";
+    loginEmailController.text = "";
+  }
+
 }
 
 updateUserDataSharedPrefs(LoginResponseModel loginUserData) {
