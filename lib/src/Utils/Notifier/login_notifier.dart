@@ -4,11 +4,13 @@ import 'package:earn_streak/src/Model/LoginModel/login_request_model.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_response_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../app_utils.dart';
 
 LoginResponseModel loginResponseModel = LoginResponseModel();
+final FirebaseMessaging fcm = FirebaseMessaging.instance;
 
 class LoginNotifier extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -82,9 +84,10 @@ class LoginNotifier extends ChangeNotifier {
             "password": "",
             "device_type": Platform.operatingSystem,
             "login_type": "gmail",
-            "auth_token": googleAuth.accessToken
+            "auth_token": googleAuth.accessToken,
+            "device_token": loginResponseModel.deviceToken
           };
-         await AuthHelper().loginApiCall(context, body);
+          await AuthHelper().loginApiCall(context, body);
         }
       }
     } catch (error) {
@@ -98,7 +101,7 @@ class LoginNotifier extends ChangeNotifier {
         password: loginPasswordController.text,
         loginType: "Email",
         deviceType: Platform.operatingSystem,
-        deviceToken: "Abcv");
+        deviceToken: loginResponseModel.deviceToken);
     loginResponseModel = await AuthHelper().loginApiCall(context, loginRequestModel.toJson());
   }
 

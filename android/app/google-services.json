@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "185021001475",
+    "project_id": "quizzit-f8e08",
+    "storage_bucket": "quizzit-f8e08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185021001475:android:c2646921224885dd220336",
+        "android_client_info": {
+          "package_name": "com.application.quizzit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185021001475-o3qtdpgtcpr78up8vqtp39h3hif8abgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.application.quizzit",
+            "certificate_hash": "d3a8d818a18bf88664e68383ef9ab031e69aa64f"
+          }
+        },
+        {
+          "client_id": "185021001475-65hupd42qd3jqo4k8g2eslm1hsb73ubh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOtKobpR0OXsMG9r4mc-zH46qER7ewmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185021001475-65hupd42qd3jqo4k8g2eslm1hsb73ubh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "185021001475-ceecc1fi24p6kbgqotfeg98d0gbjek8h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.application.quizzit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
