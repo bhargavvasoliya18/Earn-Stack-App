@@ -9,12 +9,12 @@ import '../../../Utils/Notifier/login_notifier.dart';
 
 class ArticleHelper {
 
-  getArticle(context) async {
+  Future<List<ArticleModel>> getArticle(context, {int page = 1,bool showLoader = false}) async {
     List<ArticleModel> tempArticleList = [];
     String authToken = await sharedPref.read("authToken");
     try {
       var res =
-          await ApiService.request(context, AppUrls.getArticle, RequestMethods.GET, header: commonHeaderWithToken(authToken));
+          await ApiService.request(context, "${AppUrls.getArticle}?per_page_data=${10}&page=$page", RequestMethods.GET, header: commonHeaderWithToken(authToken),showLoader: showLoader);
       if (res != null && res["success"] == true) {
         for (var element in res["data"]) {
           ArticleModel tempData = ArticleModel.fromJson(element ?? {});

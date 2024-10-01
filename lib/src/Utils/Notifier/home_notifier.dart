@@ -5,20 +5,40 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomeNotifier extends ChangeNotifier {
   List<ArticleModel> articleList = [];
+  bool isLoadMore = false;
+  bool isHaseMoreData = true;
+  int page = 1;
 
-  getArticleApiCall(context) async {
-    articleList = await ArticleHelper().getArticle(context);
+  getArticleApiCall(context, {bool showLoader = false}) async {
+    List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: showLoader);
     print("Article list length ${articleList.length}");
+    isHaseMoreData = articleLists.isNotEmpty;
+    articleList.addAll(articleLists);
     notifyListeners();
   }
 
   iniState(context) {
-    getArticleApiCall(context);
+    getArticleApiCall(context, showLoader: true);
+    notifyListeners();
   }
 
   DateTime? timeLaunched;
   DateTime? timeResumed;
   Duration? timeSpent;
+
+  onScroll(BuildContext context) async {
+    if (!isLoadMore) {
+      isLoadMore = true;
+      notifyListeners();
+      if (isHaseMoreData) {
+        page++;
+        await getArticleApiCall(context, showLoader: false);
+      }
+      isLoadMore = false;
+      await Future.delayed(const Duration(milliseconds: 800));
+      notifyListeners();
+    }
+  }
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
