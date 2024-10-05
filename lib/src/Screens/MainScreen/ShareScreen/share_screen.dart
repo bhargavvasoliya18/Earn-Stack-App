@@ -128,7 +128,7 @@ class ShareScreenProvider extends StatelessWidget {
                   paddingTop(10.h),
                   GestureDetector(
                     onTap: (){
-                      Share.share('check out my website https://example.com', subject: 'Look what I made!');
+                      Share.share('check out my website https://example.com', subject: 'refreel code!');
                     },
                     child: Stack(
                       children: [
