@@ -141,14 +141,17 @@ class _RegisterScreenProviderState extends State<RegisterScreenProvider> {
                                 ],
                               ),
                               paddingTop(12),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: AppColors.black)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
+                              GestureDetector(
+                                onTap: (){state.googleLogin(context);},
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: AppColors.black)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: SvgPicture.asset(AppImages.googleIcon, height: 20, width: 20,),
+                                  ),
                                 ),
                               ),
                               paddingTop(12),
