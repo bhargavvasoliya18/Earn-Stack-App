@@ -24,7 +24,7 @@ class SettingScreenProvider extends StatelessWidget {
   SettingScreenProvider({super.key, required this.context}){
     WidgetsBinding.instance.addPostFrameCallback((_){
       var state = Provider.of<SettingNotifier>(context, listen: false);
-      state.getCommonUrlApiCall(context);
+      // state.getCommonUrlApiCall(context);
     });
   }
 

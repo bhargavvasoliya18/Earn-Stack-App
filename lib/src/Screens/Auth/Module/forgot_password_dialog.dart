@@ -33,7 +33,7 @@ forgotPasswordDialog(context, LoginNotifier state) {
                     style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
                   )),
               paddingTop(15),
-              customTextField(forgotEmailController, "Email", "sam@mail.com",
+              customTextField(forgotEmailController, "Email", "Enter your email",
                   validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),
               commonButtonColorLinerGradiunt(LoginString.reset, width: 150, onTap: () async {
@@ -103,6 +103,7 @@ enterOtpDialog(context, LoginNotifier state) {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   numberOfFields: 4,
                   borderColor: const Color(0xFF512DA8),
+                  enabledBorderColor: Colors.grey,
                   showFieldAsBox: true,
                   onCodeChanged: (String code) {},
                   onSubmit: (String verificationCode) {
@@ -169,7 +170,7 @@ enterNewPasswordDialog(context, LoginNotifier state) {
                       style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
                     )),
                 paddingTop(15),
-                customTextField(forgotPasswordController, "New password", "******",
+                customTextField(forgotPasswordController, "New password", "Enter new password",
                     suffixIcon: state.isVisibleForgotPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon,
                     suffixIconTap: () {
                       setState(() {
@@ -179,7 +180,7 @@ enterNewPasswordDialog(context, LoginNotifier state) {
                     obSecure: state.isVisibleForgotPassword,
                     validation: (value) => validatePassword(value)),
                 paddingTop(15),
-                customTextField(forgotConfirmPasswordController, "Confirm password", "******",
+                customTextField(forgotConfirmPasswordController, "Confirm password", "Enter confirm password",
                     suffixIcon: state.isVisibleForgotConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon,
                     textInputAction: TextInputAction.done,
                     suffixIconTap: () {

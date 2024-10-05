@@ -5,11 +5,13 @@ import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/LeaderBoarderScreen/Module/top_list_view.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/leader_board_notifier.dart';
+import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Widget/common_network_image.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
 
 LeaderBoardScreen() => ChangeNotifierProvider<LeaderBoardNotifier>(
@@ -29,7 +31,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
   void initState() {
     // TODO: implement initState
     var state = Provider.of<LeaderBoardNotifier>(context, listen: false);
-    state.lenderBoardApiCall(context, 10, 1, 1, "daily");
+    state.iniState(context);
     super.initState();
   }
 
@@ -78,7 +80,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    state.selectTabIndex(0, context, 10, 1, 1, "daily");
+                                    state.selectTabIndex(0, context, loginResponseModel.id, "daily");
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -95,7 +97,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    state.selectTabIndex(1, context, 10, 1, 1, "weekly");
+                                    state.selectTabIndex(1, context, loginResponseModel.id, "weekly");
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -111,7 +113,7 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    state.selectTabIndex(2, context, 10, 1, 1, "monthly");
+                                    state.selectTabIndex(2, context, loginResponseModel.id, "monthly");
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -147,56 +149,60 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                       paddingTop(10),
                       state.lenderBoardList.length > 3
                           ? Expanded(
-                              child: ListView.builder(
-                                  itemCount: state.lenderBoardList.length - 4,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.only(bottom: 80),
-                                  itemBuilder: (context, index) {
-                                    var model = state.lenderBoardList[index + 4];
-                                    return Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(18),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "${index + 4}",
-                                                  style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w400),
-                                                ),
-                                                paddingLeft(10),
-                                                ClipRRect(
-                                                    borderRadius: BorderRadius.circular(100),
-                                                    child: fadeImageView(model.profile?.thumbnail ?? "", placeHolderSize: 40)),
-                                                paddingLeft(10),
-                                                SizedBox(
-                                                  width: 150.w,
-                                                  child: Text(
-                                                    model.displayName ?? "",
-                                                    style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,
+                              child: LazyLoadScrollView(
+                                onEndOfPage: () { state.onScroll(context);},
+                                isLoading: state.isLoadMore,
+                                child: ListView.builder(
+                                    itemCount: state.lenderBoardList.length - 4,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(bottom: 80),
+                                    itemBuilder: (context, index) {
+                                      var model = state.lenderBoardList[index + 4];
+                                      return Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(18),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${index + 4}",
+                                                    style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w400),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  AppImages.courncyIcon,
-                                                  height: 15,
-                                                ),
-                                                paddingLeft(02),
-                                                Text(
-                                                  model.earnappUserEarnCoin ?? "",
-                                                  style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                  paddingLeft(10),
+                                                  ClipRRect(
+                                                      borderRadius: BorderRadius.circular(100),
+                                                      child: fadeImageView(model.profile?.thumbnail ?? "", placeHolderSize: 40)),
+                                                  paddingLeft(10),
+                                                  SizedBox(
+                                                    width: 150.w,
+                                                    child: Text(
+                                                      model.displayName ?? "",
+                                                      style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    AppImages.courncyIcon,
+                                                    height: 15,
+                                                  ),
+                                                  paddingLeft(02),
+                                                  Text(
+                                                    model.earnappUserEarnCoin ?? "",
+                                                    style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }),
+                                      );
+                                    }),
+                              ),
                             )
                           : Offstage()
                     ],
