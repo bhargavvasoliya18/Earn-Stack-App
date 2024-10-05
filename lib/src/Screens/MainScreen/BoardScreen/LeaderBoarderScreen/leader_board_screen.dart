@@ -96,19 +96,14 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                       )),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    state.selectTabIndex(1, context, loginResponseModel.id, "weekly");
-                                  },
+                                  onTap: () {state.selectTabIndex(1, context, loginResponseModel.id, "weekly");},
                                   child: Container(
                                       decoration: BoxDecoration(
                                           color: state.selectIndex == 1 ? Colors.white : Colors.transparent,
                                           borderRadius: BorderRadius.circular(10)),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                        child: Text(
-                                          "Weekly",
-                                          style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),
-                                        ),
+                                        child: Text("Weekly", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),),
                                       )),
                                 ),
                                 InkWell(

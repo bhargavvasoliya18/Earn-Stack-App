@@ -5,6 +5,9 @@ import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
 import 'package:earn_streak/src/Utils/Helper/page_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import '../../Screens/Auth/login_screen.dart';
+
 class OnBoardingNotifier extends ChangeNotifier{
 
   int currentPage = 0;
@@ -35,7 +38,8 @@ class OnBoardingNotifier extends ChangeNotifier{
       notifyListeners();
     }
     if(currentPage == 4){
-      push(context, const MainScreen());
+      sharedPref.save("isOnBoardComplete", true);
+      pushReplacement(context,  LoginScreen());
     }
       pageController.animateToPage(currentPage, duration: const Duration(milliseconds: 300), curve: Curves.linear);
   }

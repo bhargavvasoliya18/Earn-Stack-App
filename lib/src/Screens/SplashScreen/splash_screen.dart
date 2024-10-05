@@ -6,6 +6,9 @@ import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import '../OnbordingScreen/onboarding_screen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -14,12 +17,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
-    loadUserDataSharedPrefs().then((value){
-      Future.delayed(Duration(seconds: 2), (){
-        loginResponseModel.id?.isEmpty == true ? pushReplacement(context, LoginScreen()) : pushReplacement(context, MainScreen());
+    loadUserDataSharedPrefs().then((value) {
+      Future.delayed(Duration(seconds: 2), () async {
+        if (await sharedPref.read("isOnBoardComplete") == null) {
+          sharedPref.save("isOnBoardComplete", false);
+        }
+        if (await sharedPref.read("isOnBoardComplete")  == false) {
+          pushReplacement(context, OnBoardingScreen());
+        } else {
+          loginResponseModel.id?.isEmpty == true ||
+                  loginResponseModel.id == null
+              ? pushReplacement(context, LoginScreen())
+              : pushReplacement(context, MainScreen());
+        }
       });
     });
     super.initState();
@@ -29,7 +41,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(AppImages.splashScreenImage, height: ScreenUtil().screenHeight, fit: BoxFit.cover,),
+        child: Image.asset(
+          AppImages.splashScreenImage,
+          height: ScreenUtil().screenHeight,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
