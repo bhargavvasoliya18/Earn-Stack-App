@@ -1,10 +1,13 @@
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/share_notifier.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../Constants/app_colors.dart';
 import '../../../Style/text_style.dart';
@@ -71,7 +74,7 @@ class ShareScreenProvider extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Center(
                             child: Text(
-                              "P5G81A",
+                              loginResponseModel.referralCode ?? '',
                               style: TextStyleTheme.customTextStyle(AppColors.white, 20, FontWeight.w600),
                             ),
                           ),
@@ -123,27 +126,32 @@ class ShareScreenProvider extends StatelessWidget {
                     ),
                   ),
                   paddingTop(10.h),
-                  Stack(
-                    children: [
-                      Image.asset(
-                        AppImages.buttonBackground,
-                        height: 70.h,
-                        fit: BoxFit.scaleDown,
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 10.h,
-                        child: Center(
-                          child: Text(
-                            "Invite Now",
-                            textAlign: TextAlign.center,
-                            style: TextStyleTheme.customTextStyle(AppColors.white, 16, FontWeight.w700),
+                  GestureDetector(
+                    onTap: (){
+                      Share.share('check out my website https://example.com', subject: 'refreel code!');
+                    },
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          AppImages.buttonBackground,
+                          height: 70.h,
+                          fit: BoxFit.scaleDown,
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 10.h,
+                          child: Center(
+                            child: Text(
+                              "Invite Now",
+                              textAlign: TextAlign.center,
+                              style: TextStyleTheme.customTextStyle(AppColors.white, 16, FontWeight.w700),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

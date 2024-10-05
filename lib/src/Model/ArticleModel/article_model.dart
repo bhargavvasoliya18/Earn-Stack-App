@@ -21,8 +21,8 @@ class ArticleModel {
         this.images,
         this.coin,
         this.quizs,
-        this.isArticleComplete = false,
-        this.isQuizComplete = false
+        this.isArticleComplete,
+        this.isQuizComplete
       });
 
   ArticleModel.fromJson(Map<String, dynamic> json) {

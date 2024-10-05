@@ -25,12 +25,12 @@ class ArticleHelper {
               tempData.isQuizComplete = true;
             }
           }
-
-          for (int i = 0; i < (completeArticles?.length ?? 0); i++) {
-            if(completeArticles![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString() ){
-              tempData.isArticleComplete = true;
-            }
-          }
+          //
+          // for (int i = 0; i < (completeArticles?.length ?? 0); i++) {
+          //   if(completeArticles![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString() ){
+          //     tempData.isArticleComplete = true;
+          //   }
+          // }
           print("temp list data adding is ${tempData.isQuizComplete} ${tempData.isArticleComplete}");
           tempArticleList.add(tempData);
         }
