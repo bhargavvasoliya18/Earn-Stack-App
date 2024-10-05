@@ -107,7 +107,7 @@ class LoginResponseModel {
   String? deviceToken;
   String? loginType;
   String? userRegistered;
-  List<String>? roles;
+  // List<String>? roles;
   String? signUpCoin;
   String? inviteCoin;
   String? quizCoin;
@@ -127,7 +127,7 @@ class LoginResponseModel {
         this.deviceToken,
         this.loginType,
         this.userRegistered,
-        this.roles,
+        // this.roles,
         this.signUpCoin,
         this.inviteCoin,
         this.quizCoin,
@@ -148,7 +148,7 @@ class LoginResponseModel {
     deviceToken = json['device_token'];
     loginType = json['login_type'];
     userRegistered = json['user_registered'];
-    roles = json['roles'];
+    // roles = json['roles'];
     signUpCoin = json['sign_up_coin'];
     inviteCoin = json['invite_coin'];
     quizCoin = json['quiz_coin'];
@@ -172,7 +172,7 @@ class LoginResponseModel {
     data['device_token'] = deviceToken;
     data['login_type'] = loginType;
     data['user_registered'] = userRegistered;
-    data['roles'] = roles;
+    // data['roles'] = roles;
     data['sign_up_coin'] = signUpCoin;
     data['invite_coin'] = inviteCoin;
     data['quiz_coin'] = quizCoin;

@@ -170,6 +170,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                     padding: EdgeInsets.only(bottom: Platform.isIOS ? 170 : 160),
                                     itemBuilder: (context, index) {
                                       var item = state.articleList[index];
+                                      print("status is ${state.articleList[index].isArticleComplete}");
                                       return Column(
                                         children: [
                                           Container(
@@ -198,7 +199,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                             GestureDetector(
                                                               onTap: ()async{state.selectArticleId = item.id.toString(); state.notifyListeners(); await launchURL(item.url ?? "");},
                                                               child: Container(
-                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: state.articleList[index].isQuizComplete == true ? Colors.red : AppColors.blue),
+                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: state.articleList[index].isArticleComplete == true ? Colors.red : AppColors.blue),
                                                                 child: Padding(
                                                                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                                                                   child: Text("Read more", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w400,),),

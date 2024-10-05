@@ -1,13 +1,10 @@
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
-import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
-import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
 import 'package:earn_streak/src/Screens/SplashScreen/splash_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:overlay_support/overlay_support.dart';
-
 import 'Utils/app_utils.dart';
 
 class MyApp extends StatefulWidget {
