@@ -58,45 +58,54 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: SingleChildScrollView(
-                                child: ListView.builder(
-                                    itemCount: state.transactionHistoryList.length,
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    physics: AlwaysScrollableScrollPhysics(),
-                                    itemBuilder: (context, index){
-                                      var lastIndex = state.transactionHistoryList.length - 1;
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text((index + 1).toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w400),),
-                                                paddingLeft(10),
-                                                Text(state.transactionHistoryList[index], style: TextStyleTheme.customTextStyle(AppColors.black, 14 , FontWeight.w600),),
-                                              ],
-                                            ),
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Image.asset(AppImages.courncyIcon,height: 15,),
-                                                paddingLeft(02),
-                                                Text(state.getTransactionAmount(index), style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
-                                              ],
-                                            ),
-                                          ],
+                                child:  SizedBox(
+                                  height: ScreenUtil().screenHeight / 1.3,
+                                  child: state.transactionHistoryList.isNotEmpty ? ListView.builder(
+                                      itemCount: state.transactionHistoryList.length,
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      physics: AlwaysScrollableScrollPhysics(),
+                                      itemBuilder: (context, index){
+                                        var lastIndex = state.transactionHistoryList.length - 1;
+                                        var model = state.transactionHistoryList[index];
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text((index + 1).toString(), style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w400),),
+                                                      paddingLeft(10),
+                                                      Text(model.history ?? "", style: TextStyleTheme.customTextStyle(AppColors.black, 14 , FontWeight.w600),),
+                                                    ],
+                                                  ),
+                                                  Text(model.createdAt ?? "")
+                                                ],
+                                              ),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(AppImages.courncyIcon,height: 15,),
+                                                  paddingLeft(02),
+                                                  Text(model.coin ?? "", style: TextStyleTheme.customTextStyle(AppColors.green, 16, FontWeight.w600),),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      paddingTop(5),
-                                      index == lastIndex ? Container() : Divider(),
-                                      paddingTop(index == lastIndex ? 0 : 5),
-                                    ],
-                                  );
-                                }),
+                                        paddingTop(5),
+                                        index == lastIndex ? Container() : Divider(),
+                                        paddingTop(index == lastIndex ? 0 : 5),
+                                      ],
+                                    );
+                                  }) : Center(child: Text("No history...!!")),
+                                ),
                               ),
                             ),
                           ),

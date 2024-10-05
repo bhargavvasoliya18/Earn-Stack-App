@@ -1,24 +1,24 @@
 class TransactionModel {
-  String? signUp;
-  String? invite;
-  String? quiz;
-  String? article;
+  String? id;
+  String? coin;
+  String? history;
+  String? createdAt;
 
-  TransactionModel({this.signUp, this.invite, this.quiz, this.article});
+  TransactionModel({this.id, this.coin, this.history, this.createdAt});
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
-    signUp = json['sign_up'];
-    invite = json['invite'];
-    quiz = json['quiz'];
-    article = json['article'];
+    id = json['id'];
+    coin = json['coin'];
+    history = json['history'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['sign_up'] = signUp;
-    data['invite'] = invite;
-    data['quiz'] = quiz;
-    data['article'] = article;
+    data['id'] = id;
+    data['coin'] = coin;
+    data['history'] = history;
+    data['created_at'] = createdAt;
     return data;
   }
 }

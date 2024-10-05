@@ -18,4 +18,9 @@ class AppUrls{
   static const getTransactionData = "$baseUrl/user/transaction/history";
   static const commonApiUrl = "$baseUrl/common";
 
+  static const readArticleUpdateTime = "$baseUrl/user/post/read/coin/add";
+  static const articleReadComplete = "$baseUrl/user/post/read";
+  static const playQuizComplete = "$baseUrl/user/quiz/complate";
+  static const completedQuizAndArticle = "$baseUrl/user/read/history";
+
 }

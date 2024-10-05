@@ -22,7 +22,7 @@ showLogoutDialog(BuildContext context) async {
               children: [
                 Column(
                   children: [
-                    Text("Are you sure logout",style: TextStyleTheme.customTextStyle(AppColors.black, 17, FontWeight.w500),),
+                    Text("Are you sure logout?",style: TextStyleTheme.customTextStyle(AppColors.black, 17, FontWeight.w500),),
                     paddingTop(15),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,4 +78,107 @@ clearAllAndGoToLoginScreen() {
   loadUserDataSharedPrefs();
   debugPrint("Hii ${loginResponseModel.toJson()}");
 
+}
+
+
+showDeleteAccountDialog(BuildContext context) async {
+  return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding:  const EdgeInsets.symmetric(horizontal: 30),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+            child: Wrap(
+              children: [
+                Column(
+                  children: [
+                    Text("Are you sure delete account?",style: TextStyleTheme.customTextStyle(AppColors.black, 17, FontWeight.w500),),
+                    paddingTop(15),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: (){ Navigator.pop(context); },
+                            child: Container( height: 50, decoration: BoxDecoration( borderRadius: BorderRadius.circular(8), border: Border.all(color: AppColors.grey)),
+                              child: Center(child: Text("Cancel",style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w400),)),
+                            ),
+                          ),
+                        ),
+                        paddingLeft(10),
+                        Expanded(
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(color: AppColors.red, borderRadius: BorderRadius.circular(8),),
+                              child: Center(child: Text("Delete",style: TextStyleTheme.customTextStyle(AppColors.white, 12, FontWeight.w400),)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      });
+}
+
+showDeactivateAccountDialog(BuildContext context) async {
+  return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding:  const EdgeInsets.symmetric(horizontal: 30),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+            child: Wrap(
+              children: [
+                Column(
+                  children: [
+                    Text("Are you sure deactivate account?",style: TextStyleTheme.customTextStyle(AppColors.black, 18, FontWeight.w500),),
+                    paddingTop(30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: (){ Navigator.pop(context); },
+                            child: Container( height: 50, decoration: BoxDecoration( borderRadius: BorderRadius.circular(8), border: Border.all(color: AppColors.grey)),
+                              child: Center(child: Text("Cancel",style: TextStyleTheme.customTextStyle(AppColors.black, 12, FontWeight.w400),)),
+                            ),
+                          ),
+                        ),
+                        paddingLeft(10),
+                        Expanded(
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(color: AppColors.red, borderRadius: BorderRadius.circular(8),),
+                              child: Center(child: Text("Deactivate",style: TextStyleTheme.customTextStyle(AppColors.white, 12, FontWeight.w400),)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      });
 }

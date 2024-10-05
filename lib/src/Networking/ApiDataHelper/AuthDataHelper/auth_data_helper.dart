@@ -103,7 +103,7 @@ class AuthHelper {
     CommonModel commonModel = CommonModel();
     String authToken = await sharedPref.read("authToken");
     try{
-      var res = await ApiService.request(context, AppUrls.commonApiUrl, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: {"user_id": loginResponseModel.id});
+      var res = await ApiService.request(context, AppUrls.commonApiUrl, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: {"user_id": loginResponseModel.id}, showLoader: false);
       if(res != null && res["data"] != null){
         commonModel = CommonModel.fromJson(res["data"] ?? {});
       }

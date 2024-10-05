@@ -52,16 +52,18 @@ class TakeQuizNotifier extends ChangeNotifier {
         wrongAnswer++;
       }
     }
-    bool isUpdate =
-        await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
+    bool isUpdate = await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
+    playCompleteQuiz(context);
     debugPrint('RESULT $isUpdate');
-
     if (isUpdate == true) {
-      congratsDialog(context, rightAnswer.toString(), wrongAnswer.toString(),
-          articleModel.quizs!.length.toString());
+      congratsDialog(context, rightAnswer.toString(), wrongAnswer.toString(), articleModel.quizs!.length.toString());
     } else {
       showError(message: "Coin not update");
     }
+  }
+
+  playCompleteQuiz(context)async{
+    await ArticleHelper().quizAndReadArticleComplete(context, articleModel.id.toString(), isReadArticle: false);
   }
 
   initState(ArticleModel articleModel) {

@@ -6,29 +6,11 @@ class TransactionNotifier extends ChangeNotifier{
 
   TransactionModel transactionModel = TransactionModel();
 
-  List<String> transactionHistoryList = [
-    "Sign up bonus",
-    "Invite reward",
-    "Redeem bonus",
-    "Article read point",
-    "Quiz point"
-  ];
+  List<TransactionModel> transactionHistoryList = [];
 
   getTransactionApiCall(context)async{
-    transactionModel = await ArticleHelper().getTransactionData(context);
+    transactionHistoryList = await ArticleHelper().getTransactionData(context);
     notifyListeners();
-  }
-
-  getTransactionAmount(index){
-    Map<String, dynamic> transactionMap = {
-      "Sign up bonus": transactionModel.signUp,
-      "Invite reward": transactionModel.invite,
-      "Redeem bonus": transactionModel.invite,
-      "Article read point": transactionModel.article,
-      "Quiz point": transactionModel.quiz,
-    };
-
-    return transactionMap[transactionHistoryList[index]] ?? "0";
   }
 
 }

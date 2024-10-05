@@ -9,6 +9,9 @@ import '../../../Utils/Notifier/login_notifier.dart';
 
 class ArticleHelper {
 
+  List<String> completeQuiz = [];
+  List<String> completeArticle = [];
+
   Future<List<ArticleModel>> getArticle(context, {int page = 1,bool showLoader = false}) async {
     List<ArticleModel> tempArticleList = [];
     String authToken = await sharedPref.read("authToken");
@@ -18,6 +21,8 @@ class ArticleHelper {
       if (res != null && res["success"] == true) {
         for (var element in res["data"]) {
           ArticleModel tempData = ArticleModel.fromJson(element ?? {});
+
+
           tempArticleList.add(tempData);
         }
       }
@@ -52,18 +57,83 @@ class ArticleHelper {
   }
 
   getTransactionData(context)async{
-    TransactionModel transactionModel = TransactionModel();
+    // TransactionModel transactionModel = TransactionModel();
+    List<TransactionModel> tempTransactionList = [];
     String authToken = await sharedPref.read("authToken");
     try{
       var res = await ApiService.request(context, "${AppUrls.getTransactionData}?user_id=${loginResponseModel.id}", RequestMethods.POST, header: commonHeaderWithToken(authToken));
       if(res != null){
-        transactionModel = TransactionModel.fromJson(res["data"] ?? {});
+        for(var element in res["data"]){
+          TransactionModel transactionModel = TransactionModel.fromJson(element ?? {});
+          tempTransactionList.add(transactionModel);
+        }
+        // transactionModel = TransactionModel.fromJson(res["data"] ?? {});
       }
     }
       catch(e){
         print("Get transaction throw exception $e");
       }
-      return transactionModel;
+      return tempTransactionList;
+  }
+
+  readArticleAndUpdateTime(context, time)async{
+    Map<String, dynamic> body = {
+      "user_id" : loginResponseModel.id,
+      "time": time
+    };
+    String authToken = await sharedPref.read("authToken");
+    try{
+      var res = await ApiService.request(context, AppUrls.readArticleUpdateTime, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);
+      if(res != null){
+        print("Print update time successfully");
+      }
+    }
+     catch(e){
+        print("Read article time update throw exception $e");
+     }
+  }
+
+  quizAndReadArticleComplete(context, String postId, {bool? isReadArticle})async{
+    String authToken = await sharedPref.read("authToken");
+    Map<String, dynamic> body = {
+      "user_id" : loginResponseModel.id,
+      "post_id" : postId,
+      "is_read" : 1
+    };
+    try{
+      var res = await ApiService.request(context, isReadArticle ?? false? AppUrls.articleReadComplete : AppUrls.playQuizComplete, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);
+      if(res != null){
+        print("Print read article complete successfully");
+      }
+    }
+      catch(e){
+         print("quiz read complete throw exception $e");
+      }
+  }
+
+  getReadArticleAndPlayQuiz(context, String type)async{
+    List<String> tempQuizAndArticleList = [];
+    String authToken = await sharedPref.read("authToken");
+    Map<String, dynamic> body = {
+       "user_id": loginResponseModel.id,
+      "type" : type
+    };
+    try{
+      var res = await ApiService.request(context, AppUrls.completedQuizAndArticle, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);
+      if(res != null && res["success"] == true){
+         for(var element in res["data"]){
+           if(type == "post"){
+             completeArticle.add(element);
+           }else{
+             completeQuiz.add(element);
+           }
+         }
+      }
+    }
+     catch(e){
+        print("Get complete quiz and article throw exception $e");
+     }
+     return tempQuizAndArticleList;
   }
 
 }

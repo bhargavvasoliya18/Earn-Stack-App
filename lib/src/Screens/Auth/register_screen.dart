@@ -83,13 +83,15 @@ class _RegisterScreenProviderState extends State<RegisterScreenProvider> {
                               paddingTop(10),
                               Text(CommonString.signUp, style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),),
                               paddingTop(10),
-                              customTextField(registerNameController, "Name", "sam", validation: (value) => validateName(value)),
+                              customTextField(registerNameController, "Name", "Enter your name", validation: (value) => validateName(value)),
                               paddingTop(15),
-                              customTextField(registerEmailController, "Email", "sam@mail.com", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
+                              customTextField(registerEmailController, "Email", "Enter your email", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
                               paddingTop(15),
-                              customTextField(registerPasswordController, "Password", "******", suffixIcon: state.isVisiblePassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
+                              customTextField(registerNameController, "Referral code", "Enter you referral code"),
                               paddingTop(15),
-                              customTextField(registerConfirmPasswordController, "Confirm Password", "******", suffixIcon: state.isVisibleConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
+                              customTextField(registerPasswordController, "Password", "Enter your password", suffixIcon: state.isVisiblePassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
+                              paddingTop(15),
+                              customTextField(registerConfirmPasswordController, "Confirm Password", "Enter your confirm password", suffixIcon: state.isVisibleConfirmPassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, textInputAction: TextInputAction.done, suffixIconTap: state.visibleConfirmPasswordValueUpdate, obSecure: state.isVisibleConfirmPassword, validation: (value) => validateConfirmPassword(registerPasswordController.text, value)),
                               paddingTop(15),
                               Row(
                                 children: [
@@ -160,6 +162,7 @@ class _RegisterScreenProviderState extends State<RegisterScreenProvider> {
                                       child: Text(CommonString.login, style: TextStyleTheme.customTextStyle(AppColors.purple, 14.5, FontWeight.w500),)),
                                 ],
                               ),
+                              paddingBottom(MediaQuery.of(context).viewInsets.bottom)
                             ],
                           ),
                         ),
