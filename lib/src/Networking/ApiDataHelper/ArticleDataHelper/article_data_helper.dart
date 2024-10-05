@@ -9,20 +9,29 @@ import '../../../Utils/Notifier/login_notifier.dart';
 
 class ArticleHelper {
 
-  List<String> completeQuiz = [];
-  List<String> completeArticle = [];
+  // List<String> completeQuizs = [];
+  // List<String> completeArticles = [];
 
-  Future<List<ArticleModel>> getArticle(context, {int page = 1,bool showLoader = false}) async {
+  Future<List<ArticleModel>> getArticle(context, {int page = 1,bool showLoader = false, List<String>? completeQuizs, List<String>? completeArticles}) async {
     List<ArticleModel> tempArticleList = [];
     String authToken = await sharedPref.read("authToken");
     try {
-      var res =
-          await ApiService.request(context, "${AppUrls.getArticle}?per_page_data=${10}&page=$page", RequestMethods.GET, header: commonHeaderWithToken(authToken),showLoader: showLoader);
+      var res = await ApiService.request(context, "${AppUrls.getArticle}?per_page_data=${10}&page=$page", RequestMethods.GET, header: commonHeaderWithToken(authToken),showLoader: showLoader);
       if (res != null && res["success"] == true) {
         for (var element in res["data"]) {
           ArticleModel tempData = ArticleModel.fromJson(element ?? {});
+          for (int i = 0; i < (completeQuizs?.length ?? 0); i++) {
+              if(completeQuizs![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString()){
+              tempData.isQuizComplete = true;
+            }
+          }
 
-
+          for (int i = 0; i < (completeArticles?.length ?? 0); i++) {
+            if(completeArticles![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString() ){
+              tempData.isArticleComplete = true;
+            }
+          }
+          print("temp list data adding is ${tempData.isQuizComplete} ${tempData.isArticleComplete}");
           tempArticleList.add(tempData);
         }
       }
@@ -111,7 +120,7 @@ class ArticleHelper {
       }
   }
 
-  getReadArticleAndPlayQuiz(context, String type)async{
+  Future<List<String>>getReadArticleAndPlayQuiz(context, String type)async{
     List<String> tempQuizAndArticleList = [];
     String authToken = await sharedPref.read("authToken");
     Map<String, dynamic> body = {
@@ -121,13 +130,15 @@ class ArticleHelper {
     try{
       var res = await ApiService.request(context, AppUrls.completedQuizAndArticle, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);
       if(res != null && res["success"] == true){
-         for(var element in res["data"]){
-           if(type == "post"){
-             completeArticle.add(element);
+        print("res completed article nd post is ${res["data"]}");
+         // for(var element in res["data"]){
+        tempQuizAndArticleList.add(res['data'].toString());
+           /*if(type == "post"){
+             completeArticles.add(res['data'].toString());
            }else{
-             completeQuiz.add(element);
-           }
-         }
+             completeQuizs.add(res['data'].toString());
+           }*/
+         // }
       }
     }
      catch(e){

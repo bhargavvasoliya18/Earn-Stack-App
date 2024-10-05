@@ -3,6 +3,9 @@ import 'package:earn_streak/src/Networking/ApiDataHelper/ArticleDataHelper/artic
 import 'package:flutter/material.dart';
 
 class HomeNotifier extends ChangeNotifier {
+
+  List<String> completeQuizs = [];
+  List<String> completeArticles = [];
   List<ArticleModel> articleList = [];
   bool isLoadMore = false;
   bool isHaseMoreData = true;
@@ -11,8 +14,9 @@ class HomeNotifier extends ChangeNotifier {
   String? selectArticleId;
 
   getArticleApiCall(context, {bool showLoader = false}) async {
-    List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: showLoader);
+    List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: showLoader, completeArticles: completeArticles, completeQuizs: completeQuizs);
     print("Article list length ${articleList.length}");
+    print("completed article and quiz lists is ${completeArticles.length}  ${completeQuizs.length}");
     isHaseMoreData = articleLists.isNotEmpty;
     articleList.addAll(articleLists);
     notifyListeners();
@@ -23,13 +27,24 @@ class HomeNotifier extends ChangeNotifier {
   }
 
   completeQuizAndArticle(context, String type)async{
-    await ArticleHelper().getReadArticleAndPlayQuiz(context, type);
+   List<String> getQuizAndArticle = await ArticleHelper().getReadArticleAndPlayQuiz(context, type);
+    if(type == "post"){
+      completeArticles.addAll(getQuizAndArticle);
+      print("article length ${completeArticles.length}");
+      notifyListeners();
+    }else{
+      completeQuizs.addAll(getQuizAndArticle);
+      print("quiz length ${completeQuizs.length}");
+      notifyListeners();
+    }
   }
 
   iniState(context) {
     completeQuizAndArticle(context, "post");
     completeQuizAndArticle(context, "quiz");
-    getArticleApiCall(context, showLoader: true);
+    Future.delayed(Duration(milliseconds: 800),(){
+      getArticleApiCall(context, showLoader: true);
+    });
     notifyListeners();
   }
 

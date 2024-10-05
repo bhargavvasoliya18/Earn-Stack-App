@@ -7,8 +7,8 @@ class ArticleModel {
   String? url;
   Images? images;
   String? coin;
-  bool? isQuizComplete;
-  bool? isArticleComplete;
+  bool? isQuizComplete = false;
+  bool? isArticleComplete = false;
   List<Quizs>? quizs;
 
   ArticleModel(
@@ -21,8 +21,8 @@ class ArticleModel {
         this.images,
         this.coin,
         this.quizs,
-        this.isArticleComplete,
-        this.isQuizComplete
+        this.isArticleComplete = false,
+        this.isQuizComplete = false
       });
 
   ArticleModel.fromJson(Map<String, dynamic> json) {
