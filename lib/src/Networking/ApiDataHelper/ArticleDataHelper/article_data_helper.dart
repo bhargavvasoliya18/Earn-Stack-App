@@ -14,6 +14,7 @@ class ArticleHelper {
 
   Future<List<ArticleModel>> getArticle(context, {int page = 1,bool showLoader = false, List<String>? completeQuizs, List<String>? completeArticles}) async {
     List<ArticleModel> tempArticleList = [];
+    bool tempQuizSelect = false;
     String authToken = await sharedPref.read("authToken");
     try {
       var res = await ApiService.request(context, "${AppUrls.getArticle}?per_page_data=${10}&page=$page", RequestMethods.GET, header: commonHeaderWithToken(authToken),showLoader: showLoader);
@@ -22,16 +23,27 @@ class ArticleHelper {
           ArticleModel tempData = ArticleModel.fromJson(element ?? {});
           for (int i = 0; i < (completeQuizs?.length ?? 0); i++) {
               if(completeQuizs![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString()){
-              tempData.isQuizComplete = true;
+                tempQuizSelect = true;
+                tempData = ArticleModel(
+                  title: tempData.title, url: tempData.url, coin: tempData.coin,
+                  slug: tempData.slug, content: tempData.content, id: tempData.id, images: tempData.images, isQuizComplete: true,
+                  published: tempData.published, quizs: tempData.quizs
+                );
+              // tempData.isQuizComplete = true;
             }
           }
-          //
-          // for (int i = 0; i < (completeArticles?.length ?? 0); i++) {
-          //   if(completeArticles![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString() ){
-          //     tempData.isArticleComplete = true;
-          //   }
-          // }
-          print("temp list data adding is ${tempData.isQuizComplete} ${tempData.isArticleComplete}");
+
+          for (int i = 0; i < (completeArticles?.length ?? 0); i++) {
+            if(completeArticles![i].toString().replaceAll(RegExp(r'[\[\]]'), '') == tempData.id.toString() ){
+              tempData = ArticleModel(
+                  title: tempData.title, url: tempData.url, coin: tempData.coin,
+                  slug: tempData.slug, content: tempData.content, id: tempData.id, images: tempData.images, isArticleComplete: true, isQuizComplete: tempQuizSelect,
+                  published: tempData.published, quizs: tempData.quizs
+              );
+              // tempData.isArticleComplete = true;
+            }
+          }
+          Future.delayed(Duration(milliseconds: 1000));
           tempArticleList.add(tempData);
         }
       }
