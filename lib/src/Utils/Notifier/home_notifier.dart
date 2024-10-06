@@ -1,5 +1,6 @@
 import 'package:earn_streak/src/Model/ArticleModel/article_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/ArticleDataHelper/article_data_helper.dart';
+import 'package:earn_streak/src/Networking/FirebaseNotificationHelper/firebase_notification.dart';
 import 'package:flutter/material.dart';
 
 class HomeNotifier extends ChangeNotifier {
@@ -15,8 +16,6 @@ class HomeNotifier extends ChangeNotifier {
 
   getArticleApiCall(context, {bool showLoader = false}) async {
     List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: showLoader, completeArticles: completeArticles, completeQuizs: completeQuizs);
-    print("Article list length ${articleList.length}");
-    print("completed article and quiz lists is ${completeArticles.length}  ${completeQuizs.length}");
     isHaseMoreData = articleLists.isNotEmpty;
     articleList.addAll(articleLists);
     notifyListeners();
@@ -30,19 +29,18 @@ class HomeNotifier extends ChangeNotifier {
    List<String> getQuizAndArticle = await ArticleHelper().getReadArticleAndPlayQuiz(context, type);
     if(type == "post"){
       completeArticles.addAll(getQuizAndArticle);
-      print("article length ${completeArticles.length}");
       notifyListeners();
     }else{
       completeQuizs.addAll(getQuizAndArticle);
-      print("quiz length ${completeQuizs.length}");
       notifyListeners();
     }
   }
 
   iniState(context) {
+    FirebaseMessagesHelper.initFirebaseMessage(context);
     completeQuizAndArticle(context, "post");
     completeQuizAndArticle(context, "quiz");
-    Future.delayed(Duration(milliseconds: 800),(){
+    Future.delayed(Duration(milliseconds: 2000),(){
       getArticleApiCall(context, showLoader: true);
     });
     notifyListeners();

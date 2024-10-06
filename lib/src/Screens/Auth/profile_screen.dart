@@ -143,7 +143,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            "1300",
+                                            loginResponseModel.inviteCoin ?? "",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],

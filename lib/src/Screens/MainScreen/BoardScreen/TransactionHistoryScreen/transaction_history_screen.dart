@@ -85,7 +85,7 @@ class TransactionHistoryScreenProvider extends StatelessWidget {
                                                       Text(model.history ?? "", style: TextStyleTheme.customTextStyle(AppColors.black, 14 , FontWeight.w600),),
                                                     ],
                                                   ),
-                                                  Text(model.createdAt ?? "")
+                                                  Text(state.convertDateFormat(model.createdAt ?? ""))
                                                 ],
                                               ),
                                               Row(
