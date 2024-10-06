@@ -20,21 +20,20 @@ import '../../../Utils/Notifier/login_notifier.dart';
 import '../../../Widget/common_network_image.dart';
 
 HomeScreen() => ChangeNotifierProvider<SettingNotifier>(
-  create: (_) => SettingNotifier(),
-  child: ChangeNotifierProvider<HomeNotifier>(
+      create: (_) => SettingNotifier(),
+      child: ChangeNotifierProvider<HomeNotifier>(
         create: (_) => HomeNotifier(),
-        child: Builder(builder: (context) => HomeScreenProvider(context:  context)),
+        child: Builder(builder: (context) => HomeScreenProvider(context: context)),
       ),
-);
+    );
 
 class HomeScreenProvider extends StatefulWidget {
-
   BuildContext context;
 
-   HomeScreenProvider({super.key, required this.context}){
+  HomeScreenProvider({super.key, required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-       var state = Provider.of<HomeNotifier>(context, listen: false);
-       state.iniState(context);
+      var state = Provider.of<HomeNotifier>(context, listen: false);
+      state.iniState(context);
     });
   }
 
@@ -42,9 +41,7 @@ class HomeScreenProvider extends StatefulWidget {
   State<HomeScreenProvider> createState() => _HomeScreenProviderState();
 }
 
-
 class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBindingObserver {
-
   @override
   void initState() {
     var settingState = Provider.of<SettingNotifier>(context, listen: false);
@@ -78,8 +75,8 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
 
   Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
-      timeLaunched = DateTime.now();
-      await launchUrl(uri);
+    timeLaunched = DateTime.now();
+    await launchUrl(uri);
   }
 
   @override
@@ -89,12 +86,18 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
       child: Scaffold(
           backgroundColor: AppColors.colorF8F7FF,
           body: Consumer<SettingNotifier>(
-            builder: (context, settingState, child) =>
-             Consumer<HomeNotifier>(
-              builder: (context, state, child){
+            builder: (context, settingState, child) => Consumer<HomeNotifier>(
+              builder: (context, state, child) {
                 Widget loader = Padding(
                   padding: EdgeInsets.all(10),
-                  child:  Center(child: SizedBox(height:50,width:50,child: CircularProgressIndicator(strokeWidth:3,color: AppColors.black,))),
+                  child: Center(
+                      child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: AppColors.black,
+                          ))),
                 );
                 return Stack(
                   children: [
@@ -116,9 +119,14 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Quizzit", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
+                                  Text(
+                                    "Quizzit",
+                                    style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
+                                  ),
                                   GestureDetector(
-                                      onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfileScreen()));},
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen()));
+                                      },
                                       child: fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 40)),
                                 ],
                               ),
@@ -162,7 +170,9 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                               paddingTop(10),
                               Expanded(
                                 child: LazyLoadScrollView(
-                                  onEndOfPage: () { state.onScroll(context);},
+                                  onEndOfPage: () {
+                                    state.onScroll(context);
+                                  },
                                   isLoading: state.isLoadMore,
                                   child: ListView.builder(
                                     itemCount: state.articleList.length,
@@ -174,7 +184,10 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                       return Column(
                                         children: [
                                           Container(
-                                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12.sp),),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(12.sp),
+                                            ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
@@ -190,19 +203,44 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                           children: [
                                                             Text(
                                                               item.title ?? '',
-                                                              style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
-                                                            ),
-                                                            Text(item.content ?? '',
                                                               style: TextStyleTheme.customTextStyle(
-                                                                  AppColors.lightGrey, 14, FontWeight.w600),overflow: TextOverflow.ellipsis,maxLines: 3,),
+                                                                  AppColors.black, 16, FontWeight.w700),
+                                                            ),
+                                                            Text(
+                                                              item.content ?? '',
+                                                              style: TextStyleTheme.customTextStyle(
+                                                                  AppColors.lightGrey, 14, FontWeight.w600),
+                                                              overflow: TextOverflow.ellipsis,
+                                                              maxLines: 3,
+                                                            ),
                                                             paddingTop(5),
                                                             GestureDetector(
-                                                              onTap: ()async{state.selectArticleId = item.id.toString(); state.notifyListeners(); await launchURL(item.url ?? "");},
+                                                              onTap: () async {
+                                                                state.selectArticleId = item.id.toString();
+                                                                state.notifyListeners();
+                                                                await launchURL(item.url ?? "").then((value){
+                                                                  print("Call Back return");
+                                                                  state.iniState(context);
+                                                                  print("Call Back return1");
+                                                                });
+                                                              },
                                                               child: Container(
-                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: state.articleList[index].isArticleComplete == true ? Colors.red : AppColors.blue),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(5),
+                                                                    color: state.articleList[index].isArticleComplete == true
+                                                                        ? Colors.red
+                                                                        : AppColors.blue),
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                                                                  child: Text("Read more", style: TextStyleTheme.customTextStyle(AppColors.white, 14, FontWeight.w400,),),
+                                                                  padding:
+                                                                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                                                                  child: Text(
+                                                                    "Read more",
+                                                                    style: TextStyleTheme.customTextStyle(
+                                                                      AppColors.white,
+                                                                      14,
+                                                                      FontWeight.w400,
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -214,16 +252,25 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                   paddingTop(15),
                                                   InkWell(
                                                     onTap: () {
-                                                      (state.articleList[index].quizs?.isNotEmpty ?? false) ? push(context, TakeQuizScreen(articleModel: state.articleList[index])) : null;
+                                                      (state.articleList[index].quizs?.isNotEmpty ?? false)
+                                                          ? push(context, TakeQuizScreen(articleModel: state.articleList[index]))
+                                                          : null;
                                                     },
                                                     child: Container(
-                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.sp), color: AppColors.midLightGrey,),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(12.sp),
+                                                        color: AppColors.midLightGrey,
+                                                      ),
                                                       child: Padding(
                                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            Text("Take Quiz", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
+                                                            Text(
+                                                              "Take Quiz",
+                                                              style: TextStyleTheme.customTextStyle(
+                                                                  AppColors.black, 16, FontWeight.w700),
+                                                            ),
                                                             Container(
                                                               decoration: BoxDecoration(
                                                                 border: Border.all(color: AppColors.lightBlue),
@@ -233,7 +280,11 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                                                                 child: Row(
                                                                   children: [
-                                                                    Text("Start", style: TextStyleTheme.customTextStyle(AppColors.lightBlue, 16, FontWeight.w700),),
+                                                                    Text(
+                                                                      "Start",
+                                                                      style: TextStyleTheme.customTextStyle(
+                                                                          AppColors.lightBlue, 16, FontWeight.w700),
+                                                                    ),
                                                                     paddingLeft(8),
                                                                     SvgPicture.asset(
                                                                       AppImages.rightArrowIcon,
@@ -260,7 +311,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                   ),
                                 ),
                               ),
-                              state.isLoadMore?loader:Container(),
+                              state.isLoadMore ? loader : Container(),
                               paddingTop(20),
                             ],
                           ),
