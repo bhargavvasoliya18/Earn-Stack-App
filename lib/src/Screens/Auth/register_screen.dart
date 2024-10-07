@@ -87,7 +87,7 @@ class _RegisterScreenProviderState extends State<RegisterScreenProvider> {
                               paddingTop(15),
                               customTextField(registerEmailController, "Email", "Enter your email", validation: (value) => validateEmail(value), textInputType: TextInputType.emailAddress),
                               paddingTop(15),
-                              customTextField(registerNameController, "Referral code", "Enter you referral code"),
+                              customTextField(registerReferralController, "Referral code", "Enter you referral code"),
                               paddingTop(15),
                               customTextField(registerPasswordController, "Password", "Enter your password", suffixIcon: state.isVisiblePassword ? AppImages.closeEyeIcon : AppImages.openEyeIcon, suffixIconTap: state.visiblePasswordValueUpdate, obSecure: state.isVisiblePassword, validation: (value) => validatePassword(value)),
                               paddingTop(15),

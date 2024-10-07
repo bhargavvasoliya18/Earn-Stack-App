@@ -137,7 +137,7 @@ class ArticleHelper {
     String authToken = await sharedPref.read("authToken");
     Map<String, dynamic> body = {
        "user_id": loginResponseModel.id,
-      "type" : type
+      // "type" : type
     };
     try{
       var res = await ApiService.request(context, AppUrls.completedQuizAndArticle, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);

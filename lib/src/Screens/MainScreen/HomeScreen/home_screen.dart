@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
+import 'package:earn_streak/src/Networking/FirebaseNotificationHelper/firebase_notification.dart';
 import 'package:earn_streak/src/Screens/Auth/profile_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/take_quize_screen.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
@@ -42,10 +43,11 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
 
   @override
   void initState() {
+    FirebaseMessagesHelper.initFirebaseMessage(context);
     var settingState = Provider.of<SettingNotifier>(context, listen: false);
     var state = Provider.of<HomeNotifier>(context, listen: false);
-      state.iniState(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.iniState(context);
       settingState.getCommonUrlApiCall(context);
     });
     WidgetsBinding.instance.addObserver(this);
@@ -60,11 +62,15 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("check did change app value");
     if (state == AppLifecycleState.resumed && timeLaunched != null) {
       timeResumed = DateTime.now();
       timeSpent = timeResumed!.difference(timeLaunched!);
       Provider.of<HomeNotifier>(context, listen: false).readArticleTimeApiCall(context, timeSpent?.inSeconds);
       Provider.of<HomeNotifier>(context, listen: false).readArticleAndUpdate(context);
+      Provider.of<HomeNotifier>(context, listen: false).isLoaderShow = true;
+      Provider.of<HomeNotifier>(context, listen: false).articleList.clear();
+      Provider.of<HomeNotifier>(context, listen: false).iniState(context);
       print("spend time ${timeSpent?.inSeconds}");
     }
   }
@@ -216,9 +222,13 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                     ],
                                                   ),
                                                   paddingTop(15),
-                                                  InkWell(
-                                                    onTap: state.articleList[index].isQuizComplete == true ? null : () {
-                                                      (state.articleList[index].quizs?.isNotEmpty ?? false) ? push(context, TakeQuizScreen(articleModel: state.articleList[index])) : null;
+                                                  state.articleList[index].quizs?.isNotEmpty ?? false ? InkWell(
+                                                    onTap: () async{
+                                                      var res = await push(context, TakeQuizScreen(articleModel: state.articleList[index]));
+                                                      print("back return value $res");
+                                                      state.isLoaderShow = true;
+                                                      state.articleList.clear();
+                                                      state.iniState(context);
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.sp), color: AppColors.midLightGrey,),
@@ -227,7 +237,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            Text("Take Quiz", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),),
+                                                            Text("Take Quiz", style: TextStyleTheme.customTextStyle(state.articleList[index].isQuizComplete == true ? Color(0xffC2C2CC) : AppColors.black, 16, FontWeight.w700),),
                                                             Container(
                                                               decoration: BoxDecoration(
                                                                 border: Border.all(color: state.articleList[index].isQuizComplete == true ? Color(0xffC2C2CC) : AppColors.lightBlue),
@@ -253,7 +263,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
+                                                  ) : Offstage(),
                                                 ],
                                               ),
                                             ),
@@ -262,7 +272,7 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                         ],
                                       );
                                     },
-                                  ) : Center(child: Text("No data found....!!!")),
+                                  ) : state.isLoaderShow ? Center(child: CircularProgressIndicator(),) : Center(child: Text("No data found....!!!")),
                                 ),
                               ),
                               state.isLoadMore?loader:Container(),

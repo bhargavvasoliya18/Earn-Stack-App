@@ -15,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-
   bool isCheckLogin = false;
 
   @override
@@ -25,8 +24,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
   }
 
-  getToken()async {
+  getToken() async {
     loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
+    print("Device Token ${loginResponseModel.deviceToken}");
   }
 
   @override
@@ -41,22 +41,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         isHideKeyboard: false,
         isIgnoring: true,
         child: MaterialApp(
-          title: 'Flutter Demo',
-          navigatorKey: rootNavigatorKey,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: SplashScreen()
-          // home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
-        ),
+            title: 'Flutter Demo',
+            navigatorKey: rootNavigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            home: SplashScreen()
+            // home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
+            ),
       ),
     );
   }
 
   isLogin() async {
-    setState(() async{
+    setState(() async {
       isCheckLogin = await sharedPref.read("isLogin");
     });
   }

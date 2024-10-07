@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (await sharedPref.read("isOnBoardComplete")  == false) {
           pushReplacement(context, OnBoardingScreen());
         } else {
-          loginResponseModel.id?.isEmpty == true ||
+          loginResponseModel.id.toString().isEmpty == true ||
                   loginResponseModel.id == null
               ? pushReplacement(context, LoginScreen())
               : pushReplacement(context, MainScreen());

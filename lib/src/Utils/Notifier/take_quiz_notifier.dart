@@ -45,14 +45,16 @@ class TakeQuizNotifier extends ChangeNotifier {
     rightAnswer = 0;
     wrongAnswer = 0;
     for (int i = 0; i < articleModel.quizs!.length; i++) {
-      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() ==
-          selectAnswerList[i]) {
+      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() == selectAnswerList[i]) {
         rightAnswer++;
       } else {
         wrongAnswer++;
       }
     }
-    bool isUpdate = await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
+
+   String winingCoins = ((double.parse(articleModel.coin.toString()) / articleModel.quizs!.length) * double.parse(rightAnswer.toString())).toStringAsFixed(2);
+
+    bool isUpdate = await ArticleHelper().updateUserCoin(context, winingCoins);
     playCompleteQuiz(context);
     debugPrint('RESULT $isUpdate');
     if (isUpdate == true) {

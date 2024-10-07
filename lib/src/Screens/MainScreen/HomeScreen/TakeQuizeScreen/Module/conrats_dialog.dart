@@ -14,28 +14,15 @@ congratsDialog(context, String rightAnswer, String wrongAnswer,String total) {
       return Dialog(
         child: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.congratsImage),
-                fit: BoxFit.fill,
-              ),
+              image: DecorationImage(image: AssetImage(AppImages.congratsImage), fit: BoxFit.fill,),
               borderRadius: BorderRadius.circular(15)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               paddingTop(40),
-              Image.asset(
-                AppImages.currencyIcon,
-                height: 40,
-                width: 40,
-              ),
-              Text(
-                "Congrats!",
-                style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w500),
-              ),
-              Text(
-                "$rightAnswer coin received",
-                style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),
-              ),
+              Image.asset(AppImages.currencyIcon, height: 40, width: 40,),
+              Text("Congrats!", style: TextStyleTheme.customTextStyle(AppColors.black, 24, FontWeight.w500),),
+              Text("$rightAnswer coin received", style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),),
               paddingTop(10),
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(0xffD1D1D1))),
@@ -98,7 +85,7 @@ congratsDialog(context, String rightAnswer, String wrongAnswer,String total) {
                 width: 150,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
               paddingTop(20),

@@ -1,6 +1,9 @@
+import 'package:earn_streak/src/Constants/api_url.dart';
 import 'package:earn_streak/src/Model/ArticleModel/article_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/ArticleDataHelper/article_data_helper.dart';
-import 'package:earn_streak/src/Networking/FirebaseNotificationHelper/firebase_notification.dart';
+import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import 'package:earn_streak/src/Networking/ApiService/api_service.dart';
+import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
 
 class HomeNotifier extends ChangeNotifier {
@@ -11,13 +14,18 @@ class HomeNotifier extends ChangeNotifier {
   bool isLoadMore = false;
   bool isHaseMoreData = true;
   int page = 1;
+  bool isLoaderShow = true;
 
   String? selectArticleId;
 
   getArticleApiCall(context, {bool showLoader = false}) async {
-    List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: showLoader, completeArticles: completeArticles, completeQuizs: completeQuizs);
+    print("check get article api call");
+    isLoaderShow = true;
+    notifyListeners();
+    List<ArticleModel> articleLists = await ArticleHelper().getArticle(context, page: page, showLoader: false, completeArticles: completeArticles, completeQuizs: completeQuizs);
     isHaseMoreData = articleLists.isNotEmpty;
     articleList.addAll(articleLists);
+    isLoaderShow = false;
     notifyListeners();
   }
 
@@ -25,21 +33,54 @@ class HomeNotifier extends ChangeNotifier {
     await ArticleHelper().quizAndReadArticleComplete(context, selectArticleId ?? "", isReadArticle: true);
   }
 
-  completeQuizAndArticle(context, String type)async{
-   List<String> getQuizAndArticle = await ArticleHelper().getReadArticleAndPlayQuiz(context, type);
-    if(type == "post"){
-      completeArticles.addAll(getQuizAndArticle);
-      notifyListeners();
-    }else{
-      completeQuizs.addAll(getQuizAndArticle);
-      notifyListeners();
+  completeQuizAndArticle(context)async{
+    await getReadArticleAndPlayQuiz(context);
+
+   // List<String> getQuizAndArticle = await ArticleHelper().getReadArticleAndPlayQuiz(context);
+   //  if(type == "post"){
+   //    completeArticles.addAll(getQuizAndArticle);
+   //    notifyListeners();
+   //  }else{
+   //    completeQuizs.addAll(getQuizAndArticle);
+   //    notifyListeners();
+   //  }
+  }
+
+  Future<List<String>>getReadArticleAndPlayQuiz(context)async{
+    print("getReadArticleAndPlayQuiz navigator back");
+    completeArticles.clear();
+    completeQuizs.clear();
+    List<String> tempQuizAndArticleList = [];
+    String authToken = await sharedPref.read("authToken");
+    Map<String, dynamic> body = {
+      "user_id": loginResponseModel.id,
+      // "type" : type
+    };
+    try{
+      var res = await ApiService.request(context, AppUrls.completedQuizAndArticle, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);
+      if(res != null && res["success"] == true){
+        print("res completed article nd post is ${res["data"]}");
+        for(var element in res["data"]["post"]){
+          completeArticles.add(element);
+          notifyListeners();
+        }
+        for(var element in res["data"]["quiz"]){
+          completeQuizs.add(element);
+          notifyListeners();
+        }
+        print("check article list length ${completeArticles.length}");
+      }
     }
+    catch(e){
+      print("Get complete quiz and article throw exception $e");
+    }
+    return tempQuizAndArticleList;
   }
 
   iniState(context) {
-    FirebaseMessagesHelper.initFirebaseMessage(context);
-    completeQuizAndArticle(context, "post");
-    completeQuizAndArticle(context, "quiz");
+    page = 1;
+    notifyListeners();
+    completeQuizAndArticle(context);
     Future.delayed(Duration(milliseconds: 2000),(){
       getArticleApiCall(context, showLoader: true);
     });
