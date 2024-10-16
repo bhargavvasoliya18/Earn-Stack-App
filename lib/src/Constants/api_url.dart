@@ -1,5 +1,4 @@
-class AppUrls{
-
+class AppUrls {
   static const baseUrl = "https://ssemw.org/quizzit/wp-json/earn/v1";
 
   static const loginUrl = "$baseUrl/user/login";
@@ -10,6 +9,7 @@ class AppUrls{
 
   static const getArticle = "$baseUrl/posts";
   static const updateUserCoin = "$baseUrl/user/coin/update";
+  static const getUsersCoin = "$baseUrl/user/coin/";
 
   static const leaderBoard = "$baseUrl/user/leaderboard";
   static const paymentUpdate = "$baseUrl/user/payment/details/save";
@@ -22,5 +22,4 @@ class AppUrls{
   static const articleReadComplete = "$baseUrl/user/post/read";
   static const playQuizComplete = "$baseUrl/user/quiz/complate";
   static const completedQuizAndArticle = "$baseUrl/user/read/history";
-
 }

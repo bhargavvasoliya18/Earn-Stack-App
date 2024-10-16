@@ -34,7 +34,7 @@ class OnBoardingNotifier extends ChangeNotifier{
   navigateScreen(context){
     if(currentPage != 4){
       currentPage ++;
-      print("check current page $currentPage");
+      debugPrint("check current page $currentPage");
       notifyListeners();
     }
     if(currentPage == 4){

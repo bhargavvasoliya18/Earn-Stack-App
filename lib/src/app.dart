@@ -1,10 +1,13 @@
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:earn_streak/src/Screens/SplashScreen/splash_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
+import 'package:earn_streak/src/Utils/Notifier/setting_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
+import 'Utils/Notifier/transaction_notifier.dart';
 import 'Utils/app_utils.dart';
 
 class MyApp extends StatefulWidget {
@@ -26,7 +29,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   getToken() async {
     loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
-    print("Device Token ${loginResponseModel.deviceToken}");
+    debugPrint("Device Token ${loginResponseModel.deviceToken}");
   }
 
   @override
@@ -40,17 +43,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         fullWidth: false,
         isHideKeyboard: false,
         isIgnoring: true,
-        child: MaterialApp(
-            title: 'Flutter Demo',
-            navigatorKey: rootNavigatorKey,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            home: SplashScreen()
-            // home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
-            ),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<SettingNotifier>(create: (_) => SettingNotifier()),
+            ChangeNotifierProvider<TransactionNotifier>(create: (_) => TransactionNotifier())
+          ],
+          child: Consumer<SettingNotifier>(
+            builder: (context, state, child) =>
+             MaterialApp(
+                title: 'Flutter Demo',
+                navigatorKey: rootNavigatorKey,
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  useMaterial3: true,
+                ),
+                home: SplashScreen()
+                // home: loginResponseModel.id?.isEmpty == true ? LoginScreen() : MainScreen()
+                ),
+          ),
+        ),
       ),
     );
   }

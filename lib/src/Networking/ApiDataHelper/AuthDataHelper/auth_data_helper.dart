@@ -7,6 +7,7 @@ import 'package:earn_streak/src/Repository/Services/SharedPref/shared_pref.dart'
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
 import 'package:earn_streak/src/Screens/MainScreen/main_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
+import 'package:earn_streak/src/Utils/Notifier/setting_notifier.dart';
 import 'package:earn_streak/src/Utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class AuthHelper {
 
   Future registerApiCall(context, body) async {
     RegisterResponseModel tempRegisterRequestData = RegisterResponseModel();
-    print("request body data $body");
+    debugPrint("request body data $body");
     try {
       var res = await ApiService.request(context, AppUrls.registerUrl, RequestMethods.POST,
           header: commonHeader, requestBody: body, showLogs: true);
@@ -30,14 +31,14 @@ class AuthHelper {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (Bool) => false);
       }
     } catch (e) {
-      print("Register api throw exception $e");
+      debugPrint("Register api throw exception $e");
     }
     return tempRegisterRequestData;
   }
 
   Future loginApiCall(context, body) async {
     LoginResponseModel tempLoginRequestData = LoginResponseModel();
-    print("request body data $body");
+    debugPrint("request body data $body");
     try {
       var res = await ApiService.request(context, AppUrls.loginUrl, RequestMethods.POST,
           header: commonHeader, requestBody: body, showLogs: true);
@@ -51,7 +52,7 @@ class AuthHelper {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainScreen()), (Bool) => false);
       }
     } catch (e) {
-      print("Register api throw exception $e");
+      debugPrint("Register api throw exception $e");
     }
     return tempLoginRequestData;
   }
@@ -65,7 +66,7 @@ class AuthHelper {
         isSuccess = true;
       }
     } catch (e) {
-      print("Forgot api throw exception $e");
+      debugPrint("Forgot api throw exception $e");
     }
     return isSuccess;
   }
@@ -75,11 +76,11 @@ class AuthHelper {
     try {
       var res = await ApiService.request(context, "${AppUrls.resetPasswordUrl}?email=$email&token=$token&password=$password", RequestMethods.POST, header: commonHeader);
       if (res != null && res["success"] == true) {
-        print("forgot password api response $res");
+        debugPrint("forgot password api response $res");
         isSuccess = true;
       }
     } catch (e) {
-      print("Forgot api throw exception $e");
+      debugPrint("Forgot api throw exception $e");
     }
     return isSuccess;
   }
@@ -94,7 +95,7 @@ class AuthHelper {
       }
     }
       catch(e){
-         print("Verify otp exception $e");
+        debugPrint("Verify otp exception $e");
       }
       return isOtpVerify;
   }
@@ -106,10 +107,11 @@ class AuthHelper {
       var res = await ApiService.request(context, AppUrls.commonApiUrl, RequestMethods.POST, header: commonHeaderWithToken(authToken), requestBody: {"user_id": loginResponseModel.id}, showLoader: false);
       if(res != null && res["data"] != null){
         commonModel = CommonModel.fromJson(res["data"] ?? {});
+        print("mini mum required coin ${commonModel.requiredRedeemCoin}");
       }
     }
       catch(e){
-        print("Common api call throw exception $e");
+        debugPrint("Common api call throw exception $e");
       }
       return commonModel;
   }

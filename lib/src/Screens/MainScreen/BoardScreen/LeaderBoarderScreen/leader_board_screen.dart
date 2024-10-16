@@ -48,8 +48,8 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
               ),
             ),
             Positioned(
-              left: 25,
-              right: 25,
+              left: 20,
+              right: 20,
               top: 40.h,
               child: SingleChildScrollView(
                 child: SizedBox(
@@ -59,10 +59,14 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                       Row(
                         children: [
                           GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: SvgPicture.asset(AppImages.leftBackIcon)),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(10.sp),
+                              child: SvgPicture.asset(AppImages.leftBackIcon),
+                            ),
+                          ),
                           paddingLeft(10),
                           Text(
                             BoardString.leaderBoard,
@@ -96,14 +100,19 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                       )),
                                 ),
                                 InkWell(
-                                  onTap: () {state.selectTabIndex(1, context, loginResponseModel.id, "weekly");},
+                                  onTap: () {
+                                    state.selectTabIndex(1, context, loginResponseModel.id, "weekly");
+                                  },
                                   child: Container(
                                       decoration: BoxDecoration(
                                           color: state.selectIndex == 1 ? Colors.white : Colors.transparent,
                                           borderRadius: BorderRadius.circular(10)),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                        child: Text("Weekly", style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),),
+                                        child: Text(
+                                          "Weekly",
+                                          style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w700),
+                                        ),
                                       )),
                                 ),
                                 InkWell(
@@ -133,9 +142,35 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    topListView(image: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].displayName ?? "" : "", coin: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].earnappUserEarnCoin ?? "" : "", imageSize: 67, tajImage: AppImages.silverTajIcon),
-                                    topListView(image: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].displayName ?? "" : "", coin: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].earnappUserEarnCoin ?? "" : "", tajImage: AppImages.goldTajIcon),
-                                    topListView(image: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].profile?.thumbnail ?? "" : "", name: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].displayName ?? "" : "", coin: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].earnappUserEarnCoin ?? "" : "", imageSize: 67, tajImage: AppImages.bronzeTajIcon),
+                                    topListView(
+                                        image: state.lenderBoardList.length > 1
+                                            ? state.lenderBoardList[1].profile?.thumbnail ?? ""
+                                            : "",
+                                        name: state.lenderBoardList.length > 1 ? state.lenderBoardList[1].displayName ?? "" : "",
+                                        coin: state.lenderBoardList.length > 1
+                                            ? state.lenderBoardList[1].earnappUserEarnCoin ?? ""
+                                            : "",
+                                        imageSize: 67,
+                                        tajImage: AppImages.silverTajIcon),
+                                    topListView(
+                                        image: state.lenderBoardList.isNotEmpty
+                                            ? state.lenderBoardList[0].profile?.thumbnail ?? ""
+                                            : "",
+                                        name: state.lenderBoardList.isNotEmpty ? state.lenderBoardList[0].displayName ?? "" : "",
+                                        coin: state.lenderBoardList.isNotEmpty
+                                            ? state.lenderBoardList[0].earnappUserEarnCoin ?? ""
+                                            : "",
+                                        tajImage: AppImages.goldTajIcon),
+                                    topListView(
+                                        image: state.lenderBoardList.length > 2
+                                            ? state.lenderBoardList[2].profile?.thumbnail ?? ""
+                                            : "",
+                                        name: state.lenderBoardList.length > 2 ? state.lenderBoardList[2].displayName ?? "" : "",
+                                        coin: state.lenderBoardList.length > 2
+                                            ? state.lenderBoardList[2].earnappUserEarnCoin ?? ""
+                                            : "",
+                                        imageSize: 67,
+                                        tajImage: AppImages.bronzeTajIcon),
                                   ],
                                 ),
                               ),
@@ -145,7 +180,9 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                       state.lenderBoardList.length > 3
                           ? Expanded(
                               child: LazyLoadScrollView(
-                                onEndOfPage: () { state.onScroll(context);},
+                                onEndOfPage: () {
+                                  state.onScroll(context);
+                                },
                                 isLoading: state.isLoadMore,
                                 child: ListView.builder(
                                     itemCount: state.lenderBoardList.length - 4,
@@ -174,7 +211,8 @@ class _LeaderBoardScreenProviderState extends State<LeaderBoardScreenProvider> {
                                                     width: 150.w,
                                                     child: Text(
                                                       model.displayName ?? "",
-                                                      style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600), overflow: TextOverflow.ellipsis,
+                                                      style: TextStyleTheme.customTextStyle(Colors.black, 14, FontWeight.w600),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                 ],

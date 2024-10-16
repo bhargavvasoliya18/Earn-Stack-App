@@ -71,7 +71,7 @@ class BalanceNotifier extends ChangeNotifier {
 
   payPalDetailsUpdateApiCall(context){
     if(payPalEmailController.text.isNotEmpty){
-      paymentUpdateApiCall(context, "type", email: payPalEmailController.text);
+      paymentUpdateApiCall(context, "type", email: payPalEmailController.text, coins: coinsController.text);
     }else{
       showError(message: "Please enter email");
     }
@@ -101,7 +101,7 @@ class BalanceNotifier extends ChangeNotifier {
     } else if(momoNetworkController.text.isEmpty){
       showError(message: "Please enter network");
     } else{
-      paymentUpdateApiCall(context, "mobile", mobileName: momoNameController.text, mobileNo: momoNoController.text, mobileNetwork: momoNetworkController.text);
+      paymentUpdateApiCall(context, "mobile", mobileName: momoNameController.text, mobileNo: momoNoController.text, mobileNetwork: momoNetworkController.text, coins: coinsController.text);
     }
   }
 

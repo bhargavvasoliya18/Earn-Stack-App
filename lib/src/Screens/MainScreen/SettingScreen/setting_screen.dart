@@ -21,18 +21,18 @@ SettingScreen() => ChangeNotifierProvider<SettingNotifier>(
 
 class SettingScreenProvider extends StatelessWidget {
   BuildContext context;
-  SettingScreenProvider({super.key, required this.context}){
-    WidgetsBinding.instance.addPostFrameCallback((_){
+
+  SettingScreenProvider({super.key, required this.context}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       var state = Provider.of<SettingNotifier>(context, listen: false);
-      // state.getCommonUrlApiCall(context);
+      state.getCommonUrlApiCall(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingNotifier>(
-      builder: (BuildContext context, state, child) =>
-       SizedBox(
+      builder: (BuildContext context, state, child) => SizedBox(
         height: ScreenUtil().screenHeight - 30,
         child: Scaffold(
           backgroundColor: AppColors.colorF8F7FF,
@@ -77,22 +77,45 @@ class SettingScreenProvider extends StatelessWidget {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.termsService ?? ""));}, icon: AppImages.termServiceIcon, name: "Terms of Service"),
+                            MenuClass(
+                                onTap: () {
+                                  debugPrint('${state.commonModel.termsService}');
+                                  launchUrl(
+                                    Uri.parse(state.commonModel.termsService ?? ""),
+                                  );
+                                },
+                                icon: AppImages.termServiceIcon,
+                                name: "Terms of Service"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.privacyPolicy ?? ""));}, icon: AppImages.privacyPolicyIcon, name: "Privacy Policy"),
+                            MenuClass(
+                                onTap: () {
+                                  launchUrl(Uri.parse(state.commonModel.privacyPolicy ?? ""));
+                                },
+                                icon: AppImages.privacyPolicyIcon,
+                                name: "Privacy Policy"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.googlePlayStore ?? ""));}, icon: AppImages.rateUsGoogleIcon, name: "Rate us on google play"),
+                            MenuClass(
+                                onTap: () {
+                                  launchUrl(Uri.parse(state.commonModel.googlePlayStore ?? ""));
+                                },
+                                icon: AppImages.rateUsGoogleIcon,
+                                name: "Rate us on google play"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.contactUs ?? ""));}, icon: AppImages.contactUsIcon, name: "Contact us"),
+                            MenuClass(
+                                onTap: () {
+                                  launchUrl(Uri.parse(state.commonModel.contactUs ?? ""));
+                                },
+                                icon: AppImages.contactUsIcon,
+                                name: "Contact us"),
                           ],
                         ),
                       ),
@@ -105,22 +128,56 @@ class SettingScreenProvider extends StatelessWidget {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.instgram ?? ""));}, icon: AppImages.instagramIcon, name: "Follow on Instagram"),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Divider(thickness: 1, color: AppColors.purple),
-                            ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.facebook ?? ""));}, icon: AppImages.facebookIcon, name: "Follow on Facebook"),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Divider(thickness: 1, color: AppColors.purple),
-                            ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.whatsapp ?? ""));}, icon: AppImages.whatsappIcon, name: "Follow on Whatsapp"),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Divider(thickness: 1, color: AppColors.purple),
-                            ),
-                            MenuClass(onTap: () {launchUrl(Uri.parse(state.commonModel.social?.youtube ?? ""));}, icon: AppImages.youtubeIcon, name: "Follow on Youtube"),
+                            state.commonModel.social?.instgram != ""
+                                ? MenuClass(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(state.commonModel.social?.instgram ?? ""));
+                                    },
+                                    icon: AppImages.instagramIcon,
+                                    name: "Follow on Instagram")
+                                : Offstage(),
+                            state.commonModel.social?.instgram != ""
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    child: Divider(thickness: 1, color: AppColors.purple),
+                                  )
+                                : Offstage(),
+                            state.commonModel.social?.facebook != ""
+                                ? MenuClass(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(state.commonModel.social?.facebook ?? ""));
+                                    },
+                                    icon: AppImages.facebookIcon,
+                                    name: "Follow on Facebook")
+                                : Offstage(),
+                            state.commonModel.social?.facebook != ""
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    child: Divider(thickness: 1, color: AppColors.purple),
+                                  )
+                                : Offstage(),
+                            state.commonModel.social?.whatsapp != ""
+                                ? MenuClass(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(state.commonModel.social?.whatsapp ?? ""));
+                                    },
+                                    icon: AppImages.whatsappIcon,
+                                    name: "Follow on Whatsapp")
+                                : Offstage(),
+                            state.commonModel.social?.whatsapp != ""
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                    child: Divider(thickness: 1, color: AppColors.purple),
+                                  )
+                                : Offstage(),
+                            state.commonModel.social?.youtube != ""
+                                ? MenuClass(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(state.commonModel.social?.youtube ?? ""));
+                                    },
+                                    icon: AppImages.youtubeIcon,
+                                    name: "Follow on Youtube")
+                                : Offstage(),
                           ],
                         ),
                       ),

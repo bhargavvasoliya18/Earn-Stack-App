@@ -34,6 +34,8 @@ mobileMoneyDialog(context, BalanceNotifier state){
               // customTextField(momoNoController, "Number.", "Enter mobile number", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(15),
               customTextField(momoNetworkController, "Network", "Enter account nuber", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+              // paddingTop(15),
+              // customTextField(coinsController, "Coins", "Enter coins", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

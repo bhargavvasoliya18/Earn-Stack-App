@@ -26,6 +26,8 @@ payPalDialog(context, BalanceNotifier state){
                   child: Text("Paypal", style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w500),)),
               paddingTop(15),
               customTextField(payPalEmailController, "EMAIL ID", "enter paypal email", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+              // paddingTop(15),
+              // customTextField(coinsController, "Coins", "enter coins", validation: (value) => validateEmpty(value), textInputAction: TextInputAction.done),
               paddingTop(25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

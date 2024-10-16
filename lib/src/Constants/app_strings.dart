@@ -74,7 +74,7 @@ class BalanceString{
   static const payPal = "PayPal";
   static const bankTransfer = "Bank Transfer";
   static const mobileMoney = "Mobile Money";
-  static const minimumPayment = "Minimum Payment 20000 Coins";
+  static const minimumPayment = "Minimum Payment";
 }
 
 class MobileString{

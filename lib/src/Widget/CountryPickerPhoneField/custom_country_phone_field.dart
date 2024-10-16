@@ -404,7 +404,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
         if (widget.autovalidateMode != AutovalidateMode.disabled) {
           validatorMessage = await widget.validator?.call(phoneNumber);
         }
-        print("ISVALID NUMBER $value ${value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength}");
+        debugPrint("ISVALID NUMBER $value ${value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength}");
         phoneNumber.validationMsg  = value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength ? '' : widget.invalidNumberMessage ?? '';
         widget.onChanged?.call(phoneNumber);
       },

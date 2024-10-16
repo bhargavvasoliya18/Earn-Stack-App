@@ -4,13 +4,13 @@ import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Screens/Auth/Module/select_image.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Mixins/log_out_alert_dialog.dart';
+import 'package:earn_streak/src/Utils/Notifier/home_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/profile_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../Widget/common_network_image.dart';
 
 ProfileScreen() => ChangeNotifierProvider<ProfileNotifier>(
@@ -43,10 +43,14 @@ class ProfileScreenProvider extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset(AppImages.leftBackIcon)),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: SvgPicture.asset(AppImages.leftBackIcon),
+                      ),
+                    ),
                     paddingLeft(10),
                     Text(
                       "Profile",
@@ -54,7 +58,7 @@ class ProfileScreenProvider extends StatelessWidget {
                     ),
                   ],
                 ),
-                paddingTop(20),
+                paddingTop(15),
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,
@@ -70,7 +74,8 @@ class ProfileScreenProvider extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "",placeHolderSize: 100,borderRadius: 20),
+                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "",
+                                    placeHolderSize: 100, borderRadius: 20),
                                 // Container(
                                 //   height: 100,
                                 //   decoration: BoxDecoration(
@@ -103,7 +108,7 @@ class ProfileScreenProvider extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "Music Status",
+                              loginResponseModel.name ?? '',
                               style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),
                             ),
                             Row(
@@ -115,7 +120,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                 ),
                                 paddingLeft(02),
                                 Text(
-                                  "1300",
+                                  (userCoins?.total.toString()) ?? "",
                                   style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),
                                 ),
                               ],
@@ -143,7 +148,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            loginResponseModel.inviteCoin ?? "",
+                                            (userCoins?.inviteCoin.toString()) ?? "",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],
@@ -169,7 +174,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            "1300",
+                                            (userCoins?.reedmCoin.toString()) ?? "",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],
@@ -201,12 +206,22 @@ class ProfileScreenProvider extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {showDeactivateAccountDialog(context);}, icon: AppImages.deActivate, name: "Deactivate account"),
+                            MenuClass(
+                                onTap: () {
+                                  showDeactivateAccountDialog(context);
+                                },
+                                icon: AppImages.deActivate,
+                                name: "Deactivate account"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {showDeleteAccountDialog(context);}, icon: AppImages.deleteAccount, name: "Delete account"),
+                            MenuClass(
+                                onTap: () {
+                                  showDeleteAccountDialog(context);
+                                },
+                                icon: AppImages.deleteAccount,
+                                name: "Delete account"),
                           ],
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:earn_streak/src/Constants/app_images.dart';
 import 'package:earn_streak/src/Constants/app_strings.dart';
 import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Model/ArticleModel/article_model.dart';
+import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/TakeQuizeScreen/Module/conrats_dialog.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Notifier/take_quiz_notifier.dart';
 import 'package:earn_streak/src/Utils/app_utils.dart';
@@ -179,7 +180,7 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  commonBorderButtonColor(
+                  widget.articleModel!.quizs!.length >1 ?  commonBorderButtonColor(
                     width: 150,
                     "Back",
                     onTap: () {
@@ -187,14 +188,15 @@ class _TakeQuizScreenProviderState extends State<TakeQuizScreenProvider> {
                         state.backQuestion();
                       }
                     },
-                  ),
+                  ) : Offstage(),
                   commonButtonColorLinerGradiunt(
                     width: 150,
                     "Next",
                     onTap: () {
                       if (state.selectAnswerList[state.selectIndex] != "") {
                         if ((state.selectIndex + 1) == widget.articleModel!.quizs!.length) {
-                          state.quizResult(context);
+                          // congratsDialog(context, "1", "1", "1");
+                          state.quizResult(context, widget.articleModel?.id.toString());
                         } else {
                           state.nextQuestion();
                         }

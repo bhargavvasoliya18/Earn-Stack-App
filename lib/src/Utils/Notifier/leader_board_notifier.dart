@@ -13,30 +13,31 @@ class LeaderBoardNotifier extends ChangeNotifier {
   int page = 1;
   List<LenderBoardData> lenderBoardList = [];
 
-  selectTabIndex(index, context, userId, type) async{
+  selectTabIndex(index, context, userId, type) async {
     page = 1;
     lenderBoardList.clear();
     selectIndex = index;
-    await getLeaderBoardApiCall(context,showLoader: true);
+    await getLeaderBoardApiCall(context, showLoader: true);
     notifyListeners();
   }
 
-  iniState(context) async{
-    await getLeaderBoardApiCall(context,showLoader: true);
+  iniState(context) async {
+    await getLeaderBoardApiCall(context, showLoader: true);
     notifyListeners();
   }
 
   getLeaderBoardApiCall(context, {bool showLoader = false}) async {
     String type = '';
-    if(selectIndex == 0){
+    if (selectIndex == 0) {
       type = "daily";
-    }else if(selectIndex == 1){
+    } else if (selectIndex == 1) {
       type = "weekly";
-    }else if(selectIndex == 2){
+    } else if (selectIndex == 2) {
       type = "monthly";
     }
 
-    List<LenderBoardData> lenderBoardLists = await  BoardDataHelper().lenderBoardApiCall(context,loginResponseModel.id,type,page,showLoader: showLoader);
+    List<LenderBoardData> lenderBoardLists =
+        await BoardDataHelper().lenderBoardApiCall(context, loginResponseModel.id, type, page, showLoader: showLoader);
     isHaseMoreData = lenderBoardLists.isNotEmpty;
     lenderBoardList.addAll(lenderBoardLists);
     notifyListeners();
@@ -48,13 +49,11 @@ class LeaderBoardNotifier extends ChangeNotifier {
       notifyListeners();
       if (isHaseMoreData) {
         page++;
-       await getLeaderBoardApiCall(context,showLoader: false);
+        await getLeaderBoardApiCall(context, showLoader: false);
       }
       isLoadMore = false;
       await Future.delayed(const Duration(milliseconds: 800));
       notifyListeners();
     }
   }
-
-
 }

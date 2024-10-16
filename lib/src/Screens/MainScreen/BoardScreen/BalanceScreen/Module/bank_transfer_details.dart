@@ -32,8 +32,8 @@ backDetailsDialog(context, BalanceNotifier state){
                 customTextField(accountNumberController, "account Number", "Enter account nuber", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
                 paddingTop(15),
                 customTextField(ifscCodeController, "IFSC Code", "Enter ifsc code", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
-                paddingTop(15),
-                customTextField(coinsController, "Coins", "250", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+                // paddingTop(15),
+                // customTextField(coinsController, "Coins", "Enter coins", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
                 paddingTop(25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

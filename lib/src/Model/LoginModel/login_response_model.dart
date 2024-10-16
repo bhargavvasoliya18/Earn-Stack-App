@@ -114,7 +114,7 @@ class Profile {
 }*/
 
 class LoginResponseModel {
-  int? id;
+  String? id = '';
   String? authToken;
   String? name;
   String? displayName;
@@ -132,10 +132,10 @@ class LoginResponseModel {
   String? quizCoin;
   String? articleCoin;
   String? referralCode;
-  int? redeem;
+  String? redeem;
 
   LoginResponseModel(
-      {this.id,
+      {this.id = '',
         this.authToken,
         this.name,
         this.displayName,
@@ -156,7 +156,7 @@ class LoginResponseModel {
         this.redeem});
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     authToken = json['auth_token'];
     name = json['name'];
     displayName = json['display_name'];
@@ -164,7 +164,7 @@ class LoginResponseModel {
     lastName = json['last_name'];
     email = json['email'];
     profile =
-    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+    json['profile'] != null ? Profile.fromJson(json['profile']) : null;
     deviceType = json['device_type'];
     deviceToken = json['device_token'];
     loginType = json['login_type'];
@@ -175,12 +175,12 @@ class LoginResponseModel {
     quizCoin = json['quiz_coin'];
     articleCoin = json['article_coin'];
     referralCode = json['referral_code'];
-    redeem = json['redeem'];
+    redeem = json['redeem'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id.toString();
     data['auth_token'] = authToken;
     data['name'] = name;
     data['display_name'] = displayName;
@@ -200,7 +200,7 @@ class LoginResponseModel {
     data['quiz_coin'] = quizCoin;
     data['article_coin'] = articleCoin;
     data['referral_code'] = referralCode;
-    data['redeem'] = redeem;
+    data['redeem'] = redeem.toString();
     return data;
   }
 }
@@ -221,7 +221,7 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['original'] = original;
     data['large'] = large;
     data['medium'] = medium;

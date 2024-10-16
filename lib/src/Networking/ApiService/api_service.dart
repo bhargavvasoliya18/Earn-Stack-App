@@ -14,6 +14,8 @@ import 'package:http_parser/http_parser.dart';
 
 enum RequestMethods { GET, POST, PUT, DELETE, POSTFILE }
 
+http.Client client = http.Client();
+
 Map<String, String> commonHeader = {
   ApiServicesHeaderKEYs.accept: "application/json",
   ApiServicesHeaderKEYs.contentType: "application/json"
@@ -27,17 +29,6 @@ commonHeaderWithToken(String authToken) {
   };
   return commonHeaderWithToken;
 }
-
-// Map<String,String> commonHeaderWithToken = {
-//   ApiServicesHeaderKEYs.accept: "application/json",
-//   ApiServicesHeaderKEYs.contentType: "application/json",
-//   ApiServicesHeaderKEYs.authorization : "Bearer "
-// };
-
-// Map<String,String> commonHeaderWithMultiPartFormData={
-//   ApiServicesHeaderKEYs.authorization:"Bearer ",
-//   ApiServicesHeaderKEYs.contentType: "multipart/form-data",
-// };
 
 commonHeaderWithMultiPartFormData(String authToken) {
   Map<String, String> commonHeaderWithToken = {
@@ -81,7 +72,7 @@ class ApiService {
         if (methods == RequestMethods.POSTFILE && response is http.StreamedResponse) {
           /// listen for response
           multiPartResponse = await response.stream.bytesToString();
-          log("---Multi part Response :  $multiPartResponse StatusCode: ${response.statusCode ?? 0}");
+          log("---Multi part Response :  $multiPartResponse StatusCode: ${response.statusCode}");
         } else {
           log("---Response :  ${response?.body ?? {}} StatusCode: ${response?.statusCode ?? 0}");
         }
@@ -93,9 +84,16 @@ class ApiService {
         if (response.statusCode == 200 && response.body.isNotEmpty) {
           return jsonDecode(response.body);
         } else {
-          if (response.statusCode == 404 || response.statusCode == 502) {
+          if (response.statusCode == 404 || response.statusCode == 502 ) {
             log("---!! AuthenticationFailed !!---");
             var displayError = jsonDecode(response.body);
+            print("display error data is ${displayError.toString()}");
+            if(url == "https://ssemw.org/quizzit/wp-json/earn/v1/user/post/read/coin/add" && response.statusCode == 404){
+              return null;
+            }
+           if(displayError[ApiValidationKEYs.message] != null && url == "https://ssemw.org/quizzit/wp-json/earn/v1/user/coin/update"){
+            showAlertDialog(context, "Oops",displayError[ApiValidationKEYs.message] , "ok", onTapOk: (){Navigator.pop(context);Navigator.pop(context, true);});
+          }
             if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.invalidEmail] != null) {
               showAlertDialog(context, "Oops", "Please Enter Valid E-mail", "ok");
             } else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailNotFound] != null) {
@@ -112,11 +110,13 @@ class ApiService {
               showAlertDialog(context, "Oops", "Email Address Does Not Exists", "ok");
             } else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.tokenError] != null) {
               showAlertDialog(context, "Oops", "Invalid Token", "ok");
-            } else {
+            }
+            else {
               showAlertDialog(context, "Oops", displayError[ApiValidationKEYs.message], "ok");
             }
           } else {
             var error = responseCodeHandle(context, response).toString();
+
             log("--- Error : $error");
             showToast(error, context);
           }
@@ -167,7 +167,8 @@ class ApiService {
     if (methods == RequestMethods.GET) {
       return await http.get(Uri.parse(url), headers: header!);
     } else if (methods == RequestMethods.POST) {
-      return await http.post(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));
+      // return await http.Client().post(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));
+      return await client.post(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));
     } else if (methods == RequestMethods.PUT) {
       return await http.put(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));
     } else if (methods == RequestMethods.DELETE) {
