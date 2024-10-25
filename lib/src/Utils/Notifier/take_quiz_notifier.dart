@@ -41,29 +41,31 @@ class TakeQuizNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  quizResult(context) async {
+  quizResult(context, postId) async {
     rightAnswer = 0;
     wrongAnswer = 0;
     for (int i = 0; i < articleModel.quizs!.length; i++) {
-      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() ==
-          selectAnswerList[i]) {
+      if ((int.parse(articleModel.quizs![i].answer!) - 1).toString() == selectAnswerList[i]) {
         rightAnswer++;
       } else {
         wrongAnswer++;
       }
     }
-    bool isUpdate = await ArticleHelper().updateUserCoin(context, rightAnswer.toString());
+
+   String winingCoins = ((double.parse(articleModel.coin.toString()) / articleModel.quizs!.length) * double.parse(rightAnswer.toString())).toStringAsFixed(2);
+
+    bool isUpdate = await ArticleHelper().updateUserCoin(context, winingCoins, postId, articleModel.title);
     playCompleteQuiz(context);
     debugPrint('RESULT $isUpdate');
     if (isUpdate == true) {
       congratsDialog(context, rightAnswer.toString(), wrongAnswer.toString(), articleModel.quizs!.length.toString());
-    } else {
+    } /*else {
       showError(message: "Coin not update");
-    }
+    }*/
   }
 
   playCompleteQuiz(context)async{
-    await ArticleHelper().quizAndReadArticleComplete(context, articleModel.id.toString(), isReadArticle: false);
+    // await ArticleHelper().quizAndReadArticleComplete(context, articleModel.id.toString(), isReadArticle: false, title: articleModel.title);
   }
 
   initState(ArticleModel articleModel) {

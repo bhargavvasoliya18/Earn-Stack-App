@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 ///RegisterScreen TextField Controller
   TextEditingController registerNameController = TextEditingController();
+  TextEditingController registerReferralController = TextEditingController();
 TextEditingController registerEmailController = TextEditingController();
 TextEditingController registerPasswordController = TextEditingController();
 TextEditingController registerConfirmPasswordController = TextEditingController();

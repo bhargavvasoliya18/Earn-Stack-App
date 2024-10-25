@@ -12,6 +12,7 @@ class AppImages {
   static const leftBackIcon = "$svgPath/left_back_arrow.svg";
 
   static const dummyImage = "$pngPath/dummy_image.png";
+  static const dummyUserImage = "$pngPath/user.png";
 
   static const onBoardingImage = "$pngPath/onboarding_image.png";
   static const userImage = "$pngPath/user_image.png";
@@ -73,4 +74,5 @@ class AppImages {
   static const logOutIcon = "$svgPath/log_out_icon.svg";
 
   static const splashScreenImage = "$pngPath/splash_screen_image.png";
+  static const placeImage = "$pngPath/place_image.png";
 }

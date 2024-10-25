@@ -11,7 +11,7 @@ class CustomBottomTabNotifier extends BaseNotifier{
     bottomTabController.addListener(() {
       notifyListeners();
     });
-    print("bottom tab controller status custom bottom tab notifier init is ${bottomTabController.hasClients}");
+    debugPrint("bottom tab controller status custom bottom tab notifier init is ${bottomTabController.hasClients}");
     notifyListeners();
   }
 

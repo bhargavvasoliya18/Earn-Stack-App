@@ -112,8 +112,8 @@ class RegisterNotifier extends ChangeNotifier {
         String firstName = googleUser.displayName!.split(" ")[0];
         String? lastName = googleUser.displayName!.split(" ")[1];
 
-        print("get data firebase is ${googleUser.displayName}");
-        print("get data token is ${credential.accessToken}");
+        debugPrint("get data firebase is ${googleUser.displayName}");
+        debugPrint("get data token is ${credential.accessToken}");
         if (credential.accessToken != null) {
           Map<String, dynamic> body = {
             "email": email,
@@ -123,14 +123,14 @@ class RegisterNotifier extends ChangeNotifier {
             "device_token": "",
             "first_name": firstName,
             "last_name": lastName,
-            "username": firstName,
+            "username": email,
             "auth_token": googleAuth.accessToken
           };
           await AuthHelper().registerApiCall(context, body);
         }
       }
     } catch (error) {
-      print("Google login throw exception $error");
+      debugPrint("Google login throw exception $error");
     }
   }
 

@@ -27,7 +27,7 @@ class LoginScreenProvider extends StatelessWidget {
       loginResponseModel.deviceToken = (await fcm.getToken()) ?? '';
       var state = Provider.of<LoginNotifier>(context, listen: false);
       state.initState();
-      print("device token is ${loginResponseModel.deviceToken}");
+      debugPrint("device token is ${loginResponseModel.deviceToken}");
     });
   }
 

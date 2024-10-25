@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../Constants/app_images.dart';
 
-Widget fadeImageView(String img, {double? placeHolderSize, double? borderRadius}) {
+Widget fadeImageView(String img, {double? placeHolderSize, double? borderRadius, String? placeImage}) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(borderRadius ?? 10),
     child: CachedNetworkImage(
@@ -15,7 +15,7 @@ Widget fadeImageView(String img, {double? placeHolderSize, double? borderRadius}
       imageUrl: img,
       fit: BoxFit.cover,
       height: placeHolderSize ?? 100,
-      width:  placeHolderSize ?? 100,
+      width: placeHolderSize ?? 100,
       placeholder: (context, url) => Icon(
         Icons.image_outlined,
         color: AppColors.purple,
@@ -26,9 +26,7 @@ Widget fadeImageView(String img, {double? placeHolderSize, double? borderRadius}
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Image.asset(
-          AppImages.userImage,
-        ),
+        child: Image.asset(placeImage ?? AppImages.dummyUserImage),
       ),
     ),
   );

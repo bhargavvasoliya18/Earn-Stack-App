@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:earn_streak/src/Element/textfield_controller.dart';
+import 'package:earn_streak/src/Model/CommonModel/common_model.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_request_model.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_response_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
+import 'package:earn_streak/src/Utils/Notifier/setting_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +81,8 @@ class LoginNotifier extends ChangeNotifier {
         String firstName = googleUser.displayName!.split(" ")[0];
         String? lastName = googleUser.displayName!.split(" ")[1];
 
-        print("get data firebase is ${googleUser.displayName}");
-        print("get data token is ${credential.accessToken}");
+        debugPrint("get data firebase is ${googleUser.displayName}");
+        debugPrint("get data token is ${credential.accessToken}");
         if (credential.accessToken != null) {
           Map<String, dynamic> body = {
             "username": email,
@@ -94,7 +96,7 @@ class LoginNotifier extends ChangeNotifier {
         }
       }
     } catch (error) {
-      print("Google login throw exception $error");
+      debugPrint("Google login throw exception $error");
     }
   }
 

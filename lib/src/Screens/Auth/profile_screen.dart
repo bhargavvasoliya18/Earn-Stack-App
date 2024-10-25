@@ -10,16 +10,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../Widget/common_network_image.dart';
 
-ProfileScreen() => ChangeNotifierProvider<ProfileNotifier>(
-      create: (_) => ProfileNotifier(),
-      child: Builder(builder: (context) => const ProfileScreenProvider()),
-    );
 
-class ProfileScreenProvider extends StatelessWidget {
-  const ProfileScreenProvider({super.key});
+class ProfileScreen extends StatefulWidget {
+
+   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 800), ()async{
+      var state = Provider.of<ProfileNotifier>(context, listen: false);
+      await state.getUserDetails(context);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +54,19 @@ class ProfileScreenProvider extends StatelessWidget {
                 Row(
                   children: [
                     GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset(AppImages.leftBackIcon)),
-                    paddingLeft(10),
-                    Text(
-                      "Profile",
-                      style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: SvgPicture.asset(AppImages.leftBackIcon),
+                      ),
                     ),
+                    paddingLeft(10),
+                    Text("Profile", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
                   ],
                 ),
-                paddingTop(20),
+                paddingTop(15),
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,
@@ -70,16 +82,7 @@ class ProfileScreenProvider extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "",placeHolderSize: 100,borderRadius: 20),
-                                // Container(
-                                //   height: 100,
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Image.asset(
-                                //     AppImages.userImage,
-                                //   ),
-                                // ),
+                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 100, borderRadius: 20),
                                 Positioned(
                                     bottom: 0,
                                     right: 0,
@@ -103,7 +106,7 @@ class ProfileScreenProvider extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "Music Status",
+                              loginResponseModel.name ?? '',
                               style: TextStyleTheme.customTextStyle(AppColors.black, 20, FontWeight.w600),
                             ),
                             Row(
@@ -115,7 +118,8 @@ class ProfileScreenProvider extends StatelessWidget {
                                 ),
                                 paddingLeft(02),
                                 Text(
-                                  "1300",
+                                  (state.userDetailsModel.totalCoin ?? "0").toString(),
+                                  // (userCoins?.total.toString()) ?? "",
                                   style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),
                                 ),
                               ],
@@ -131,10 +135,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "Invites",
-                                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),
-                                      ),
+                                      Text("Invites", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
                                       Row(
                                         children: [
                                           Image.asset(
@@ -143,7 +144,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            loginResponseModel.inviteCoin ?? "",
+                                            state.userDetailsModel.inviteCoin ?? "0",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],
@@ -169,7 +170,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            "1300",
+                                            state.userDetailsModel.redeem ?? "0",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],
@@ -201,12 +202,22 @@ class ProfileScreenProvider extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {showDeactivateAccountDialog(context);}, icon: AppImages.deActivate, name: "Deactivate account"),
+                            MenuClass(
+                                onTap: () {
+                                  showDeactivateAccountDialog(context);
+                                },
+                                icon: AppImages.deActivate,
+                                name: "Deactivate account"),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Divider(thickness: 1, color: AppColors.purple),
                             ),
-                            MenuClass(onTap: () {showDeleteAccountDialog(context);}, icon: AppImages.deleteAccount, name: "Delete account"),
+                            MenuClass(
+                                onTap: () {
+                                  showDeleteAccountDialog(context);
+                                },
+                                icon: AppImages.deleteAccount,
+                                name: "Delete account"),
                           ],
                         ),
                       ),

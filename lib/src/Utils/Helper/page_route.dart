@@ -45,8 +45,8 @@ pushReplacement(BuildContext context, Widget destination) {
       MaterialPageRoute(builder: (context) => destination));
 }
 
-push(BuildContext context, Widget destination) {
-  Navigator.of(context)
+push(BuildContext context, Widget destination) async{
+ await Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => destination));
 }
 

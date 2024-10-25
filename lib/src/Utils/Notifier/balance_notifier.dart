@@ -1,5 +1,7 @@
 import 'package:earn_streak/src/Element/textfield_controller.dart';
 import 'package:earn_streak/src/Model/UiModel/country_code_model.dart';
+import 'package:earn_streak/src/Model/user_details_model.dart';
+import 'package:earn_streak/src/Utils/Mixins/progress_hub.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/app_utils.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,6 @@ class BalanceNotifier extends ChangeNotifier {
       "mobile_name": mobileName ?? "",
       "mobile_no": "$dialCode ${mobileNo ?? ""}",
       "mobile_network": mobileNetwork ?? "",
-
     };
 
     String authToken = await sharedPref.read("authToken");
@@ -71,7 +72,7 @@ class BalanceNotifier extends ChangeNotifier {
 
   payPalDetailsUpdateApiCall(context){
     if(payPalEmailController.text.isNotEmpty){
-      paymentUpdateApiCall(context, "type", email: payPalEmailController.text);
+      paymentUpdateApiCall(context, "paypal", email: payPalEmailController.text, coins: coinsController.text);
     }else{
       showError(message: "Please enter email");
     }
@@ -86,8 +87,6 @@ class BalanceNotifier extends ChangeNotifier {
       showError(message: "Please enter account number");
     } else if(ifscCodeController.text.isEmpty){
       showError(message: "Please enter ifsc name");
-    } else if(coinsController.text.isEmpty){
-      showError(message: "Please enter coin");
     } else{
       paymentUpdateApiCall(context, "bank", accountName: accountNameController.text, bankName: bankNameController.text, accountNo: accountNumberController.text, bankIfsc: ifscCodeController.text, coins: coinsController.text);
     }
@@ -101,8 +100,26 @@ class BalanceNotifier extends ChangeNotifier {
     } else if(momoNetworkController.text.isEmpty){
       showError(message: "Please enter network");
     } else{
-      paymentUpdateApiCall(context, "mobile", mobileName: momoNameController.text, mobileNo: momoNoController.text, mobileNetwork: momoNetworkController.text);
+      paymentUpdateApiCall(context, "mobile", mobileName: momoNameController.text, mobileNo: momoNoController.text, mobileNetwork: momoNetworkController.text, coins: coinsController.text);
     }
+  }
+
+  UserDetailsModel userDetailsModel = UserDetailsModel();
+
+  getUserDetails(context)async{
+    UserDetailsModel tempUserDetailsModel = await AuthHelper().getUserDetails(context, showLoader: userDetailsModel.redeem != null && userDetailsModel.redeem != "" ? false : true);
+    if(userDetailsModel.redeem != tempUserDetailsModel.redeem){
+      sharedPref.save("balanceProfileDetails", tempUserDetailsModel.toJson());
+      await loadUserDataSharedPrefs();
+    }
+  }
+
+  loadUserDataSharedPrefs() async {
+    var data = await sharedPref.read("balanceProfileDetails");
+    UserDetailsModel user = data != null ? UserDetailsModel.fromJson(data) : UserDetailsModel();
+    userDetailsModel = user;
+    notifyListeners();
+    debugPrint('LOG => ${userDetailsModel.toJson()}');
   }
 
 }

@@ -64,7 +64,7 @@ class FirebaseMessagesHelper{
     pastMessage = message;
     if (Platform.isIOS == false && message.notification != null && fireLocalNotification) {
       print("message data is ${message.data}");
-        sendLocalNotification("Check title", "Test notification",1);
+        sendLocalNotification("Thanks!", message.data['title'],1);
     }
   }
 
