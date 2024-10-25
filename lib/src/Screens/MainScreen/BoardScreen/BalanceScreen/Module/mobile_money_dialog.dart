@@ -33,7 +33,7 @@ mobileMoneyDialog(context, BalanceNotifier state){
                   showBorder: false, inputFormatters: [FilteringTextInputFormatter.digitsOnly]),
               // customTextField(momoNoController, "Number.", "Enter mobile number", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(15),
-              customTextField(momoNetworkController, "Network", "Enter account nuber", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
+              customTextField(momoNetworkController, "Network", "Enter account number", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               // paddingTop(15),
               // customTextField(coinsController, "Coins", "Enter coins", validation: (value) => validateEmail(value), textInputAction: TextInputAction.done),
               paddingTop(25),

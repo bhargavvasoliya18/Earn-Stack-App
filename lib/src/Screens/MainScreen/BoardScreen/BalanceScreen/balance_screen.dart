@@ -8,35 +8,34 @@ import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Mod
 import 'package:earn_streak/src/Screens/MainScreen/BoardScreen/BalanceScreen/Module/paypal_dialog.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Mixins/alert_dialog.dart';
+import 'package:earn_streak/src/Utils/Mixins/progress_hub.dart';
 import 'package:earn_streak/src/Utils/Notifier/balance_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/home_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/setting_notifier.dart';
 import 'package:earn_streak/src/Widget/custom_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-BalanceScreen() => ChangeNotifierProvider<SettingNotifier>(
-    create: (_) => SettingNotifier(),
-    child: ChangeNotifierProvider<BalanceNotifier>(
-      create: (_) => BalanceNotifier(),
-      child: Builder(builder: (context) => const BalanceScreenProvider()),
-    ));
-
-class BalanceScreenProvider extends StatefulWidget {
-  const BalanceScreenProvider({super.key});
+class BalanceScreen extends StatefulWidget {
+  const BalanceScreen({super.key});
 
   @override
-  State<BalanceScreenProvider> createState() => _BalanceScreenProviderState();
+  State<BalanceScreen> createState() => _BalanceScreenState();
 }
 
-class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
+class _BalanceScreenState extends State<BalanceScreen> {
   String? minCoin;
 
   @override
   void initState() {
     getMinCoin();
+    var state = Provider.of<BalanceNotifier>(context, listen: false);
+    Future.delayed(Duration(milliseconds: 80), (){
+      state.getUserDetails(context);
+    });
     super.initState();
   }
 
@@ -71,9 +70,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                         Row(
                           children: [
                             GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
+                                onTap: () {Navigator.pop(context);},
                                 child:  Padding(
                                   padding: EdgeInsets.all(10.sp),
                                   child: SvgPicture.asset(AppImages.leftBackIcon),
@@ -104,7 +101,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                       height: 26,
                                     ),
                                     Text(
-                                      userCoins!.total.toString(),
+                                      (state.userDetailsModel.totalCoin ?? 0).toString(),
                                       style: TextStyleTheme.customTextStyle(AppColors.green, 30, FontWeight.w700),
                                     ),
                                   ],
@@ -129,7 +126,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                                   height: 22,
                                                 ),
                                                 Text(
-                                                  userCoins!.total.toString(),
+                                                  (state.userDetailsModel.earning ?? 0).toString(),
                                                   style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                                 ),
                                               ],
@@ -143,12 +140,9 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                             const Text(BalanceString.totalRedeem),
                                             Row(
                                               children: [
-                                                Image.asset(
-                                                  AppImages.courncyIcon,
-                                                  height: 22,
-                                                ),
+                                                Image.asset(AppImages.courncyIcon, height: 22,),
                                                 Text(
-                                                  userCoins!.reedmCoin.toString(),
+                                                  state.userDetailsModel.redeem ?? "0",
                                                   style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                                 ),
                                               ],
@@ -171,13 +165,9 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                             child: Column(
                               children: [
                                 InkWell(
-                                  onTap: int.parse(minCoin ?? "0") <= (userCoins?.total ?? 0)
-                                      ? () {
-                                          payPalDialog(context, state);
-                                        }
-                                      : () {
-                                          showAlertDialog(context, "Sorry", "You are not eligible for this request", "ok");
-                                        },
+                                  onTap: int.parse(minCoin ?? "0") <= (state.userDetailsModel.earning ?? 0)
+                                      ? () {payPalDialog(context, state);}
+                                      : () {showAlertDialog(context, "Sorry", "You are not eligible for this request", "ok");},
                                   child: Row(
                                     children: [
                                       SvgPicture.asset(AppImages.paypalIcon),
@@ -185,10 +175,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            BalanceString.payPal,
-                                            style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),
-                                          ),
+                                          Text(BalanceString.payPal, style: TextStyleTheme.customTextStyle(AppColors.black, 14, FontWeight.w600),),
                                           Text(
                                             "${BalanceString.minimumPayment} $minCoin coins",
                                             style: TextStyleTheme.customTextStyle(AppColors.lightGrey, 14, FontWeight.w600),
@@ -202,7 +189,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                 Divider(),
                                 paddingTop(5),
                                 InkWell(
-                                  onTap: int.parse(minCoin ?? "0") <= (userCoins?.total ?? 0)
+                                  onTap: int.parse(minCoin ?? "0") <= (state.userDetailsModel.earning ?? 0)
                                       ? () {
                                           backDetailsDialog(context, state);
                                         }
@@ -233,7 +220,7 @@ class _BalanceScreenProviderState extends State<BalanceScreenProvider> {
                                 Divider(),
                                 paddingTop(5),
                                 InkWell(
-                                  onTap: int.parse(minCoin ?? "0") <= (userCoins?.total ?? 0)
+                                  onTap: int.parse(minCoin ?? "0") <= (state.userDetailsModel.earning ?? 0)
                                       ? () {
                                           mobileMoneyDialog(context, state);
                                         }

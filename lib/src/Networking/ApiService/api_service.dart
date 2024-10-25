@@ -84,7 +84,8 @@ class ApiService {
         if (response.statusCode == 200 && response.body.isNotEmpty) {
           return jsonDecode(response.body);
         } else {
-          if (response.statusCode == 404 || response.statusCode == 502 ) {
+          print("check status code ${response.statusCode}");
+          if (response.statusCode == 404 || response.statusCode == 502) {
             log("---!! AuthenticationFailed !!---");
             var displayError = jsonDecode(response.body);
             print("display error data is ${displayError.toString()}");
@@ -94,6 +95,9 @@ class ApiService {
            if(displayError[ApiValidationKEYs.message] != null && url == "https://ssemw.org/quizzit/wp-json/earn/v1/user/coin/update"){
             showAlertDialog(context, "Oops",displayError[ApiValidationKEYs.message] , "ok", onTapOk: (){Navigator.pop(context);Navigator.pop(context, true);});
           }
+           if(displayError[ApiValidationKEYs.message] != null && url == "https://ssemw.org/quizzit/wp-json/earn/v1/user/payment/details/save"){
+             showAlertDialog(context, "Oops", displayError[ApiValidationKEYs.message], "ok");
+           }
             if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.invalidEmail] != null) {
               showAlertDialog(context, "Oops", "Please Enter Valid E-mail", "ok");
             } else if (displayError[ApiValidationKEYs.data][ApiValidationKEYs.emailNotFound] != null) {
@@ -112,6 +116,7 @@ class ApiService {
               showAlertDialog(context, "Oops", "Invalid Token", "ok");
             }
             else {
+              print("show dialog check please");
               showAlertDialog(context, "Oops", displayError[ApiValidationKEYs.message], "ok");
             }
           } else {
@@ -165,7 +170,8 @@ class ApiService {
   static Future<dynamic> apiCallMethod(String url, RequestMethods methods,
       {Map<String, String>? header, Map<String, dynamic>? requestBody, List<XFile>? postFiles, String? fileStringKey}) async {
     if (methods == RequestMethods.GET) {
-      return await http.get(Uri.parse(url), headers: header!);
+      return await client.get(Uri.parse(url), headers: header!);
+      // return await http.get(Uri.parse(url), headers: header!);
     } else if (methods == RequestMethods.POST) {
       // return await http.Client().post(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));
       return await client.post(Uri.parse(url), headers: header!, body: jsonEncode(requestBody!));

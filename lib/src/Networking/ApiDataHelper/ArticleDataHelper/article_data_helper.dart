@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:earn_streak/src/Constants/api_url.dart';
 import 'package:earn_streak/src/Model/ArticleModel/article_model.dart';
 import 'package:earn_streak/src/Model/TransactionModel/transaction_model.dart';
@@ -29,7 +31,7 @@ class ArticleHelper {
     try {
       // var res = await ApiService.request(context, "${AppUrls.getArticle}?per_page_data=${5}&page=$page", RequestMethods.GET, header: commonHeaderWithToken(authToken), showLoader: showLoader);
       var res = await ApiService.request(
-          context, "$changedUrl/wp-json/earn/v1/posts?per_page_data=${10}&page=$page", RequestMethods.GET,
+          context, "$changedUrl/wp-json/earn/v1/posts?per_page_data=${10}&page=$page&filter_date=${loginResponseModel.userRegistered}", RequestMethods.GET,
           header: commonHeaderWithToken(authToken), showLoader: showLoader);
       if (res != null && res["success"] == true) {
         for (var element in res["data"]) {
@@ -151,6 +153,7 @@ class ArticleHelper {
       "post_id": postId,
     };
     String authToken = await sharedPref.read("authToken");
+    log("check update api body $body");
     try {
       var res = await ApiService.request(context, AppUrls.readArticleUpdateTime, RequestMethods.POST,
           header: commonHeaderWithToken(authToken), requestBody: body, showLoader: false);

@@ -68,7 +68,7 @@ class BoardString{
 
 class BalanceString{
   static const balance = "Balance";
-  static const availableBalance = "Available Balance";
+  static const availableBalance = "Total Balance";
   static const totalEarning = "Total earning";
   static const totalRedeem = "Total Redeem";
   static const payPal = "PayPal";

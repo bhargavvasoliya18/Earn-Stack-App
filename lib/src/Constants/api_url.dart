@@ -22,4 +22,5 @@ class AppUrls {
   static const articleReadComplete = "$baseUrl/user/post/read";
   static const playQuizComplete = "$baseUrl/user/quiz/complate";
   static const completedQuizAndArticle = "$baseUrl/user/read/history";
+  static const getUserDetails = "$baseUrl/user/details";
 }

@@ -4,7 +4,6 @@ import 'package:earn_streak/src/Element/padding_class.dart';
 import 'package:earn_streak/src/Screens/Auth/Module/select_image.dart';
 import 'package:earn_streak/src/Style/text_style.dart';
 import 'package:earn_streak/src/Utils/Mixins/log_out_alert_dialog.dart';
-import 'package:earn_streak/src/Utils/Notifier/home_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:earn_streak/src/Utils/Notifier/profile_notifier.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +12,25 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../Widget/common_network_image.dart';
 
-ProfileScreen() => ChangeNotifierProvider<ProfileNotifier>(
-      create: (_) => ProfileNotifier(),
-      child: Builder(builder: (context) => const ProfileScreenProvider()),
-    );
 
-class ProfileScreenProvider extends StatelessWidget {
-  const ProfileScreenProvider({super.key});
+class ProfileScreen extends StatefulWidget {
+
+   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 800), ()async{
+      var state = Provider.of<ProfileNotifier>(context, listen: false);
+      await state.getUserDetails(context);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +63,7 @@ class ProfileScreenProvider extends StatelessWidget {
                       ),
                     ),
                     paddingLeft(10),
-                    Text(
-                      "Profile",
-                      style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),
-                    ),
+                    Text("Profile", style: TextStyleTheme.customTextStyle(AppColors.white, 24, FontWeight.w700),),
                   ],
                 ),
                 paddingTop(15),
@@ -74,17 +82,7 @@ class ProfileScreenProvider extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "",
-                                    placeHolderSize: 100, borderRadius: 20),
-                                // Container(
-                                //   height: 100,
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Image.asset(
-                                //     AppImages.userImage,
-                                //   ),
-                                // ),
+                                fadeImageView(loginResponseModel.profile?.thumbnail ?? "", placeHolderSize: 100, borderRadius: 20),
                                 Positioned(
                                     bottom: 0,
                                     right: 0,
@@ -120,7 +118,8 @@ class ProfileScreenProvider extends StatelessWidget {
                                 ),
                                 paddingLeft(02),
                                 Text(
-                                  (userCoins?.total.toString()) ?? "",
+                                  (state.userDetailsModel.totalCoin ?? "0").toString(),
+                                  // (userCoins?.total.toString()) ?? "",
                                   style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w700),
                                 ),
                               ],
@@ -136,10 +135,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "Invites",
-                                        style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),
-                                      ),
+                                      Text("Invites", style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w600),),
                                       Row(
                                         children: [
                                           Image.asset(
@@ -148,7 +144,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            (userCoins?.inviteCoin.toString()) ?? "",
+                                            state.userDetailsModel.inviteCoin ?? "0",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],
@@ -174,7 +170,7 @@ class ProfileScreenProvider extends StatelessWidget {
                                           ),
                                           paddingLeft(02),
                                           Text(
-                                            (userCoins?.reedmCoin.toString()) ?? "",
+                                            state.userDetailsModel.redeem ?? "0",
                                             style: TextStyleTheme.customTextStyle(AppColors.green, 24, FontWeight.w600),
                                           ),
                                         ],

@@ -5,11 +5,8 @@ import 'package:earn_streak/src/Model/UserCoinsDataModel/user_coins.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/ArticleDataHelper/article_data_helper.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:earn_streak/src/Networking/ApiService/api_service.dart';
-import 'package:earn_streak/src/Screens/MainScreen/HomeScreen/InAppWebView/in_app_webview.dart';
-import 'package:earn_streak/src/Screens/SplashScreen/splash_screen.dart';
 import 'package:earn_streak/src/Utils/Notifier/login_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 UserCoins? userCoins;
 
@@ -26,22 +23,18 @@ class HomeNotifier extends ChangeNotifier {
   String? postTitle = '';
 
   getArticleApiCall(context, {bool showLoader = false}) async {
-   CommonModel commonModel = await AuthHelper().commonApiCall(context);
+    isLoaderShow = true;
+    notifyListeners();
+    CommonModel commonModel = await AuthHelper().commonApiCall(context);
     print("changed url data home notifier class is ${commonModel.postBaseUrl}");
 
     debugPrint("check get article api call");
-    isLoaderShow = true;
-    notifyListeners();
     List<ArticleModel> articleLists = await ArticleHelper()
         .getArticle(context, page: page, showLoader: false, completeArticles: completeArticles, completeQuizs: completeQuizs,changedUrl: commonModel.postBaseUrl);
     isHaseMoreData = articleLists.isNotEmpty;
     articleList.addAll(articleLists);
     isLoaderShow = false;
     notifyListeners();
-  }
-
-  readArticleAndUpdate(context) async {
-    // await ArticleHelper().quizAndReadArticleComplete(context, selectArticleId ?? "", isReadArticle: true, title: postTitle);
   }
 
   completeQuizAndArticle(context) async {
@@ -95,10 +88,10 @@ class HomeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  initStateArticleApiCall(context){
+  initStateArticleApiCall(context)async{
     page = 1;
     notifyListeners();
-    getArticleApiCall(context, showLoader: true);
+    await getArticleApiCall(context, showLoader: true);
   }
 
   getUsersCoins(BuildContext context) async {
@@ -108,14 +101,14 @@ class HomeNotifier extends ChangeNotifier {
 
   onScroll(BuildContext context) async {
     if (!isLoadMore) {
-      isLoadMore = true;
-      notifyListeners();
       if (isHaseMoreData) {
+        isLoadMore = true;
+        notifyListeners();
         page++;
         await getArticleApiCall(context, showLoader: false);
       }
-      isLoadMore = false;
       await Future.delayed(const Duration(milliseconds: 800));
+      isLoadMore = false;
       notifyListeners();
     }
   }

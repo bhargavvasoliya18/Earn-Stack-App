@@ -8,13 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
-
-// TransactionHistoryScreen() => ChangeNotifierProvider<TransactionNotifier>(
-//       create: (_) => TransactionNotifier(),
-//       child: Builder(builder: (context) => TransactionHistoryScreenProvider(context: context)),
-//     );
 
 class TransactionHistoryScreen extends StatefulWidget {
   TransactionHistoryScreen({super.key});
@@ -32,8 +26,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
       state.isLoadMore = false;
       state.isHaseMoreData = true;
       state.page = 1;
-      if (state.isTransactionHistoryApiCall == false) {
-        state.isTransactionHistoryApiCall = true;
+      if (state.transactionHistoryList.isEmpty) {
         state.getTransactionApiCall(context);
       }
     });
@@ -42,6 +35,17 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Widget loader = Padding(
+      padding: EdgeInsets.all(10),
+      child: Center(
+          child: SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: Color(0xff7979FC),
+              ))),
+    );
     return Scaffold(
       body: Consumer<TransactionNotifier>(
         builder: (context, state, child) => Stack(
@@ -116,28 +120,25 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              (index + 1).toString(),
-                                                              style: TextStyleTheme.customTextStyle(
-                                                                  AppColors.black, 16, FontWeight.w400),
-                                                            ),
-                                                            paddingLeft(10),
-                                                            Text(
-                                                              model.history ?? "",
-                                                              style: TextStyleTheme.customTextStyle(
-                                                                  AppColors.black, 14, FontWeight.w600),
-                                                            ),
-                                                          ],
+                                                        Text(
+                                                          model.history ?? "",
+                                                          style: TextStyleTheme.customTextStyle(
+                                                              AppColors.green, 16, FontWeight.w600),
                                                         ),
-                                                        Text(state.convertDateFormat(model.createdAt ?? ""))
+                                                        Text(state.convertDateFormat(model.createdAt ?? ""), style: TextStyleTheme.customTextStyle(
+                                                            AppColors.green, 16, FontWeight.w600),)
                                                       ],
                                                     ),
                                                     Row(
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
+                                                        Text(
+                                                          "+",
+                                                          style: TextStyleTheme.customTextStyle(
+                                                              AppColors.green, 18, FontWeight.w600),
+                                                        ),
                                                         Image.asset(
                                                           AppImages.courncyIcon,
                                                           height: 15,
@@ -146,7 +147,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                                         Text(
                                                           model.coin ?? "",
                                                           style: TextStyleTheme.customTextStyle(
-                                                              AppColors.green, 16, FontWeight.w600),
+                                                              AppColors.green, 18, FontWeight.w600),
                                                         ),
                                                       ],
                                                     ),
@@ -156,6 +157,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                               paddingTop(5),
                                               index == lastIndex ? Container() : Divider(),
                                               paddingTop(index == lastIndex ? 0 : 5),
+                                              lastIndex == index ? state.isLoadMore ? loader : Container() : Offstage()
                                             ],
                                           );
                                         }),

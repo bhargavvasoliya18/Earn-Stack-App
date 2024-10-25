@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:earn_streak/src/Constants/app_colors.dart';
 import 'package:earn_streak/src/Constants/app_images.dart';
@@ -21,24 +22,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../Utils/Notifier/login_notifier.dart';
 import '../../../Widget/common_network_image.dart';
 
-HomeScreen() => ChangeNotifierProvider<SettingNotifier>(
-      create: (_) => SettingNotifier(),
-      child: ChangeNotifierProvider<HomeNotifier>(
-        create: (_) => HomeNotifier(),
-        child: Builder(builder: (context) => HomeScreenProvider(context: context)),
-      ),
-    );
+class HomeScreen extends StatefulWidget {
 
-class HomeScreenProvider extends StatefulWidget {
-  BuildContext context;
-
-  HomeScreenProvider({super.key, required this.context});
+  HomeScreen({super.key,});
 
   @override
-  State<HomeScreenProvider> createState() => _HomeScreenProviderState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     FirebaseMessagesHelper.initFirebaseMessage(context);
@@ -71,19 +63,22 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
     print("home title $homeTitle");
   }
 
+  bool isReadBlogApiCall = false;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint("check did change app value");
-    if (state == AppLifecycleState.resumed && timeLaunched != null) {
-      timeResumed = DateTime.now();
-      timeSpent = timeResumed!.difference(timeLaunched!);
-      // Provider.of<HomeNotifier>(context, listen: false).readArticleTimeApiCall(context, timeSpent?.inSeconds);
-      Provider.of<HomeNotifier>(context, listen: false).readArticleAndUpdate(context);
-      Provider.of<HomeNotifier>(context, listen: false).readArticleTimeApiCall(context, timeSpent?.inSeconds);
-      Provider.of<HomeNotifier>(context, listen: false).isLoaderShow = true;
-      // Provider.of<HomeNotifier>(context, listen: false).articleList.clear();
-      // Provider.of<HomeNotifier>(context, listen: false).iniState(context);
-      debugPrint("spend time ${timeSpent?.inSeconds}");
+    log("check did change app value");
+    if(isReadBlogApiCall){
+      if (state == AppLifecycleState.resumed && timeLaunched != null) {
+        timeResumed = DateTime.now();
+        timeSpent = timeResumed!.difference(timeLaunched!);
+        Provider.of<HomeNotifier>(context, listen: false).readArticleTimeApiCall(context, timeSpent?.inSeconds);
+        Provider.of<HomeNotifier>(context, listen: false).isLoaderShow = true;
+        log("spend time ${timeSpent?.inSeconds}");
+        setState(() {
+          isReadBlogApiCall = false;
+        });
+      }
     }
   }
 
@@ -92,10 +87,12 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
   DateTime? timeLaunched;
 
   Future<void> launchURL(String url) async {
+    setState(() {
+      isReadBlogApiCall = true;
+    });
     final Uri uri = Uri.parse(url);
     timeLaunched = DateTime.now();
-    // await launchUrl(uri, mode: LaunchMode.externalApplication, );
-    await launchUrl(uri, mode: LaunchMode.externalApplication, webViewConfiguration: WebViewConfiguration());
+    await launchUrl(uri, mode: LaunchMode.externalApplication, webViewConfiguration: WebViewConfiguration(), );
   }
 
   @override
@@ -111,11 +108,11 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                   padding: EdgeInsets.all(10),
                   child: Center(
                       child: SizedBox(
-                          height: 50,
-                          width: 50,
+                          height: 30,
+                          width: 30,
                           child: CircularProgressIndicator(
                             strokeWidth: 3,
-                            color: AppColors.black,
+                            color: Color(0xff7979FC),
                           ))),
                 );
                 return Stack(
@@ -165,7 +162,6 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                           children: [
                                             Text(
                                               settingState.commonModel.homeTitle ?? "",
-                                              // settingState.commonModel.homeTitle ?? "",
                                               style: TextStyleTheme.customTextStyle(AppColors.black, 16, FontWeight.w700),
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -195,206 +191,205 @@ class _HomeScreenProviderState extends State<HomeScreenProvider> with WidgetsBin
                                   },
                                   isLoading: state.isLoadMore,
                                   child: state.articleList.isNotEmpty
-                                      ? ListView.builder(
-                                          itemCount: state.articleList.length,
-                                          shrinkWrap: true,
-                                          padding: EdgeInsets.only(bottom: Platform.isIOS ? 170 : 160),
-                                          itemBuilder: (context, index) {
-                                            var item = state.articleList[index];
-                                            // debugPrint(
-                                            //     "status is ${state.articleList[index].isArticleComplete} ===> ${state.articleList[index].isQuizComplete}");
-                                            return Column(
-                                              children: [
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(12.sp),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(10),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            fadeImageView(item.images?.thumbnail ?? "",
-                                                                placeHolderSize: 80.h, placeImage: AppImages.placeImage),
-                                                            paddingLeft(10),
-                                                            Expanded(
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Text(
-                                                                    item.title ?? '',
-                                                                    style: TextStyleTheme.customTextStyle(
-                                                                        AppColors.black, 16, FontWeight.w700),
-                                                                  ),
-                                                                  Text(
-                                                                    item.content ?? '',
-                                                                    style: TextStyleTheme.customTextStyle(
-                                                                        AppColors.lightGrey, 14, FontWeight.w600),
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 3,
-                                                                  ),
-                                                                  paddingTop(5),
-                                                                  GestureDetector(
-                                                                    onTap: () async {
-                                                                      if (item.isArticleComplete == false) {
-                                                                        await launchURL(
-                                                                          item.url.toString(),
-                                                                        );
-                                                                        state.selectArticleId = item.id.toString();
-                                                                        state.postTitle = item.title;
-                                                                        Future.delayed(Duration(milliseconds: 1200), () {
-                                                                          state.articleList[index].isArticleComplete = true;
-                                                                          setState(() {});
-                                                                        });
-                                                                        // state.inAppTimeCount(
-                                                                        //     context, item.url, item.title, item.id);
-                                                                      }
-                                                                    },
-                                                                    child: Container(
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(5),
-                                                                          color: state.articleList[index].isArticleComplete ==
-                                                                                  true
-                                                                              ? Color(0xffC2C2CC)
-                                                                              : null,
-                                                                          gradient:
-                                                                              state.articleList[index].isArticleComplete == true
-                                                                                  ? null
-                                                                                  : LinearGradient(colors: const [
-                                                                                      Color(0xff7979FC),
-                                                                                      Color(0xff9B9BFF)
-                                                                                    ])),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.symmetric(
-                                                                            horizontal: 18, vertical: 10),
-                                                                        child: Text(
-                                                                          "Read more",
-                                                                          style: TextStyleTheme.customTextStyle(
-                                                                            AppColors.white,
-                                                                            14,
-                                                                            FontWeight.w400,
+                                      ? RefreshIndicator(
+                                       onRefresh: ()async{
+                                         state.articleList.clear();
+                                         state.initStateArticleApiCall(context); },
+                                        child: ListView.builder(
+                                            itemCount: state.articleList.length,
+                                            shrinkWrap: true,
+                                            padding: EdgeInsets.only(bottom: Platform.isIOS ? 170 : 160),
+                                            itemBuilder: (context, index) {
+                                              var item = state.articleList[index];
+                                              var lastIndex = state.articleList.length - 1;
+                                              return Column(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(12.sp),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(10),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              fadeImageView(item.images?.thumbnail ?? "",
+                                                                  placeHolderSize: 80.h, placeImage: AppImages.placeImage),
+                                                              paddingLeft(10),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    Text(
+                                                                      item.title ?? '',
+                                                                      style: TextStyleTheme.customTextStyle(
+                                                                          AppColors.black, 16, FontWeight.w700),
+                                                                    ),
+                                                                    Text(
+                                                                      item.content ?? '',
+                                                                      style: TextStyleTheme.customTextStyle(
+                                                                          AppColors.lightGrey, 14, FontWeight.w600),
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      maxLines: 3,
+                                                                    ),
+                                                                    paddingTop(5),
+                                                                    GestureDetector(
+                                                                      onTap: () async {
+                                                                        if (item.isArticleComplete == false) {
+                                                                          await launchURL(
+                                                                            item.url.toString(),
+                                                                          );
+                                                                          state.selectArticleId = item.id.toString();
+                                                                          state.postTitle = item.title;
+                                                                          Future.delayed(Duration(milliseconds: 1200), () {
+                                                                            state.articleList[index].isArticleComplete = true;
+                                                                            setState(() {});
+                                                                          });
+                                                                          // state.inAppTimeCount(
+                                                                          //     context, item.url, item.title, item.id);
+                                                                        }
+                                                                      },
+                                                                      child: Container(
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(5),
+                                                                            color: state.articleList[index].isArticleComplete ==
+                                                                                    true
+                                                                                ? Color(0xffC2C2CC)
+                                                                                : null,
+                                                                            gradient:
+                                                                                state.articleList[index].isArticleComplete == true
+                                                                                    ? null
+                                                                                    : LinearGradient(colors: const [
+                                                                                        Color(0xff7979FC),
+                                                                                        Color(0xff9B9BFF)
+                                                                                      ])),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                              horizontal: 18, vertical: 10),
+                                                                          child: Text(
+                                                                            "Read more",
+                                                                            style: TextStyleTheme.customTextStyle(
+                                                                              AppColors.white,
+                                                                              14,
+                                                                              FontWeight.w400,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        paddingTop(15),
-                                                        state.articleList[index].quizs?.isNotEmpty ?? false
-                                                            ? InkWell(
-                                                                onTap: () async {
-                                                                  var res;
-                                                                  if (state.articleList[index].isArticleComplete == true) {
-                                                                    if (state.articleList[index].isQuizComplete == false) {
-                                                                      res = await Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (context) => TakeQuizScreen(
-                                                                                    articleModel: state.articleList[index],
-                                                                                  )));
-                                                                      debugPrint("back return value $res");
-                                                                      if (res == true) {
-                                                                        state.articleList[index].isQuizComplete = true;
-                                                                        setState(() {});
+                                                            ],
+                                                          ),
+                                                          paddingTop(15),
+                                                          state.articleList[index].quizs?.isNotEmpty ?? false
+                                                              ? InkWell(
+                                                                  onTap: () async {
+                                                                    var res;
+                                                                    if (state.articleList[index].isArticleComplete == true) {
+                                                                      if (state.articleList[index].isQuizComplete == false) {
+                                                                        res = await Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => TakeQuizScreen(
+                                                                                      articleModel: state.articleList[index],
+                                                                                    )));
+                                                                        debugPrint("back return value $res");
+                                                                        if (res == true) {
+                                                                          state.articleList[index].isQuizComplete = true;
+                                                                          setState(() {});
+                                                                        }
                                                                       }
+                                                                    } else {
+                                                                      showSuccess(
+                                                                        message: "Please first read blog",
+                                                                        background: AppColors.lightBlue,
+                                                                      );
                                                                     }
-                                                                  } else {
-                                                                    showSuccess(
-                                                                      message: "Please first read blog",
-                                                                      background: AppColors.lightBlue,
-                                                                    );
-                                                                  }
-                                                                },
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(12.sp),
-                                                                    color: AppColors.midLightGrey,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                                                    child: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                          "Take Quiz",
-                                                                          style: TextStyleTheme.customTextStyle(
-                                                                              state.articleList[index].isQuizComplete == true
-                                                                                  ? Color(0xffC2C2CC)
-                                                                                  : AppColors.black,
-                                                                              16,
-                                                                              FontWeight.w700),
-                                                                        ),
-                                                                        Container(
-                                                                          decoration: BoxDecoration(
-                                                                            border: Border.all(
-                                                                                color: state.articleList[index].isQuizComplete ==
-                                                                                        true
+                                                                  },
+                                                                  child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(12.sp),
+                                                                      color: AppColors.midLightGrey,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            "Take Quiz",
+                                                                            style: TextStyleTheme.customTextStyle(
+                                                                                state.articleList[index].isQuizComplete == true
                                                                                     ? Color(0xffC2C2CC)
-                                                                                    : AppColors.lightBlue),
-                                                                            borderRadius: BorderRadius.circular(8),
+                                                                                    : AppColors.black,
+                                                                                16,
+                                                                                FontWeight.w700),
                                                                           ),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.symmetric(
-                                                                                horizontal: 18, vertical: 8),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Text(
-                                                                                  "Start",
-                                                                                  style: TextStyleTheme.customTextStyle(
-                                                                                      state.articleList[index].isQuizComplete ==
-                                                                                              true
-                                                                                          ? Color(0xffC2C2CC)
-                                                                                          : AppColors.lightBlue,
-                                                                                      16,
-                                                                                      FontWeight.w700),
-                                                                                ),
-                                                                                paddingLeft(8),
-                                                                                SvgPicture.asset(
-                                                                                  AppImages.rightArrowIcon,
-                                                                                  width: 15,
-                                                                                  height: 15,
-                                                                                  color:
-                                                                                      state.articleList[index].isQuizComplete ==
-                                                                                              true
-                                                                                          ? Color(0xffC2C2CC)
-                                                                                          : null,
-                                                                                )
-                                                                              ],
+                                                                          Container(
+                                                                            decoration: BoxDecoration(
+                                                                              border: Border.all(
+                                                                                  color: state.articleList[index].isQuizComplete ==
+                                                                                          true
+                                                                                      ? Color(0xffC2C2CC)
+                                                                                      : AppColors.lightBlue),
+                                                                              borderRadius: BorderRadius.circular(8),
                                                                             ),
-                                                                          ),
-                                                                        )
-                                                                      ],
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.symmetric(
+                                                                                  horizontal: 18, vertical: 8),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "Start",
+                                                                                    style: TextStyleTheme.customTextStyle(
+                                                                                        state.articleList[index].isQuizComplete ==
+                                                                                                true
+                                                                                            ? Color(0xffC2C2CC)
+                                                                                            : AppColors.lightBlue,
+                                                                                        16,
+                                                                                        FontWeight.w700),
+                                                                                  ),
+                                                                                  paddingLeft(8),
+                                                                                  SvgPicture.asset(
+                                                                                    AppImages.rightArrowIcon,
+                                                                                    width: 15,
+                                                                                    height: 15,
+                                                                                    color:
+                                                                                        state.articleList[index].isQuizComplete ==
+                                                                                                true
+                                                                                            ? Color(0xffC2C2CC)
+                                                                                            : null,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              )
-                                                            : Offstage(),
-                                                      ],
+                                                                )
+                                                              : Offstage(),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                paddingTop(10),
-                                              ],
-                                            );
-                                          },
-                                        )
-                                      : state.isLoaderShow
-                                          ? Center(
-                                              child: CircularProgressIndicator(),
-                                            )
-                                          : Center(child: Text("No data found....!!!")),
+                                                  paddingTop(10),
+                                                  lastIndex == index ? state.isLoadMore ? loader : Container() : Offstage(),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                      )
+                                      : state.isLoaderShow ? Center(child: CircularProgressIndicator(),) : Center(child: Text("No data found....!!!")),
                                 ),
                               ),
-                              state.isLoadMore ? loader : Container(),
-                              paddingTop(20),
                             ],
                           ),
                         ),

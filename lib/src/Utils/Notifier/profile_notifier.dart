@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:earn_streak/src/Constants/api_url.dart';
+import 'package:earn_streak/src/Model/user_details_model.dart';
 import 'package:earn_streak/src/Networking/ApiDataHelper/AuthDataHelper/auth_data_helper.dart';
 import 'package:earn_streak/src/Repository/Services/Navigation/navigation_service.dart';
 import 'package:earn_streak/src/Utils/app_utils.dart';
@@ -12,6 +13,10 @@ import '../../Networking/ApiService/api_service.dart';
 import 'login_notifier.dart';
 
 class ProfileNotifier extends ChangeNotifier {
+
+  XFile? pickedFile;
+  UserDetailsModel userDetailsModel = UserDetailsModel();
+
   Future<bool> getCameraPermissionStatus() async {
     await Permission.camera.request();
     var status = await Permission.camera.status;
@@ -25,8 +30,6 @@ class ProfileNotifier extends ChangeNotifier {
       return false;
     }
   }
-
-  XFile? pickedFile;
 
   selectImageFromCamera(context) async {
     if (await getCameraPermissionStatus()) {
@@ -64,4 +67,22 @@ class ProfileNotifier extends ChangeNotifier {
       print("Upload file exception : $e");
     }
   }
+
+  getUserDetails(context)async{
+   UserDetailsModel tempUserDetailsModel = await AuthHelper().getUserDetails(context, showLoader: userDetailsModel.redeem != null && userDetailsModel.redeem != "" ? false : true);
+   if(userDetailsModel.redeem != tempUserDetailsModel.redeem){
+     sharedPref.save("profileDetails", tempUserDetailsModel.toJson());
+     await loadUserDataSharedPrefs();
+   }
+   notifyListeners();
+  }
+
+  loadUserDataSharedPrefs() async {
+    var data = await sharedPref.read("profileDetails");
+    UserDetailsModel user = data != null ? UserDetailsModel.fromJson(data) : UserDetailsModel();
+    userDetailsModel = user;
+    notifyListeners();
+    debugPrint('LOG => ${userDetailsModel.toJson()}');
+  }
+
 }

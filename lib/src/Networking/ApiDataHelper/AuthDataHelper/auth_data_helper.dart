@@ -2,6 +2,7 @@ import 'package:earn_streak/src/Constants/api_url.dart';
 import 'package:earn_streak/src/Model/CommonModel/common_model.dart';
 import 'package:earn_streak/src/Model/LoginModel/login_response_model.dart';
 import 'package:earn_streak/src/Model/RegisterModel/register_response_model.dart';
+import 'package:earn_streak/src/Model/user_details_model.dart';
 import 'package:earn_streak/src/Networking/ApiService/api_service.dart';
 import 'package:earn_streak/src/Repository/Services/SharedPref/shared_pref.dart';
 import 'package:earn_streak/src/Screens/Auth/login_screen.dart';
@@ -115,4 +116,20 @@ class AuthHelper {
       }
       return commonModel;
   }
+
+  getUserDetails(context, {bool? showLoader})async{
+    String authToken = await sharedPref.read("authToken");
+    UserDetailsModel tempUserDetailsModel = UserDetailsModel();
+    try{
+      var res = await ApiService.request(context, AppUrls.getUserDetails, RequestMethods.POST, requestBody: {"user_id": loginResponseModel.id}, header: commonHeaderWithToken(authToken), showLoader: showLoader ?? false);
+      if(res != null){
+         tempUserDetailsModel = UserDetailsModel.fromJson(res["data"]["user"]);
+      }
+    }
+      catch(e){
+        print("Get user details throw exception $e");
+      }
+      return tempUserDetailsModel;
+  }
+
 }
